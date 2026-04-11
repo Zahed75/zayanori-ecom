@@ -1,0 +1,255 @@
+<div class="home-body">
+
+  <!-- ==========================================================
+       SECTION 1 — PROMO BANNERS (3 cards below hero)
+       ========================================================== -->
+  <section class="section promo-banners-section">
+    <div class="container-site">
+      <div class="promo-banners-grid">
+        @for (banner of promoBanners; track banner.title) {
+          <div
+            class="promo-banner-card"
+            [style.background]="'linear-gradient(135deg,' + banner.bgFrom + ',' + banner.bgTo + ')'"
+          >
+            <div class="promo-banner-copy">
+              <span class="promo-banner-badge">{{ banner.badge }}</span>
+              <h3 class="promo-banner-title">
+                @for (line of banner.title.split('\n'); track $index) {
+                  {{ line }}<br>
+                }
+              </h3>
+              <p class="promo-banner-sub">
+                @for (line of banner.sub.split('\n'); track $index) {
+                  {{ line }}<br>
+                }
+              </p>
+              <a href="#" class="promo-cta">
+                {{ banner.cta }}
+                <i class="pi pi-arrow-right"></i>
+              </a>
+            </div>
+            <div class="promo-banner-visual">{{ banner.emoji }}</div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       SECTION 2 — NEW ARRIVALS
+       ========================================================== -->
+  <section class="section">
+    <div class="container-site">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-eyebrow">What's new</span>
+          <h2 class="section-title">New Arrivals</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="pi pi-arrow-right"></i></a>
+      </div>
+      <div class="products-grid products-grid--6">
+        @for (product of newArrivals; track product.id) {
+          <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       SECTION 3 — DEAL BANNERS (2 side-by-side)
+       ========================================================== -->
+  <section class="section deal-banners-section">
+    <div class="container-site">
+      <div class="deal-banners-grid">
+        @for (banner of dealBanners; track banner.title) {
+          <div
+            class="deal-banner-card"
+            [style.background]="'linear-gradient(135deg,' + banner.bgFrom + ',' + banner.bgTo + ')'"
+          >
+            <div class="deal-banner-copy">
+              <h3 class="deal-banner-title">
+                @for (line of banner.title.split('\n'); track $index) {
+                  {{ line }}<br>
+                }
+              </h3>
+              <p class="deal-banner-sub">{{ banner.sub }}</p>
+              <a href="#" class="promo-cta">
+                {{ banner.cta }}
+                <i class="pi pi-arrow-right"></i>
+              </a>
+            </div>
+            <div class="deal-banner-visual">{{ banner.emoji }}</div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       SECTION 4 — FEATURED PRODUCTS
+       ========================================================== -->
+  <section class="section">
+    <div class="container-site">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-eyebrow">Special for you</span>
+          <h2 class="section-title">Featured Products</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="pi pi-arrow-right"></i></a>
+      </div>
+      <div class="products-grid products-grid--4">
+        @for (product of featuredProducts; track product.id) {
+          <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       SECTION 5 — BEST SELLERS
+       ========================================================== -->
+  <section class="section">
+    <div class="container-site">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-eyebrow">This week's</span>
+          <h2 class="section-title">Best Sellers</h2>
+        </div>
+        <div class="bs-tabs">
+          @for (tab of bsTabs; track tab) {
+            <button
+              class="bs-tab"
+              [class.bs-tab--active]="activeBSTab === tab.toLowerCase()"
+              (click)="activeBSTab = tab.toLowerCase()"
+            >{{ tab }}</button>
+          }
+        </div>
+        <a href="#" class="view-all-link">View All <i class="pi pi-arrow-right"></i></a>
+      </div>
+      <div class="products-grid products-grid--4">
+        @for (product of bestSellers.slice(0,4); track product.id) {
+          <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
+        }
+      </div>
+      <div class="products-grid products-grid--4 mt-4">
+        @for (product of bestSellers.slice(4); track product.id) {
+          <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       SECTION 6 — HEALTH / INFO BANNER
+       ========================================================== -->
+  <section class="health-banner-section">
+    <div class="container-site">
+      <div class="health-banner-inner">
+        <div class="health-banner-emoji">{{ healthBanner.emoji }}</div>
+        <div class="health-banner-copy">
+          <h2 class="health-banner-title">{{ healthBanner.title }}</h2>
+          <p class="health-banner-sub">{{ healthBanner.sub }}</p>
+          <a href="#" class="health-banner-cta">{{ healthBanner.cta }} <i class="pi pi-arrow-right"></i></a>
+        </div>
+        <div class="health-banner-badge">
+          <span class="health-discount">{{ healthBanner.discount }}</span>
+          <span class="health-discount-label">OFF</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       SECTION 7 — POPULAR COMPANIES / BRANDS
+       ========================================================== -->
+  <section class="section">
+    <div class="container-site">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-eyebrow">02 Popular Companies</span>
+          <h2 class="section-title">Top Brands</h2>
+        </div>
+        <a href="#" class="view-all-link">View All <i class="pi pi-arrow-right"></i></a>
+      </div>
+      <div class="brands-grid">
+        @for (brand of popularBrands; track brand.name) {
+          <div class="brand-card">
+            <div class="brand-card-top">
+              <div class="brand-emoji">{{ brand.emoji }}</div>
+              <span class="brand-featured-badge">{{ brand.badge }}</span>
+            </div>
+            <h4 class="brand-name">{{ brand.name }}</h4>
+            <p class="brand-category">{{ brand.category }}</p>
+            <div class="brand-meta">
+              <span class="brand-products">{{ brand.products }} Products</span>
+              <span class="brand-rating">
+                <i class="pi pi-star-fill star-icon"></i>
+                {{ brand.rating }}
+              </span>
+            </div>
+            <a href="#" class="brand-cta">Shop Now <i class="pi pi-arrow-right"></i></a>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==========================================================
+     PRODUCT CARD TEMPLATE (reusable)
+     ========================================================== -->
+<ng-template #productCard let-product="product">
+  <div class="product-card">
+    <!-- Discount badge -->
+    @if (product.discount) {
+      <span class="product-discount-badge">-{{ product.discount }}%</span>
+    }
+    <!-- Product type badge -->
+    @if (product.badge) {
+      <span
+        class="product-type-badge"
+        [class.product-type-badge--blue]="product.badgeColor === 'blue'"
+        [class.product-type-badge--purple]="product.badge === 'Featured'"
+      >{{ product.badge }}</span>
+    }
+    <!-- Image area -->
+    <div class="product-image-area">
+      <span class="product-emoji">{{ product.emoji }}</span>
+    </div>
+    <!-- Actions overlay -->
+    <div class="product-actions">
+      <button class="product-action-btn" aria-label="Add to wishlist"><i class="pi pi-heart"></i></button>
+      <button class="product-action-btn" aria-label="Quick view"><i class="pi pi-eye"></i></button>
+      <button class="product-action-btn" aria-label="Compare"><i class="pi pi-sliders-h"></i></button>
+    </div>
+    <!-- Info -->
+    <div class="product-info">
+      <p class="product-category">{{ product.category }}</p>
+      <h4 class="product-name">{{ product.name }}</h4>
+      <!-- Stars -->
+      <div class="product-rating">
+        @for (star of getStars(product.rating); track $index) {
+          @if (star === 'full') {
+            <i class="pi pi-star-fill star-full"></i>
+          } @else if (star === 'half') {
+            <i class="pi pi-star star-half"></i>
+          } @else {
+            <i class="pi pi-star star-empty"></i>
+          }
+        }
+        <span class="rating-count">({{ product.reviews }})</span>
+      </div>
+      <!-- Prices -->
+      <div class="product-price-row">
+        <span class="product-price">${{ product.price.toFixed(2) }}</span>
+        <del class="product-old-price">${{ product.oldPrice.toFixed(2) }}</del>
+      </div>
+      <!-- Add to cart -->
+      <button class="add-to-cart-btn">
+        <i class="pi pi-shopping-cart"></i>
+        Add to cart
+      </button>
+    </div>
+  </div>
+</ng-template>

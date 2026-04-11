@@ -1,0 +1,93 @@
+<!-- ============================================================
+     HERO AREA — Category Sidebar + Slider
+     ============================================================ -->
+<div class="hero-wrapper">
+  <div class="hero-container">
+
+    <!-- Left: Category Sidebar -->
+    <aside class="hero-sidebar">
+      <ul class="sidebar-cat-list">
+        @for (cat of categories; track cat.name) {
+          <li class="sidebar-cat-item">
+            <a href="#" class="sidebar-cat-link">
+              <span class="sidebar-cat-emoji">{{ cat.emoji }}</span>
+              <span class="sidebar-cat-name">{{ cat.name }}</span>
+              @if (cat.arrow) {
+                <i class="pi pi-chevron-right sidebar-cat-arrow"></i>
+              }
+            </a>
+          </li>
+        }
+      </ul>
+    </aside>
+
+    <!-- Right: Hero Slider -->
+    <div class="hero-slider-wrap">
+      <div class="hero-slider">
+        @for (slide of slides(); track $index) {
+          <div
+            class="hero-slide"
+            [class.hero-slide--active]="$index === activeSlide()"
+            [style.background]="'linear-gradient(135deg,' + slide.bgFrom + ',' + slide.bgTo + ')'"
+          >
+            <!-- Copy -->
+            <div class="hero-copy">
+              <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                {{ slide.badge }}
+              </div>
+              <h1 class="hero-heading">
+                @for (line of slide.heading.split('\n'); track $index) {
+                  {{ line }}<br>
+                }
+              </h1>
+              <p class="hero-subheading">{{ slide.subheading }}</p>
+              <div class="hero-pricing">
+                <del class="price-old">{{ slide.oldPrice }}</del>
+                <span class="price-new">{{ slide.newPrice }}</span>
+              </div>
+              <p class="hero-note">{{ slide.note }}</p>
+              <button class="hero-cta-btn">
+                Shop Now
+                <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+            <!-- Illustration -->
+            <div class="hero-visual">
+              <div class="hero-visual-emoji">{{ slide.emoji }}</div>
+            </div>
+          </div>
+        }
+        <!-- Dots -->
+        <nav class="hero-dots">
+          @for (slide of slides(); track $index) {
+            <button
+              class="dot"
+              [class.dot--active]="$index === activeSlide()"
+              (click)="goToSlide($index)"
+              [attr.aria-label]="'Slide ' + ($index + 1)"
+            ></button>
+          }
+        </nav>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================
+     Feature Strip
+     ============================================================ -->
+<div class="feature-strip">
+  @for (feat of features; track feat.title) {
+    <div class="feature-item">
+      <span class="feature-icon">{{ feat.icon }}</span>
+      <div class="feature-text">
+        <strong class="feature-title">{{ feat.title }}</strong>
+        <span class="feature-desc">{{ feat.desc }}</span>
+      </div>
+    </div>
+  }
+</div>

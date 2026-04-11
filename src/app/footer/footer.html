@@ -1,0 +1,153 @@
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+
+  <!-- Newsletter row -->
+  <div class="newsletter-row">
+    <div class="container-site newsletter-inner">
+      <div class="newsletter-copy">
+        <h3 class="newsletter-title">Join our newsletter for £10 offs</h3>
+        <p class="newsletter-sub">
+          Register now to get latest updates on promotions &amp; coupons.
+          Don't worry, we not spam!
+        </p>
+      </div>
+      <div class="newsletter-form-wrap">
+        <div class="newsletter-input-group">
+          <i class="pi pi-envelope newsletter-envelope"></i>
+          <input
+            type="email"
+            class="newsletter-input"
+            placeholder="Enter your email address"
+            aria-label="Email for newsletter"
+          />
+          <button class="newsletter-send-btn">SEND</button>
+        </div>
+        <p class="newsletter-terms">
+          By subscribing you agree to our
+          <a href="#" class="newsletter-link">Terms &amp; Conditions and Privacy &amp; Cookies Policy.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main links row -->
+  <div class="footer-links-row">
+    <div class="container-site footer-links-inner">
+
+      <!-- Help column -->
+      <div class="footer-col footer-col--help">
+        <h4 class="footer-col-title">Do You Need Help?</h4>
+        <p class="footer-help-desc">
+          Autoseligen syr. Nek diarask fröbomba. Nör antipol kynoda nynat. Pressa fåmoska.
+        </p>
+        <div class="footer-contact-item">
+          <i class="pi pi-phone footer-contact-icon"></i>
+          <div>
+            <span class="footer-contact-label">Monday-Friday: 08am-9pm</span>
+            <a href="tel:0800300353" class="footer-phone">0 800 300-353</a>
+          </div>
+        </div>
+        <div class="footer-contact-item">
+          <i class="pi pi-envelope footer-contact-icon"></i>
+          <div>
+            <span class="footer-contact-label">Need help with your order?</span>
+            <a href="mailto:info@example.com" class="footer-email">info&#64;example.com</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Make Money column -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Make Money with Us</h4>
+        <ul class="footer-link-list">
+          @for (link of makeMoneyLinks; track link) {
+            <li><a href="#" class="footer-link">{{ link }}</a></li>
+          }
+        </ul>
+      </div>
+
+      <!-- Let Us Help column -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Let Us Help You</h4>
+        <ul class="footer-link-list">
+          @for (link of helpLinks; track link) {
+            <li><a href="#" class="footer-link">{{ link }}</a></li>
+          }
+        </ul>
+      </div>
+
+      <!-- Get to Know Us column -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Get to Know Us</h4>
+        <ul class="footer-link-list">
+          @for (link of knowUsLinks; track link) {
+            <li><a href="#" class="footer-link">{{ link }}</a></li>
+          }
+        </ul>
+      </div>
+
+      <!-- Download App + Social -->
+      <div class="footer-col footer-col--app">
+        <h4 class="footer-col-title">Download our app</h4>
+        <div class="app-badges">
+          <div class="app-badge-row">
+            <a href="#" class="app-badge-link google-play" aria-label="Get it on Google Play">
+              <i class="pi pi-android app-badge-icon"></i>
+              <div class="app-badge-text">
+                <span class="app-badge-sub">GET IT ON</span>
+                <span class="app-badge-name">Google Play</span>
+              </div>
+            </a>
+            <div class="app-badge-promo">Download App Get<br>-10% Discount</div>
+          </div>
+          <div class="app-badge-row">
+            <a href="#" class="app-badge-link app-store" aria-label="Download on the App Store">
+              <i class="pi pi-apple app-badge-icon"></i>
+              <div class="app-badge-text">
+                <span class="app-badge-sub">Download on the</span>
+                <span class="app-badge-name">App Store</span>
+              </div>
+            </a>
+            <div class="app-badge-promo">Download App Get<br>-20% Discount</div>
+          </div>
+        </div>
+        <p class="social-label">Follow us on social media:</p>
+        <div class="social-icons">
+          @for (s of socialLinks; track s.label) {
+            <a href="#" class="social-icon-btn" [attr.aria-label]="s.label">
+              <i [class]="s.icon"></i>
+            </a>
+          }
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <div class="container-site footer-bottom-inner">
+      <div class="footer-bottom-left">
+        <p class="copyright">
+          Copyright 2025 © Shopstore WooCommerce WordPress Theme. All right reserved. Powered by
+          <a href="#" class="blackrise">BlackRise Themes.</a>
+        </p>
+        <div class="payment-logos">
+          <span class="payment-logo visa">VISA</span>
+          <span class="payment-logo mc">MC</span>
+          <span class="payment-logo paypal">PayPal</span>
+          <span class="payment-logo skrill">Skrill</span>
+          <span class="payment-logo klarna">Klarna</span>
+        </div>
+      </div>
+      <div class="footer-bottom-right">
+        <a href="#" class="footer-legal-link">Terms and Conditions</a>
+        <a href="#" class="footer-legal-link">Privacy Policy</a>
+        <a href="#" class="footer-legal-link">Order Tracking</a>
+      </div>
+    </div>
+  </div>
+
+</footer>

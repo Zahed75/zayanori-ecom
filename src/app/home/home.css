@@ -1,0 +1,413 @@
+@import "tailwindcss";
+
+@layer primeng {
+
+  .container-site {
+    @apply max-w-[1360px] mx-auto px-6 w-full;
+  }
+
+  .home-body {
+    @apply bg-white;
+    font-family: var(--font-primary);
+  }
+
+  /* ── Shared section spacing ───────────────────────────────── */
+  .section {
+    @apply py-10;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .mt-4 { margin-top: 1rem; }
+
+  /* ── Section header ───────────────────────────────────────── */
+  .section-header {
+    @apply flex items-center justify-between mb-6 flex-wrap gap-3;
+  }
+
+  .section-title-wrap {
+    @apply flex flex-col gap-0.5;
+  }
+
+  .section-eyebrow {
+    @apply text-[12px] font-medium tracking-wider uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .section-title {
+    @apply text-[22px] font-bold tracking-[-0.4px] m-0;
+    color: #111827;
+  }
+
+  .view-all-link {
+    @apply flex items-center gap-1.5 text-[13px] font-semibold no-underline transition-colors;
+    color: var(--color-brand-purple);
+
+    &:hover { opacity: 0.8; }
+    i { @apply text-[11px]; }
+  }
+
+  /* ── Best-seller tabs ─────────────────────────────────────── */
+  .bs-tabs {
+    @apply flex items-center gap-1 flex-wrap;
+  }
+
+  .bs-tab {
+    @apply px-4 py-1.5 rounded-full text-[13px] font-medium cursor-pointer border transition-colors;
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
+    background: white;
+
+    &:hover { border-color: var(--color-brand-purple); color: var(--color-brand-purple); }
+  }
+
+  .bs-tab--active {
+    background-color: var(--color-brand-purple) !important;
+    color: white !important;
+    border-color: var(--color-brand-purple) !important;
+  }
+
+  /* ============================================================
+     PROMO BANNERS  (3 cards)
+     ============================================================ */
+  .promo-banners-section {
+    @apply py-8;
+  }
+
+  .promo-banners-grid {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-5;
+  }
+
+  .promo-banner-card {
+    @apply flex items-center justify-between rounded-xl px-6 py-5 gap-4 overflow-hidden relative;
+    min-height: 160px;
+  }
+
+  .promo-banner-copy {
+    @apply flex flex-col gap-2 flex-1;
+  }
+
+  .promo-banner-badge {
+    @apply text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded w-fit;
+    background: rgba(255,255,255,0.7);
+    color: var(--color-brand-purple);
+  }
+
+  .promo-banner-title {
+    @apply text-[18px] font-bold leading-snug m-0;
+    color: #111827;
+  }
+
+  .promo-banner-sub {
+    @apply text-[12px] leading-relaxed m-0 opacity-70;
+    color: #374151;
+  }
+
+  .promo-cta {
+    @apply flex items-center gap-1.5 text-[13px] font-semibold no-underline w-fit mt-1;
+    color: var(--color-brand-purple);
+
+    i { @apply text-[11px]; }
+    &:hover { opacity: 0.75; }
+  }
+
+  .promo-banner-visual {
+    @apply text-[72px] shrink-0 select-none;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));
+  }
+
+  /* ============================================================
+     PRODUCT GRID
+     ============================================================ */
+  .products-grid {
+    @apply grid gap-4;
+  }
+
+  .products-grid--6 {
+    grid-template-columns: repeat(6, 1fr);
+
+    @media (max-width: 1280px) { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 900px)  { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 600px)  { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .products-grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+
+    @media (max-width: 900px)  { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 600px)  { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ── Product Card ─────────────────────────────────────────── */
+  .product-card {
+    @apply relative rounded-xl border overflow-hidden flex flex-col transition-shadow duration-200 cursor-pointer;
+    border-color: var(--color-border);
+    background: white;
+
+    &:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+
+      .product-actions { @apply opacity-100; }
+      .product-emoji   { transform: scale(1.08); }
+    }
+  }
+
+  /* Discount badge — top-left */
+  .product-discount-badge {
+    @apply absolute top-3 left-3 z-10 text-[11px] font-bold text-white px-2 py-0.5 rounded-md;
+    background-color: var(--color-brand-red);
+  }
+
+  /* Type badge — top-right */
+  .product-type-badge {
+    @apply absolute top-3 right-3 z-10 text-[10px] font-bold px-2 py-0.5 rounded-md;
+    background-color: var(--color-brand-green-bg);
+    color: var(--color-brand-green);
+
+    &.product-type-badge--blue {
+      background-color: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    &.product-type-badge--purple {
+      background-color: #ede9fe;
+      color: var(--color-brand-purple);
+    }
+  }
+
+  /* Image area */
+  .product-image-area {
+    @apply flex items-center justify-center pt-8 pb-4;
+    background-color: var(--color-bg-subtle);
+    min-height: 140px;
+  }
+
+  .product-emoji {
+    @apply text-[72px] select-none transition-transform duration-300;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.08));
+  }
+
+  /* Actions overlay */
+  .product-actions {
+    @apply absolute top-1/4 right-3 flex flex-col gap-1.5 opacity-0 transition-opacity duration-200 z-10;
+  }
+
+  .product-action-btn {
+    @apply w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm border cursor-pointer transition-colors;
+    border-color: var(--color-border);
+    color: var(--color-text-muted);
+
+    &:hover { background-color: var(--color-brand-purple); color: white; border-color: var(--color-brand-purple); }
+    i { @apply text-xs; }
+  }
+
+  /* Info section */
+  .product-info {
+    @apply flex flex-col gap-1.5 p-3;
+  }
+
+  .product-category {
+    @apply text-[11px] uppercase tracking-wider m-0;
+    color: var(--color-text-muted);
+  }
+
+  .product-name {
+    @apply text-[14px] font-semibold m-0 leading-snug line-clamp-2;
+    color: var(--color-text-primary);
+  }
+
+  /* Stars */
+  .product-rating {
+    @apply flex items-center gap-0.5;
+  }
+
+  .star-full  { @apply text-[12px]; color: var(--color-brand-amber); }
+  .star-half  { @apply text-[12px]; color: var(--color-brand-amber); opacity: 0.6; }
+  .star-empty { @apply text-[12px]; color: #d1d5db; }
+
+  .rating-count {
+    @apply text-[11px] ml-1;
+    color: var(--color-text-muted);
+  }
+
+  /* Prices */
+  .product-price-row {
+    @apply flex items-center gap-2;
+  }
+
+  .product-price {
+    @apply text-[18px] font-bold;
+    color: var(--color-brand-red);
+  }
+
+  .product-old-price {
+    @apply text-[13px];
+    color: var(--color-text-muted);
+  }
+
+  /* Add to cart */
+  .add-to-cart-btn {
+    @apply flex items-center justify-center gap-2 w-full py-2 rounded-lg text-[13px] font-semibold mt-1 cursor-pointer border-none transition-colors;
+    background-color: var(--color-bg-subtle);
+    color: var(--color-text-primary);
+
+    i { @apply text-sm; }
+
+    &:hover {
+      background-color: var(--color-brand-purple);
+      color: white;
+    }
+  }
+
+  /* ============================================================
+     DEAL BANNERS  (2 side-by-side)
+     ============================================================ */
+  .deal-banners-section {
+    @apply py-8;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .deal-banners-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-5;
+  }
+
+  .deal-banner-card {
+    @apply flex items-center justify-between rounded-xl px-8 py-7 gap-4 overflow-hidden;
+    min-height: 200px;
+  }
+
+  .deal-banner-copy {
+    @apply flex flex-col gap-3 flex-1;
+  }
+
+  .deal-banner-title {
+    @apply text-[22px] font-bold leading-snug m-0;
+    color: #111827;
+  }
+
+  .deal-banner-sub {
+    @apply text-[13px] m-0 opacity-70;
+    color: #374151;
+  }
+
+  .deal-banner-visual {
+    @apply text-[90px] shrink-0 select-none;
+    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.1));
+  }
+
+  /* ============================================================
+     HEALTH BANNER
+     ============================================================ */
+  .health-banner-section {
+    @apply py-0;
+    background: linear-gradient(135deg, #634c9f 0%, #39245f 100%);
+  }
+
+  .health-banner-inner {
+    @apply max-w-[1360px] mx-auto px-6 flex items-center gap-8 py-10;
+  }
+
+  .health-banner-emoji {
+    @apply text-[64px] shrink-0;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+  }
+
+  .health-banner-copy {
+    @apply flex flex-col gap-2 flex-1;
+  }
+
+  .health-banner-title {
+    @apply text-[24px] font-bold m-0 text-white;
+  }
+
+  .health-banner-sub {
+    @apply text-[14px] m-0 text-white opacity-80;
+  }
+
+  .health-banner-cta {
+    @apply flex items-center gap-2 text-[14px] font-semibold no-underline w-fit px-5 py-2.5 rounded-lg mt-2;
+    background: white;
+    color: var(--color-brand-purple);
+
+    &:hover { opacity: 0.9; }
+    i { @apply text-xs; }
+  }
+
+  .health-banner-badge {
+    @apply flex flex-col items-center justify-center w-24 h-24 rounded-full border-4 border-white/30 shrink-0;
+  }
+
+  .health-discount {
+    @apply text-[32px] font-bold leading-none text-white;
+  }
+
+  .health-discount-label {
+    @apply text-[14px] font-bold text-white opacity-80;
+  }
+
+  /* ============================================================
+     BRANDS SECTION
+     ============================================================ */
+  .brands-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5;
+  }
+
+  .brand-card {
+    @apply flex flex-col gap-3 p-5 rounded-xl border transition-shadow duration-200;
+    border-color: var(--color-border);
+    background: white;
+
+    &:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
+  }
+
+  .brand-card-top {
+    @apply flex items-start justify-between;
+  }
+
+  .brand-emoji {
+    @apply text-[52px] select-none;
+  }
+
+  .brand-featured-badge {
+    @apply text-[10px] font-bold px-2 py-0.5 rounded-md;
+    background-color: #ede9fe;
+    color: var(--color-brand-purple);
+  }
+
+  .brand-name {
+    @apply text-[18px] font-bold m-0;
+    color: #111827;
+  }
+
+  .brand-category {
+    @apply text-[13px] m-0;
+    color: var(--color-text-muted);
+  }
+
+  .brand-meta {
+    @apply flex items-center justify-between;
+  }
+
+  .brand-products {
+    @apply text-[12px];
+    color: var(--color-text-muted);
+  }
+
+  .brand-rating {
+    @apply flex items-center gap-1 text-[13px] font-semibold;
+    color: #111827;
+  }
+
+  .star-icon {
+    @apply text-[12px];
+    color: var(--color-brand-amber);
+  }
+
+  .brand-cta {
+    @apply flex items-center gap-1.5 text-[13px] font-semibold no-underline transition-colors w-fit;
+    color: var(--color-brand-purple);
+
+    &:hover { opacity: 0.75; }
+    i { @apply text-[11px]; }
+  }
+
+}

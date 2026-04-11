@@ -1,0 +1,210 @@
+<div class="auth-page">
+
+  <div class="auth-card">
+
+    <!-- Logo -->
+    <div class="brand">
+      <div class="brand-icon">🛒</div>
+      <span class="brand-name">Zayanori</span>
+    </div>
+
+    <h1 class="auth-heading">Create Account</h1>
+    <p class="auth-sub">Join Zayanori for exclusive deals & fast delivery</p>
+
+    <!-- Error Banner -->
+    <div class="error-banner" *ngIf="errorMessage()">
+      <i class="pi pi-exclamation-circle"></i>
+      {{ errorMessage() }}
+    </div>
+
+    <!-- Form -->
+    <form class="auth-form" (ngSubmit)="signUp()">
+
+      <!-- Full Name -->
+      <div class="field-group">
+        <label class="field-label">Full Name <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="pi pi-user input-icon"></i>
+          <input
+            type="text"
+            class="auth-input"
+            placeholder="John Doe"
+            [ngModel]="fullName()"
+            (ngModelChange)="setFullName($event)"
+            name="fullName"
+            autocomplete="name"
+            required />
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="field-group">
+        <label class="field-label">Email Address <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="pi pi-envelope input-icon"></i>
+          <input
+            type="email"
+            class="auth-input"
+            placeholder="you@example.com"
+            [ngModel]="email()"
+            (ngModelChange)="setEmail($event)"
+            name="email"
+            autocomplete="email"
+            required />
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="field-group">
+        <label class="field-label">
+          Phone Number
+          <span class="optional-hint">(optional)</span>
+        </label>
+        <div class="input-wrapper">
+          <i class="pi pi-phone input-icon"></i>
+          <input
+            type="tel"
+            class="auth-input"
+            placeholder="+1 (555) 000-0000"
+            [ngModel]="phone()"
+            (ngModelChange)="setPhone($event)"
+            name="phone"
+            autocomplete="tel" />
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="field-group">
+        <label class="field-label">Password <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="pi pi-lock input-icon"></i>
+          <input
+            [type]="showPassword() ? 'text' : 'password'"
+            class="auth-input"
+            placeholder="Minimum 6 characters"
+            [ngModel]="password()"
+            (ngModelChange)="setPassword($event)"
+            name="password"
+            autocomplete="new-password"
+            required />
+          <button type="button" class="toggle-pw" (click)="togglePassword()">
+            <i [class]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+          </button>
+        </div>
+        <!-- Strength Indicator -->
+        <div class="strength-wrapper" *ngIf="password()">
+          <div class="strength-bars">
+            <div class="strength-bar"
+                 [class.active-weak]="passwordStrength() === 'weak' || passwordStrength() === 'medium' || passwordStrength() === 'strong'"></div>
+            <div class="strength-bar"
+                 [class.active-medium]="passwordStrength() === 'medium' || passwordStrength() === 'strong'"></div>
+            <div class="strength-bar"
+                 [class.active-strong]="passwordStrength() === 'strong'"></div>
+          </div>
+          <span class="strength-label"
+                [class.text-weak]="passwordStrength() === 'weak'"
+                [class.text-medium]="passwordStrength() === 'medium'"
+                [class.text-strong]="passwordStrength() === 'strong'">
+            {{ strengthLabel() }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="field-group">
+        <label class="field-label">Confirm Password <span class="required">*</span></label>
+        <div class="input-wrapper">
+          <i class="pi pi-lock input-icon"></i>
+          <input
+            [type]="showConfirmPassword() ? 'text' : 'password'"
+            class="auth-input"
+            [class.input-error]="!passwordsMatch() && confirmPassword()"
+            placeholder="Re-enter your password"
+            [ngModel]="confirmPassword()"
+            (ngModelChange)="setConfirmPassword($event)"
+            name="confirmPassword"
+            autocomplete="new-password"
+            required />
+          <button type="button" class="toggle-pw" (click)="toggleConfirmPassword()">
+            <i [class]="showConfirmPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+          </button>
+        </div>
+        <span class="match-error" *ngIf="!passwordsMatch() && confirmPassword()">
+          <i class="pi pi-times-circle"></i> Passwords do not match
+        </span>
+        <span class="match-ok" *ngIf="passwordsMatch() && confirmPassword()">
+          <i class="pi pi-check-circle"></i> Passwords match
+        </span>
+      </div>
+
+      <!-- Terms -->
+      <div class="terms-row">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            class="terms-checkbox"
+            [ngModel]="agreeTerms()"
+            (ngModelChange)="setAgreeTerms($event)"
+            name="agreeTerms" />
+          <span class="checkmark"></span>
+          <span class="terms-text">
+            I agree to the
+            <a href="#" class="terms-link">Terms & Conditions</a>
+            and
+            <a href="#" class="terms-link">Privacy Policy</a>
+          </span>
+        </label>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-auth" [disabled]="loading()">
+        <span *ngIf="!loading()">
+          <i class="pi pi-user-plus"></i> Create Account
+        </span>
+        <span *ngIf="loading()" class="loading-inner">
+          <span class="spinner"></span> Creating Account...
+        </span>
+      </button>
+
+    </form>
+
+    <!-- Sign In Link -->
+    <p class="switch-auth">
+      Already have an account?
+      <a routerLink="/auth/signin" class="switch-link">Sign In</a>
+    </p>
+
+  </div>
+
+  <!-- Promo Panel -->
+  <div class="auth-promo">
+    <div class="promo-content">
+      <div class="promo-emoji">🎁</div>
+      <h2 class="promo-title">New Member Benefits</h2>
+      <div class="promo-cards">
+        <div class="promo-card">
+          <div class="promo-card-icon">💰</div>
+          <div>
+            <div class="promo-card-title">Welcome Discount</div>
+            <div class="promo-card-desc">Use code WELCOME5 for $5 off your first order</div>
+          </div>
+        </div>
+        <div class="promo-card">
+          <div class="promo-card-icon">🚚</div>
+          <div>
+            <div class="promo-card-title">Free Delivery</div>
+            <div class="promo-card-desc">Free shipping on all orders over $50</div>
+          </div>
+        </div>
+        <div class="promo-card">
+          <div class="promo-card-icon">⭐</div>
+          <div>
+            <div class="promo-card-title">Loyalty Rewards</div>
+            <div class="promo-card-desc">Earn points on every purchase</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

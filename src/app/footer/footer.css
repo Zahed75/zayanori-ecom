@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+@layer primeng {
+
+  .container-site {
+    @apply max-w-[1360px] mx-auto px-6 w-full;
+  }
+
+  /* ── Footer wrapper ───────────────────────────────────────── */
+  .footer {
+    background-color: var(--color-bg-subtle);
+    font-family: var(--font-primary);
+  }
+
+  /* ============================================================
+     Newsletter row
+     ============================================================ */
+  .newsletter-row {
+    @apply py-10 border-b;
+    border-color: #d1d5db;
+  }
+
+  .newsletter-inner {
+    @apply flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6;
+  }
+
+  .newsletter-copy {
+    @apply max-w-xs;
+  }
+
+  .newsletter-title {
+    @apply text-[20px] font-bold tracking-[-0.4px] m-0;
+    color: #111827;
+  }
+
+  .newsletter-sub {
+    @apply text-[13px] mt-2 m-0 leading-relaxed tracking-[-0.32px];
+    color: var(--color-text-muted);
+  }
+
+  .newsletter-form-wrap {
+    @apply flex-1 max-w-[420px] lg:max-w-none lg:w-[418px];
+  }
+
+  .newsletter-input-group {
+    @apply flex items-center bg-white border rounded-lg overflow-hidden shadow-sm h-[48px];
+    border-color: #d1d5db;
+  }
+
+  .newsletter-envelope {
+    @apply text-[20px] px-3 flex-shrink-0;
+    color: var(--color-text-muted);
+  }
+
+  .newsletter-input {
+    @apply flex-1 h-full text-[14px] border-none outline-none tracking-[-0.28px] bg-transparent;
+    color: var(--color-text-muted);
+
+    &::placeholder { color: var(--color-text-light); }
+  }
+
+  .newsletter-send-btn {
+    @apply h-full px-5 text-[14px] font-bold text-white cursor-pointer border-none shrink-0 rounded-r-lg;
+    background-color: var(--color-brand-purple);
+
+    &:hover { opacity: 0.9; }
+  }
+
+  .newsletter-terms {
+    @apply text-[11px] mt-2 m-0 tracking-[-0.32px];
+    color: var(--color-text-muted);
+  }
+
+  .newsletter-link {
+    @apply font-medium no-underline;
+    color: var(--color-brand-purple);
+  }
+
+  /* ============================================================
+     Main links row
+     ============================================================ */
+  .footer-links-row {
+    @apply py-12 border-b;
+    border-color: #d1d5db;
+  }
+
+  .footer-links-inner {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8;
+  }
+
+  .footer-col {
+    @apply flex flex-col gap-3;
+  }
+
+  .footer-col-title {
+    @apply text-[14px] font-semibold tracking-[-0.28px] m-0 mb-1;
+    color: #111827;
+  }
+
+  /* Help column */
+  .footer-help-desc {
+    @apply text-[13px] tracking-[-0.32px] m-0 leading-relaxed;
+    color: var(--color-text-muted);
+  }
+
+  .footer-contact-item {
+    @apply flex items-start gap-3 mt-2;
+  }
+
+  .footer-contact-icon {
+    @apply text-[18px] mt-0.5 flex-shrink-0;
+    color: var(--color-text-primary);
+  }
+
+  .footer-contact-label {
+    @apply block text-[12px] opacity-60 tracking-[-0.32px];
+    color: #111827;
+  }
+
+  .footer-phone {
+    @apply block text-[20px] font-bold tracking-[-1px] no-underline;
+    color: #111827;
+  }
+
+  .footer-email {
+    @apply block text-[14px] font-semibold tracking-[-0.32px] no-underline;
+    color: #111827;
+  }
+
+  /* Link lists */
+  .footer-link-list {
+    @apply list-none m-0 p-0 flex flex-col gap-[19.5px];
+  }
+
+  .footer-link {
+    @apply text-[13px] tracking-[-0.32px] no-underline transition-colors leading-none;
+    color: #4b5563;
+
+    &:hover { color: var(--color-brand-purple); }
+  }
+
+  /* App column */
+  .footer-col--app {}
+
+  .app-badges {
+    @apply flex flex-col gap-3;
+  }
+
+  .app-badge-row {
+    @apply flex items-center gap-3;
+  }
+
+  .app-badge-link {
+    @apply flex items-center gap-2 px-3 py-2 rounded-lg no-underline text-white w-[120px];
+
+    &.google-play { background-color: #111827; }
+    &.app-store   { background-color: #111827; }
+  }
+
+  .app-badge-icon {
+    @apply text-xl flex-shrink-0;
+  }
+
+  .app-badge-text {
+    @apply flex flex-col;
+  }
+
+  .app-badge-sub {
+    @apply text-[8px] opacity-70 leading-none uppercase;
+  }
+
+  .app-badge-name {
+    @apply text-[11px] font-bold leading-tight;
+  }
+
+  .app-badge-promo {
+    @apply text-[10px] font-medium leading-tight;
+    color: var(--color-text-muted);
+  }
+
+  .social-label {
+    @apply text-[12px] font-normal m-0 mt-2;
+    color: #111827;
+  }
+
+  .social-icons {
+    @apply flex items-center gap-2 mt-1;
+  }
+
+  .social-icon-btn {
+    @apply w-9 h-9 bg-white rounded-md flex items-center justify-center no-underline transition-colors;
+    color: var(--color-text-primary);
+
+    &:hover { background-color: var(--color-brand-purple); color: white; }
+
+    i { @apply text-sm; }
+  }
+
+  /* ============================================================
+     Bottom bar
+     ============================================================ */
+  .footer-bottom {
+    @apply py-8;
+  }
+
+  .footer-bottom-inner {
+    @apply flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4;
+  }
+
+  .footer-bottom-left {
+    @apply flex flex-col gap-3;
+  }
+
+  .copyright {
+    @apply text-[12px] tracking-[-0.32px] m-0;
+    color: var(--color-text-muted);
+  }
+
+  .blackrise {
+    @apply font-semibold no-underline;
+    color: var(--color-brand-purple);
+  }
+
+  .payment-logos {
+    @apply flex items-center gap-3;
+  }
+
+  .payment-logo {
+    @apply text-[11px] font-bold px-2 py-1 rounded border;
+    border-color: #d1d5db;
+    color: var(--color-text-muted);
+    background: white;
+  }
+
+  .payment-logo.visa    { color: #1a1f71; }
+  .payment-logo.mc      { color: #eb001b; }
+  .payment-logo.paypal  { color: #003087; }
+  .payment-logo.skrill  { color: #862165; }
+  .payment-logo.klarna  { color: #17120f; }
+
+  .footer-bottom-right {
+    @apply flex items-center gap-4;
+  }
+
+  .footer-legal-link {
+    @apply text-[12px] tracking-[-0.32px] underline no-underline transition-colors;
+    color: #111827;
+    text-decoration: underline;
+
+    &:hover { color: var(--color-brand-purple); }
+  }
+
+}

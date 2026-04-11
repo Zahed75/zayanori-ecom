@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+@layer primeng {
+
+  /* ── Hero wrapper ─────────────────────────────────────────── */
+  .hero-wrapper {
+    @apply bg-white border-b;
+    border-color: var(--color-border);
+  }
+
+  .hero-container {
+    @apply max-w-[1360px] mx-auto px-6 flex gap-0;
+    min-height: 506px;
+  }
+
+  /* ── Category Sidebar ─────────────────────────────────────── */
+  .hero-sidebar {
+    @apply w-[280px] shrink-0 border-r py-2;
+    border-color: var(--color-border);
+  }
+
+  .sidebar-cat-list {
+    @apply list-none m-0 p-0;
+  }
+
+  .sidebar-cat-item {
+    @apply border-b;
+    border-color: var(--color-border);
+
+    &:last-child { @apply border-b-0; }
+  }
+
+  .sidebar-cat-link {
+    @apply flex items-center gap-3 px-4 h-[44px] no-underline transition-colors;
+    color: var(--color-text-primary);
+
+    &:hover { background-color: var(--color-bg-subtle); }
+  }
+
+  .sidebar-cat-emoji {
+    @apply text-lg w-5 text-center shrink-0;
+  }
+
+  .sidebar-cat-name {
+    @apply flex-1 text-[14px] font-medium tracking-[-0.32px];
+  }
+
+  .sidebar-cat-arrow {
+    @apply text-[10px] opacity-40;
+  }
+
+  /* ── Hero Slider ──────────────────────────────────────────── */
+  .hero-slider-wrap {
+    @apply flex-1 overflow-hidden;
+  }
+
+  .hero-slider {
+    @apply relative h-full;
+    min-height: 506px;
+  }
+
+  .hero-slide {
+    @apply absolute inset-0 flex items-center px-10 gap-6 opacity-0 transition-opacity duration-500 z-0;
+  }
+
+  .hero-slide--active {
+    @apply opacity-100 z-10 relative;
+  }
+
+  /* Copy */
+  .hero-copy {
+    @apply flex-1 flex flex-col gap-4;
+  }
+
+  .hero-badge {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-md text-sm font-semibold w-fit;
+    color: var(--color-brand-green);
+    background: linear-gradient(90deg, rgba(22,163,74,0.15) 0%, rgba(34,197,94,0) 60%);
+  }
+
+  .hero-badge-dot {
+    @apply w-2 h-2 rounded-full shrink-0;
+    background-color: var(--color-brand-green);
+  }
+
+  .hero-heading {
+    @apply text-[42px] font-bold leading-tight m-0;
+    color: var(--color-brand-deep);
+    font-family: var(--font-primary);
+  }
+
+  .hero-subheading {
+    @apply text-base opacity-75 max-w-sm m-0 leading-relaxed;
+    color: var(--color-text-primary);
+  }
+
+  .hero-pricing {
+    @apply flex items-center gap-3;
+  }
+
+  .price-old {
+    @apply text-xl font-medium;
+    color: var(--color-text-dark);
+  }
+
+  .price-new {
+    @apply text-3xl font-bold;
+    color: var(--color-brand-red);
+  }
+
+  .hero-note {
+    @apply text-xs opacity-50 m-0 uppercase tracking-wider;
+  }
+
+  .hero-cta-btn {
+    @apply w-fit mt-2 px-6 py-3 rounded text-white font-bold inline-flex items-center gap-2 transition-transform hover:scale-105 active:scale-95 cursor-pointer border-none;
+    background-color: var(--color-brand-purple);
+  }
+
+  .btn-arrow {
+    @apply w-4 h-4;
+  }
+
+  /* Visual */
+  .hero-visual {
+    @apply flex-shrink-0 flex items-center justify-center w-64 h-64 rounded-full;
+    background: rgba(255,255,255,0.5);
+  }
+
+  .hero-visual-emoji {
+    @apply text-[120px] select-none;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.1));
+  }
+
+  /* Dots */
+  .hero-dots {
+    @apply absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20;
+  }
+
+  .dot {
+    @apply w-3 h-3 rounded-full border border-gray-300 transition-all cursor-pointer;
+    background: rgba(255,255,255,0.6);
+  }
+
+  .dot--active {
+    @apply w-6 rounded-full border-gray-400;
+    background-color: var(--color-brand-purple);
+  }
+
+  /* ── Feature Strip ────────────────────────────────────────── */
+  .feature-strip {
+    @apply max-w-[1360px] mx-auto px-6 flex flex-wrap lg:flex-nowrap justify-between gap-4 py-8;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .feature-item {
+    @apply flex items-center gap-4 flex-1 min-w-[220px];
+  }
+
+  .feature-icon {
+    @apply text-3xl;
+  }
+
+  .feature-text {
+    @apply flex flex-col;
+  }
+
+  .feature-title {
+    @apply text-sm font-bold;
+    color: var(--color-text-primary);
+  }
+
+  .feature-desc {
+    @apply text-xs mt-0.5;
+    color: var(--color-text-muted);
+  }
+}

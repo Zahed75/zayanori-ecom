@@ -1,0 +1,182 @@
+<!-- ============================================================
+     1. NOTIFICATION BAR  (purple strip with countdown)
+     ============================================================ -->
+<div class="notification-bar">
+  <p class="notification-text">
+    FREE delivery &amp; 40% Discount for next 3 orders! Place your 1st order in.
+  </p>
+  <div class="countdown-group">
+    <span class="countdown-label">Until the end of the sale:</span>
+    <div class="countdown-unit">
+      <span class="countdown-num">{{ pad(countdown().days) }}</span>
+      <span class="countdown-sub">days</span>
+    </div>
+    <div class="countdown-unit">
+      <span class="countdown-num">{{ pad(countdown().hours) }}</span>
+      <span class="countdown-sub">hours</span>
+    </div>
+    <div class="countdown-unit">
+      <span class="countdown-num">{{ pad(countdown().minutes) }}</span>
+      <span class="countdown-sub">minutes</span>
+    </div>
+    <div class="countdown-unit">
+      <span class="countdown-num">{{ pad(countdown().seconds) }}</span>
+      <span class="countdown-sub">sec.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     2. TOP LINKS BAR  (about, account, wishlist | delivery hours | lang/currency)
+     ============================================================ -->
+<div class="top-bar">
+  <div class="container-site">
+    <div class="top-bar-left">
+      <a href="#" class="top-link">About Us</a>
+      <a href="#" class="top-link">My account</a>
+      <a href="#" class="top-link">Wishlist</a>
+      <span class="top-divider">
+        We deliver to you every day from
+        <strong class="delivery-time">7:00 to 23:00</strong>
+      </span>
+    </div>
+    <div class="top-bar-right">
+      <span class="top-link lang-selector">
+        English
+        <i class="pi pi-chevron-down top-chevron"></i>
+      </span>
+      <span class="top-link lang-selector">
+        USD
+        <i class="pi pi-chevron-down top-chevron"></i>
+      </span>
+      <a href="#" class="top-link">Order Tracking</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     3. MAIN HEADER  (logo | deliver-to | search | account/cart icons)
+     ============================================================ -->
+<div class="main-header">
+  <div class="container-site main-header-inner">
+
+    <!-- Logo -->
+    <a href="/" class="logo-wrap">
+      <div class="logo-icon">
+        <span>🛒</span>
+      </div>
+      <div class="logo-text-wrap">
+        <span class="logo-brand">ShopStore</span>
+        <span class="logo-tld">com</span>
+      </div>
+    </a>
+
+    <!-- Deliver-to -->
+    <div class="deliver-to">
+      <i class="pi pi-map-marker deliver-icon"></i>
+      <div class="deliver-text">
+        <span class="deliver-label">Deliver to</span>
+        <span class="deliver-value">all</span>
+      </div>
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-wrap">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search for products, categories or brands..."
+        aria-label="Search products"
+      />
+      <button class="search-btn" aria-label="Search">
+        <i class="pi pi-search"></i>
+      </button>
+    </div>
+
+    <!-- Account -->
+    <div class="header-action">
+      <i class="pi pi-user header-action-icon"></i>
+      <div class="header-action-text">
+        <span class="action-label">Sign In</span>
+        <span class="action-value">Account</span>
+      </div>
+    </div>
+
+    <!-- Wishlist -->
+    <div class="header-action header-action--icon-only">
+      <div class="icon-badge-wrap">
+        <i class="pi pi-heart header-action-icon"></i>
+        <span class="badge-dot red-badge">{{ wishlistCount() }}</span>
+      </div>
+    </div>
+
+    <!-- Cart -->
+    <div class="header-action header-action--icon-only">
+      <div class="icon-badge-wrap">
+        <i class="pi pi-shopping-cart header-action-icon"></i>
+        <span class="badge-dot red-badge">{{ cartCount() }}</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================
+     4. NAV BAR  (all-categories | nav links)
+     ============================================================ -->
+<div class="nav-bar">
+  <div class="container-site nav-bar-inner">
+
+    <!-- All Categories dropdown trigger -->
+    <div class="categories-wrap">
+      <button
+        class="categories-btn"
+        (click)="toggleCategories()"
+        [attr.aria-expanded]="showCategories()"
+        aria-haspopup="true"
+      >
+        <i class="pi pi-th-large cat-grid-icon"></i>
+        <span>All Categories</span>
+        <i class="pi pi-chevron-down cat-chevron"></i>
+      </button>
+
+      <!-- Dropdown panel -->
+      @if (showCategories()) {
+        <div class="categories-dropdown">
+          @for (cat of categories; track cat.name) {
+            <div class="cat-item">
+              <div class="cat-item-left">
+                <span class="cat-emoji">{{ cat.emoji }}</span>
+                <span class="cat-name">{{ cat.name }}</span>
+              </div>
+              @if (cat.arrow) {
+                <i class="pi pi-chevron-right cat-arrow"></i>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Navigation links -->
+    <nav class="nav-links" aria-label="Main navigation">
+      @for (link of navLinks; track link.label) {
+        <a
+          href="#"
+          class="nav-link"
+          [class.nav-link--active]="link.active"
+          [class.nav-link--red]="link['red']"
+        >
+          {{ link.label }}
+          @if (link.dropdown) {
+            <i class="pi pi-chevron-down nav-chevron"></i>
+          }
+          @if (link['badge']) {
+            <span class="sale-badge">{{ link['badge'] }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+  </div>
+</div>

@@ -1,3 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
 
+/* CSS Layer order: PrimeNG theme → browser base → PrimeNG components → Tailwind utilities */
+@layer theme, base, primeng, utilities;
+
+/* Tailwind v4 */
 @import 'tailwindcss';
+
+/* ============================================================
+   Design Tokens — Zayanori Ecom (extracted from Figma)
+   ============================================================ */
+:root {
+  /* Primary brand colors */
+  --color-brand-purple:    #634C9F;  /* notification bar, CTA buttons */
+  --color-brand-deep:      #39245F;  /* hero headings */
+  --color-brand-red:       #DC2626;  /* sale prices, red badges */
+  --color-brand-amber:     #FFB909;  /* star ratings, accents */
+  --color-brand-green:     #166534;  /* organic badge text */
+  --color-brand-green-bg:  #DCFCE7;  /* organic badge background */
+
+  /* Neutrals */
+  --color-text-primary:    #030712;  /* body text */
+  --color-text-dark:       #111827;  /* strikethrough prices */
+  --color-text-muted:      #6B7280;  /* secondary text */
+  --color-text-light:      #9CA3AF;  /* placeholder / dim text */
+  --color-border:          #E5E7EB;  /* dividers, outlines */
+  --color-bg-subtle:       #F3F4F6;  /* card backgrounds */
+  --color-white:           #FFFFFF;
+
+  /* Typography */
+  --font-primary:   'Inter', sans-serif;
+  --font-secondary: 'Poppins', sans-serif;
+  --font-display:   'Manrope', sans-serif;
+}
+
+/* Base reset */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-primary);
+  color: var(--color-text-primary);
+  background-color: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

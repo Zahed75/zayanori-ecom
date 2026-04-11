@@ -1,0 +1,213 @@
+<!-- Toast Notification -->
+<div class="toast-wrapper" [class.toast-show]="showToast()">
+  <div class="toast" [class.toast-success]="toastType() === 'success'" [class.toast-error]="toastType() === 'error'">
+    <i [class]="toastType() === 'success' ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
+    <span>{{ toastMessage() }}</span>
+  </div>
+</div>
+
+<div class="page-container" *ngIf="product(); else notFound">
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb-nav">
+    <a routerLink="/" class="breadcrumb-link">
+      <i class="pi pi-home"></i> Home
+    </a>
+    <i class="pi pi-chevron-right breadcrumb-sep"></i>
+    <span class="breadcrumb-cat">{{ product()!.category }}</span>
+    <i class="pi pi-chevron-right breadcrumb-sep"></i>
+    <span class="breadcrumb-current">{{ product()!.name }}</span>
+  </nav>
+
+  <!-- Main Product Section -->
+  <div class="product-grid">
+
+    <!-- Left: Image Gallery -->
+    <div class="image-section">
+      <div class="main-image-card">
+        <div class="main-image-display">
+          <span class="main-emoji">{{ product()!.emoji }}</span>
+        </div>
+        <div class="badge-overlay" *ngIf="product()!.badge">
+          <span class="badge-pill"
+                [style.background]="product()!.badgeColor === 'blue' ? '#3b82f6' : '#634c9f'">
+            {{ product()!.badge }}
+          </span>
+        </div>
+        <div class="discount-badge">-{{ product()!.discount }}%</div>
+      </div>
+
+      <!-- Thumbnail Strip -->
+      <div class="thumbnails">
+        <button
+          *ngFor="let img of product()!.images; let i = index"
+          class="thumbnail-btn"
+          [class.active]="selectedImageIndex() === i"
+          (click)="selectImage(i)">
+          <span class="thumb-emoji">{{ img }}</span>
+        </button>
+        <!-- Extra thumb slots for visual completeness -->
+        <button class="thumbnail-btn" (click)="selectImage(0)" [class.active]="selectedImageIndex() === 0">
+          <span class="thumb-emoji">{{ product()!.emoji }}</span>
+        </button>
+        <button class="thumbnail-btn inactive-thumb">
+          <span class="thumb-emoji opacity-40">{{ product()!.emoji }}</span>
+        </button>
+        <button class="thumbnail-btn inactive-thumb">
+          <span class="thumb-emoji opacity-40">{{ product()!.emoji }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Product Info -->
+    <div class="info-section">
+      <!-- Category Badge -->
+      <div class="cat-badge">
+        <i class="pi pi-tag"></i>
+        {{ product()!.category }}
+      </div>
+
+      <!-- Product Name -->
+      <h1 class="product-title">{{ product()!.name }}</h1>
+
+      <!-- Rating Row -->
+      <div class="rating-row">
+        <div class="stars">
+          <i *ngFor="let s of starsArray()"
+             [class]="s === 'full' ? 'pi pi-star-fill star-full' : s === 'half' ? 'pi pi-star-half star-half' : 'pi pi-star star-empty'">
+          </i>
+        </div>
+        <span class="rating-val">{{ product()!.rating }}</span>
+        <span class="reviews-count">({{ product()!.reviews }} reviews)</span>
+      </div>
+
+      <!-- Price Section -->
+      <div class="price-section">
+        <span class="price-new">${{ product()!.price.toFixed(2) }}</span>
+        <span class="price-old">${{ product()!.oldPrice.toFixed(2) }}</span>
+        <span class="savings-pill">Save ${{ getDiscountSavings().toFixed(2) }}</span>
+      </div>
+
+      <!-- Stock Status -->
+      <div class="stock-row">
+        <span class="stock-indicator" [ngClass]="stockStatus()?.class">
+          <i [class]="stockStatus()?.class === 'in-stock' ? 'pi pi-check-circle' : stockStatus()?.class === 'low-stock' ? 'pi pi-exclamation-triangle' : 'pi pi-times-circle'"></i>
+          {{ stockStatus()?.label }}
+        </span>
+      </div>
+
+      <!-- Product Meta -->
+      <div class="meta-grid">
+        <div class="meta-row">
+          <span class="meta-label"><i class="pi pi-barcode"></i> SKU</span>
+          <span class="meta-value">{{ product()!.sku }}</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label"><i class="pi pi-building"></i> Brand</span>
+          <span class="meta-value">{{ product()!.brand }}</span>
+        </div>
+        <div class="meta-row" *ngIf="product()!.weight">
+          <span class="meta-label"><i class="pi pi-box"></i> Weight</span>
+          <span class="meta-value">{{ product()!.weight }}</span>
+        </div>
+      </div>
+
+      <!-- Quantity Selector -->
+      <div class="qty-section">
+        <label class="qty-label">Quantity</label>
+        <div class="qty-controls">
+          <button class="qty-btn" (click)="decrementQty()" [disabled]="quantity() <= 1">
+            <i class="pi pi-minus"></i>
+          </button>
+          <span class="qty-display">{{ quantity() }}</span>
+          <button class="qty-btn" (click)="incrementQty()" [disabled]="quantity() >= product()!.stockCount">
+            <i class="pi pi-plus"></i>
+          </button>
+        </div>
+        <span class="stock-hint">{{ product()!.stockCount }} available</span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button
+          class="btn-cart"
+          (click)="addToCart()"
+          [disabled]="!product()!.inStock">
+          <i class="pi pi-shopping-cart"></i>
+          {{ product()!.inStock ? 'Add to Cart' : 'Out of Stock' }}
+        </button>
+        <button
+          class="btn-wishlist"
+          (click)="toggleWishlist()"
+          [class.wishlisted]="isInWishlist()">
+          <i [class]="isInWishlist() ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
+        </button>
+      </div>
+
+      <!-- Highlights -->
+      <div class="highlights-section">
+        <h3 class="section-subtitle">Product Highlights</h3>
+        <ul class="highlights-list">
+          <li *ngFor="let h of product()!.highlights" class="highlight-item">
+            <i class="pi pi-check highlight-icon"></i>
+            <span>{{ h }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Tags -->
+      <div class="tags-section">
+        <span class="tag-pill" *ngFor="let tag of product()!.tags">
+          <i class="pi pi-tag tag-icon"></i>{{ tag }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="description-card">
+    <h2 class="card-heading">Product Description</h2>
+    <p class="description-text">{{ product()!.description }}</p>
+  </div>
+
+  <!-- Related Products -->
+  <div class="related-section" *ngIf="relatedProducts().length > 0">
+    <div class="related-header">
+      <h2 class="related-title">Related Products</h2>
+      <a routerLink="/" class="view-all-link">View All <i class="pi pi-arrow-right"></i></a>
+    </div>
+    <div class="related-grid">
+      <a
+        *ngFor="let rp of relatedProducts(); trackBy: trackById"
+        [routerLink]="['/product', rp.id]"
+        class="related-card">
+        <div class="related-img">
+          <span class="related-emoji">{{ rp.emoji }}</span>
+          <span class="related-discount">-{{ rp.discount }}%</span>
+        </div>
+        <div class="related-info">
+          <span class="related-cat">{{ rp.category }}</span>
+          <p class="related-name">{{ rp.name }}</p>
+          <div class="related-price-row">
+            <span class="related-new-price">${{ rp.price.toFixed(2) }}</span>
+            <span class="related-old-price">${{ rp.oldPrice.toFixed(2) }}</span>
+          </div>
+          <div class="related-stars">
+            <i *ngFor="let s of [1,2,3,4,5]" class="pi pi-star-fill"
+               [style.color]="s <= rp.rating ? '#f59e0b' : '#d1d5db'"></i>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <div class="not-found">
+    <div class="not-found-emoji">🔍</div>
+    <h2 class="not-found-title">Product Not Found</h2>
+    <p class="not-found-desc">The product you're looking for doesn't exist or has been removed.</p>
+    <a routerLink="/" class="btn-home">
+      <i class="pi pi-home"></i> Go Home
+    </a>
+  </div>
+</ng-template>
