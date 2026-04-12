@@ -1,0 +1,175 @@
+<div class="checkout-page">
+  <div class="container-site">
+    <h1 class="page-title">Checkout</h1>
+
+    @if (cartItems().length === 0) {
+      <div class="empty-state">
+        <span class="empty-emoji">🛒</span>
+        <h2 class="empty-title">Your cart is empty</h2>
+        <p class="empty-sub">Add some items before checking out.</p>
+        <a routerLink="/" class="btn-primary">Continue Shopping</a>
+      </div>
+    } @else {
+      <!-- Steps indicator -->
+      <div class="steps-bar">
+        <div class="step-item" [class.active]="step() === 'shipping'" [class.done]="step() === 'payment' || step() === 'review'">
+          <span class="step-num">1</span><span class="step-label">Shipping</span>
+        </div>
+        <div class="step-line" [class.filled]="step() === 'payment' || step() === 'review'"></div>
+        <div class="step-item" [class.active]="step() === 'payment'" [class.done]="step() === 'review'">
+          <span class="step-num">2</span><span class="step-label">Payment</span>
+        </div>
+        <div class="step-line" [class.filled]="step() === 'review'"></div>
+        <div class="step-item" [class.active]="step() === 'review'">
+          <span class="step-num">3</span><span class="step-label">Review</span>
+        </div>
+      </div>
+
+      <div class="checkout-layout">
+        <!-- Left: Form -->
+        <div class="checkout-form">
+
+          <!-- Step 1: Shipping -->
+          @if (step() === 'shipping') {
+            <div class="form-section">
+              <h2 class="section-title"><i class="pi pi-map-marker"></i> Shipping Address</h2>
+              <div class="form-grid">
+                <div class="form-group full">
+                  <label>Full Name *</label>
+                  <input [(ngModel)]="address.fullName" placeholder="John Doe" [class.error]="errors['fullName']" />
+                  @if (errors['fullName']) { <span class="field-error">{{ errors['fullName'] }}</span> }
+                </div>
+                <div class="form-group">
+                  <label>Email *</label>
+                  <input [(ngModel)]="address.email" type="email" placeholder="john@example.com" [class.error]="errors['email']" />
+                  @if (errors['email']) { <span class="field-error">{{ errors['email'] }}</span> }
+                </div>
+                <div class="form-group">
+                  <label>Phone *</label>
+                  <input [(ngModel)]="address.phone" placeholder="+1 234 567 890" [class.error]="errors['phone']" />
+                  @if (errors['phone']) { <span class="field-error">{{ errors['phone'] }}</span> }
+                </div>
+                <div class="form-group full">
+                  <label>Street Address *</label>
+                  <input [(ngModel)]="address.address" placeholder="123 Main Street, Apt 4B" [class.error]="errors['address']" />
+                  @if (errors['address']) { <span class="field-error">{{ errors['address'] }}</span> }
+                </div>
+                <div class="form-group">
+                  <label>City *</label>
+                  <input [(ngModel)]="address.city" placeholder="New York" [class.error]="errors['city']" />
+                  @if (errors['city']) { <span class="field-error">{{ errors['city'] }}</span> }
+                </div>
+                <div class="form-group">
+                  <label>State *</label>
+                  <input [(ngModel)]="address.state" placeholder="NY" [class.error]="errors['state']" />
+                  @if (errors['state']) { <span class="field-error">{{ errors['state'] }}</span> }
+                </div>
+                <div class="form-group">
+                  <label>ZIP Code *</label>
+                  <input [(ngModel)]="address.zip" placeholder="10001" [class.error]="errors['zip']" />
+                  @if (errors['zip']) { <span class="field-error">{{ errors['zip'] }}</span> }
+                </div>
+                <div class="form-group">
+                  <label>Country</label>
+                  <input [(ngModel)]="address.country" placeholder="USA" />
+                </div>
+              </div>
+              <button class="btn-primary btn-next" (click)="goToPayment()">Continue to Payment <i class="pi pi-arrow-right"></i></button>
+            </div>
+          }
+
+          <!-- Step 2: Payment -->
+          @if (step() === 'payment') {
+            <div class="form-section">
+              <h2 class="section-title"><i class="pi pi-credit-card"></i> Payment Method</h2>
+              <div class="payment-options">
+                <label class="pay-option" [class.selected]="paymentMethod === 'card'">
+                  <input type="radio" name="payment" value="card" [(ngModel)]="paymentMethod" />
+                  <i class="pi pi-credit-card"></i> Credit / Debit Card
+                </label>
+                <label class="pay-option" [class.selected]="paymentMethod === 'paypal'">
+                  <input type="radio" name="payment" value="paypal" [(ngModel)]="paymentMethod" />
+                  <i class="pi pi-paypal"></i> PayPal
+                </label>
+                <label class="pay-option" [class.selected]="paymentMethod === 'cod'">
+                  <input type="radio" name="payment" value="cod" [(ngModel)]="paymentMethod" />
+                  <i class="pi pi-wallet"></i> Cash on Delivery
+                </label>
+              </div>
+
+              @if (paymentMethod === 'card') {
+                <div class="card-fields">
+                  <div class="form-group full">
+                    <label>Card Number</label>
+                    <input [(ngModel)]="cardNumber" placeholder="4242 4242 4242 4242" maxlength="19" [class.error]="errors['cardNumber']" />
+                    @if (errors['cardNumber']) { <span class="field-error">{{ errors['cardNumber'] }}</span> }
+                  </div>
+                  <div class="form-group">
+                    <label>Expiry</label>
+                    <input [(ngModel)]="cardExpiry" placeholder="MM/YY" maxlength="5" [class.error]="errors['cardExpiry']" />
+                    @if (errors['cardExpiry']) { <span class="field-error">{{ errors['cardExpiry'] }}</span> }
+                  </div>
+                  <div class="form-group">
+                    <label>CVC</label>
+                    <input [(ngModel)]="cardCvc" placeholder="123" maxlength="4" [class.error]="errors['cardCvc']" />
+                    @if (errors['cardCvc']) { <span class="field-error">{{ errors['cardCvc'] }}</span> }
+                  </div>
+                </div>
+              }
+
+              <div class="btn-row">
+                <button class="btn-outline" (click)="step.set('shipping')"><i class="pi pi-arrow-left"></i> Back</button>
+                <button class="btn-primary btn-next" (click)="goToReview()">Review Order <i class="pi pi-arrow-right"></i></button>
+              </div>
+            </div>
+          }
+
+          <!-- Step 3: Review -->
+          @if (step() === 'review') {
+            <div class="form-section">
+              <h2 class="section-title"><i class="pi pi-check-circle"></i> Review Order</h2>
+
+              <div class="review-block">
+                <h4>Shipping To</h4>
+                <p>{{ address.fullName }}<br>{{ address.address }}<br>{{ address.city }}, {{ address.state }} {{ address.zip }}<br>{{ address.country }}</p>
+              </div>
+
+              <div class="review-block">
+                <h4>Payment</h4>
+                <p>{{ paymentMethod === 'card' ? 'Credit Card ending ****' + cardNumber.slice(-4) : paymentMethod === 'paypal' ? 'PayPal' : 'Cash on Delivery' }}</p>
+              </div>
+
+              <div class="review-block">
+                <h4>Items ({{ cartItems().length }})</h4>
+                @for (item of cartItems(); track item.product.id) {
+                  <div class="review-item">
+                    <span class="ri-emoji">{{ item.product.emoji }}</span>
+                    <span class="ri-name">{{ item.product.name }} × {{ item.quantity }}</span>
+                    <span class="ri-price">${{ (item.product.price * item.quantity).toFixed(2) }}</span>
+                  </div>
+                }
+              </div>
+
+              <div class="btn-row">
+                <button class="btn-outline" (click)="step.set('payment')"><i class="pi pi-arrow-left"></i> Back</button>
+                <button class="btn-primary btn-next" (click)="placeOrder()"><i class="pi pi-check"></i> Place Order</button>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Right: Summary -->
+        <aside class="checkout-summary">
+          <h3 class="summary-title">Order Summary</h3>
+          <div class="s-row"><span>Subtotal ({{ cartItems().length }} items)</span><span>${{ subtotal().toFixed(2) }}</span></div>
+          <div class="s-row"><span>Shipping</span><span>{{ shipping() === 0 ? 'FREE' : '$' + shipping().toFixed(2) }}</span></div>
+          @if (couponDiscount() > 0) {
+            <div class="s-row green"><span>Coupon ({{ activeCoupon()?.code }})</span><span>-${{ couponDiscount().toFixed(2) }}</span></div>
+          }
+          <div class="s-divider"></div>
+          <div class="s-row s-total"><span>Total</span><span>${{ total().toFixed(2) }}</span></div>
+        </aside>
+      </div>
+    }
+  </div>
+</div>

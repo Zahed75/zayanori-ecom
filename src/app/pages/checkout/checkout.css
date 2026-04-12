@@ -1,0 +1,59 @@
+@import "tailwindcss";
+@layer primeng {
+  .container-site { @apply max-w-[1360px] mx-auto px-6 w-full; }
+  .checkout-page { @apply py-10 bg-white min-h-[60vh]; }
+  .page-title { @apply text-[28px] font-bold mb-6; color: #111827; }
+  .empty-state { @apply flex flex-col items-center justify-center py-20 gap-4; }
+  .empty-emoji { @apply text-[80px]; }
+  .empty-title { @apply text-[24px] font-bold m-0; color: #111827; }
+  .empty-sub { @apply text-[14px] m-0; color: var(--color-text-muted); }
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 px-8 py-3 rounded-full text-[14px] font-semibold text-white no-underline cursor-pointer border-none transition-opacity hover:opacity-90; background: var(--color-brand-purple); }
+  .btn-outline { @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-[14px] font-semibold cursor-pointer transition-colors; background: white; border: 1px solid var(--color-border); color: #374151; &:hover { border-color: var(--color-brand-purple); color: var(--color-brand-purple); } }
+  .btn-next { @apply mt-6; }
+  .btn-row { @apply flex gap-3 mt-6; }
+
+  /* Steps */
+  .steps-bar { @apply flex items-center justify-center gap-0 mb-10; }
+  .step-item { @apply flex items-center gap-2 px-4 py-2 rounded-full text-[13px] font-medium; color: var(--color-text-muted); background: var(--color-bg-subtle); }
+  .step-item.active { background: var(--color-brand-purple); color: white; }
+  .step-item.done { background: #ecfdf5; color: #16a34a; }
+  .step-num { @apply w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold; background: rgba(255,255,255,0.3); }
+  .step-item.active .step-num { background: rgba(255,255,255,0.3); }
+  .step-item.done .step-num { background: #16a34a; color: white; }
+  .step-line { @apply w-10 h-0.5; background: var(--color-border); }
+  .step-line.filled { background: #16a34a; }
+
+  /* Layout */
+  .checkout-layout { @apply flex flex-col lg:flex-row gap-8; }
+  .checkout-form { @apply flex-1; }
+  .checkout-summary { @apply w-full lg:w-[360px] shrink-0 p-6 rounded-xl border self-start lg:sticky lg:top-6; border-color: var(--color-border); background: #fafafa; }
+
+  /* Form */
+  .form-section { @apply p-6 rounded-xl border; border-color: var(--color-border); }
+  .section-title { @apply text-[18px] font-bold m-0 mb-5 flex items-center gap-2; color: #111827; i { color: var(--color-brand-purple); } }
+  .form-grid { @apply grid grid-cols-1 md:grid-cols-2 gap-4; }
+  .form-group { @apply flex flex-col gap-1; }
+  .form-group.full { @apply md:col-span-2; }
+  .form-group label { @apply text-[13px] font-medium; color: #374151; }
+  .form-group input { @apply h-11 px-4 rounded-lg border text-[14px] outline-none transition-colors; border-color: var(--color-border); &:focus { border-color: var(--color-brand-purple); } &.error { border-color: #dc2626; } }
+  .field-error { @apply text-[11px]; color: #dc2626; }
+
+  /* Payment */
+  .payment-options { @apply flex flex-col gap-3 mb-6; }
+  .pay-option { @apply flex items-center gap-3 p-4 rounded-lg border cursor-pointer text-[14px] font-medium transition-colors; border-color: var(--color-border); input { @apply hidden; } i { @apply text-lg; color: var(--color-brand-purple); } &.selected { border-color: var(--color-brand-purple); background: #f5f0ff; } }
+  .card-fields { @apply grid grid-cols-1 md:grid-cols-2 gap-4 mt-4; }
+
+  /* Review */
+  .review-block { @apply mb-5 p-4 rounded-lg; background: var(--color-bg-subtle); h4 { @apply text-[14px] font-bold m-0 mb-2; color: #111827; } p { @apply text-[13px] m-0; color: #374151; line-height: 1.6; } }
+  .review-item { @apply flex items-center gap-3 py-2; &:not(:last-child) { border-bottom: 1px solid var(--color-border); } }
+  .ri-emoji { @apply text-[24px]; }
+  .ri-name { @apply flex-1 text-[13px]; color: #374151; }
+  .ri-price { @apply text-[14px] font-bold; color: #111827; }
+
+  /* Summary */
+  .summary-title { @apply text-[18px] font-bold m-0 mb-5; }
+  .s-row { @apply flex justify-between text-[14px] mb-3; color: #374151; }
+  .s-row.green { color: #16a34a; font-weight: 600; }
+  .s-row.s-total { @apply text-[20px] font-bold mt-2; color: #111827; }
+  .s-divider { @apply border-t my-4; border-color: var(--color-border); }
+}

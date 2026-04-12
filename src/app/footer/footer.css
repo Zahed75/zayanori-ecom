@@ -179,21 +179,23 @@
   }
 
   .social-label {
-    @apply text-[12px] font-normal m-0 mt-2;
+    @apply text-[12px] font-semibold m-0 mt-4 mb-2;
     color: #111827;
   }
 
   .social-icons {
-    @apply flex items-center gap-2 mt-1;
+    @apply flex items-center gap-2;
   }
 
   .social-icon-btn {
-    @apply w-9 h-9 bg-white rounded-md flex items-center justify-center no-underline transition-colors;
-    color: var(--color-text-primary);
+    @apply w-10 h-10 rounded-full flex items-center justify-center no-underline transition-all;
+    background: var(--color-brand-purple);
+    color: white;
+    border: 2px solid transparent;
 
-    &:hover { background-color: var(--color-brand-purple); color: white; }
+    &:hover { background: var(--color-brand-deep); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(99,76,159,0.35); }
 
-    i { @apply text-sm; }
+    i { @apply text-[15px]; color: white; }
   }
 
   /* ============================================================
@@ -219,6 +221,12 @@
   .blackrise {
     @apply font-semibold no-underline;
     color: var(--color-brand-purple);
+  }
+
+  .syscomatic-link {
+    @apply font-bold no-underline transition-colors;
+    color: var(--color-brand-purple);
+    &:hover { text-decoration: underline; }
   }
 
   .payment-logos {

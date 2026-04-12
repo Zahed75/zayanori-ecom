@@ -318,4 +318,57 @@
     background: linear-gradient(90deg, #dc2626, #ea580c);
   }
 
+  /* ── User profile action ──────────────────────────────────── */
+  .user-action {
+    @apply relative cursor-pointer select-none;
+  }
+
+  .user-avatar {
+    @apply w-9 h-9 rounded-full flex items-center justify-center text-[13px] font-bold text-white shrink-0;
+    background: linear-gradient(135deg, var(--color-brand-purple), #8b5cf6);
+  }
+
+  /* ── User dropdown ─────────────────────────────────────────── */
+  .user-dropdown {
+    @apply absolute top-[calc(100%+8px)] right-0 bg-white rounded-xl shadow-xl z-50 py-2 min-w-[220px];
+    border: 1px solid var(--color-border);
+  }
+
+  .user-dropdown-header {
+    @apply flex items-center gap-3 px-4 py-3;
+  }
+
+  .ud-avatar {
+    @apply w-10 h-10 rounded-full flex items-center justify-center text-[14px] font-bold text-white shrink-0;
+    background: linear-gradient(135deg, var(--color-brand-purple), #8b5cf6);
+  }
+
+  .ud-name {
+    @apply text-[14px] font-bold;
+    color: #111827;
+  }
+
+  .ud-email {
+    @apply text-[11px];
+    color: var(--color-text-muted);
+  }
+
+  .ud-divider {
+    @apply border-t my-1;
+    border-color: var(--color-border);
+  }
+
+  .ud-item {
+    @apply flex items-center gap-2.5 w-full px-4 py-2.5 text-[13px] font-medium no-underline transition-colors cursor-pointer border-none bg-transparent text-left;
+    color: #374151;
+    &:hover { background: var(--color-bg-subtle); color: var(--color-brand-purple); }
+    i { @apply text-[14px]; color: var(--color-brand-purple); }
+  }
+
+  .ud-signout {
+    color: #dc2626 !important;
+    i { color: #dc2626 !important; }
+    &:hover { background: #fef2f2 !important; color: #dc2626 !important; }
+  }
+
 }

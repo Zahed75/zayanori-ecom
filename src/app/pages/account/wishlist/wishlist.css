@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@layer primeng {
+  .container-site { @apply max-w-[1360px] mx-auto px-6 w-full; }
+  .wishlist-page { @apply py-10 bg-white min-h-[60vh]; }
+  .page-title { @apply text-[28px] font-bold mb-8 flex items-center gap-3; color: #111827; i { color: #dc2626; } }
+  .count-badge { @apply text-[13px] font-bold text-white px-3 py-0.5 rounded-full; background: var(--color-brand-purple); }
+
+  .empty-state { @apply flex flex-col items-center justify-center py-16 gap-4; }
+  .empty-emoji { @apply text-[64px]; }
+  .empty-title { @apply text-[22px] font-bold m-0; color: #111827; }
+  .empty-sub { @apply text-[14px] m-0; color: var(--color-text-muted); }
+  .btn-primary { @apply inline-flex items-center justify-center px-8 py-3 rounded-full text-[14px] font-semibold text-white no-underline cursor-pointer border-none transition-opacity hover:opacity-90; background: var(--color-brand-purple); }
+
+  .wishlist-grid { @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5; }
+  .wish-card { @apply relative rounded-xl border p-4 transition-shadow hover:shadow-lg; border-color: var(--color-border); }
+  .remove-btn { @apply absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer border transition-colors z-10; background: white; border-color: var(--color-border); color: var(--color-text-muted); &:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; } i { @apply text-xs; } }
+  .wish-img-wrap { @apply block w-full h-40 rounded-lg flex items-center justify-center mb-4 no-underline; background: var(--color-bg-subtle); }
+  .wish-emoji { @apply text-[56px]; }
+  .wish-info { @apply flex flex-col gap-1; }
+  .wish-name { @apply text-[15px] font-semibold no-underline truncate; color: #111827; &:hover { color: var(--color-brand-purple); } }
+  .wish-cat { @apply text-[11px] uppercase tracking-wider m-0; color: var(--color-text-muted); }
+  .wish-price-row { @apply flex items-center gap-2 mt-2; }
+  .wish-price { @apply text-[18px] font-bold; color: var(--color-brand-red); }
+  .wish-old { @apply text-[13px] line-through; color: var(--color-text-muted); }
+  .wish-discount { @apply text-[11px] font-bold px-2 py-0.5 rounded; background: #fee2e2; color: #dc2626; }
+  .wish-actions { @apply mt-4; }
+  .btn-add-cart { @apply w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-[13px] font-semibold cursor-pointer border-none transition-colors text-white; background: var(--color-brand-purple); &:hover { opacity: 0.9; } }
+}

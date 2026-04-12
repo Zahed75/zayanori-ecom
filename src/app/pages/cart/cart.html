@@ -1,0 +1,73 @@
+<div class="cart-page">
+  <div class="container-site">
+    <h1 class="page-title">Shopping Cart <span class="item-badge" *ngIf="cart.totalItems()">{{ cart.totalItems() }}</span></h1>
+
+    @if (cart.items().length === 0) {
+      <div class="empty-state">
+        <span class="empty-emoji">🛒</span>
+        <h2 class="empty-title">Your cart is empty</h2>
+        <p class="empty-sub">Looks like you haven't added anything yet.</p>
+        <a routerLink="/" class="btn-primary">Continue Shopping</a>
+      </div>
+    } @else {
+      @if (cart.subtotal() < 50) {
+        <div class="ship-progress-wrap">
+          <p class="ship-msg">Add <strong>${{ freeShipRemaining().toFixed(2) }}</strong> more for <strong>FREE shipping!</strong></p>
+          <div class="ship-bar"><div class="ship-fill" [style.width.%]="freeShipProgress()"></div></div>
+        </div>
+      } @else {
+        <div class="ship-progress-wrap ship-free">
+          <p class="ship-msg"><i class="pi pi-check-circle"></i> You qualify for <strong>FREE shipping!</strong></p>
+        </div>
+      }
+
+      <div class="cart-layout">
+        <div class="cart-items">
+          @for (item of cart.items(); track item.product.id) {
+            <div class="cart-item">
+              <div class="item-img">{{ item.product.emoji }}</div>
+              <div class="item-details">
+                <a [routerLink]="['/product', item.product.id]" class="item-name">{{ item.product.name }}</a>
+                <p class="item-cat">{{ item.product.category }}</p>
+                <p class="item-unit">${{ item.product.price.toFixed(2) }} each</p>
+              </div>
+              <div class="item-qty">
+                <button class="qty-btn" (click)="dec(item.product.id, item.quantity)" [disabled]="item.quantity <= 1">−</button>
+                <span class="qty-num">{{ item.quantity }}</span>
+                <button class="qty-btn" (click)="inc(item.product.id, item.quantity, item.product.stockCount)">+</button>
+              </div>
+              <div class="item-total">${{ (item.product.price * item.quantity).toFixed(2) }}</div>
+              <button class="item-remove" (click)="cart.remove(item.product.id)"><i class="pi pi-times"></i></button>
+            </div>
+          }
+        </div>
+
+        <aside class="cart-summary">
+          <h3 class="summary-title">Order Summary</h3>
+          <div class="s-row"><span>Subtotal</span><span>${{ cart.subtotal().toFixed(2) }}</span></div>
+          @if (cart.savings() > 0) {
+            <div class="s-row green"><span>You Save</span><span>-${{ cart.savings().toFixed(2) }}</span></div>
+          }
+          <div class="s-row"><span>Shipping</span><span>{{ cart.shipping() === 0 ? 'FREE' : '$' + cart.shipping().toFixed(2) }}</span></div>
+          @if (cart.couponDiscount() > 0) {
+            <div class="s-row green">
+              <span>Coupon ({{ cart.activeCoupon()?.code }}) <button class="coupon-x" (click)="cart.removeCoupon()">×</button></span>
+              <span>-${{ cart.couponDiscount().toFixed(2) }}</span>
+            </div>
+          }
+          <div class="coupon-wrap">
+            <input [(ngModel)]="couponCode" placeholder="Coupon code" class="coupon-input" />
+            <button class="coupon-apply" (click)="applyCoupon()">Apply</button>
+          </div>
+          @if (couponMsg) {
+            <p class="coupon-msg" [class.ok]="couponSuccess" [class.err]="!couponSuccess">{{ couponMsg }}</p>
+          }
+          <div class="s-divider"></div>
+          <div class="s-row s-total"><span>Total</span><span>${{ cart.total().toFixed(2) }}</span></div>
+          <a routerLink="/checkout" class="btn-primary btn-full">Proceed to Checkout</a>
+          <a routerLink="/" class="continue-link">← Continue Shopping</a>
+        </aside>
+      </div>
+    }
+  </div>
+</div>

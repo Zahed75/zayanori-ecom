@@ -1,0 +1,41 @@
+<div class="coupons-page">
+  <div class="container-site">
+    <h1 class="page-title"><i class="pi pi-tag"></i> My Coupons</h1>
+    <p class="page-sub">Use these codes at checkout to get discounts on your orders.</p>
+
+    <div class="coupons-grid">
+      @for (coupon of coupons; track coupon.code) {
+        <div class="coupon-card" [class.expired]="isExpired(coupon.expiry)">
+          <div class="coupon-left">
+            <div class="coupon-discount">
+              @if (coupon.type === 'percent') {
+                <span class="disc-num">{{ coupon.discount }}%</span>
+              } @else {
+                <span class="disc-num">${{ coupon.discount }}</span>
+              }
+              <span class="disc-label">OFF</span>
+            </div>
+          </div>
+          <div class="coupon-right">
+            <div class="coupon-header">
+              <span class="coupon-code">{{ coupon.code }}</span>
+              <button class="copy-btn" (click)="copyCode(coupon.code)" [class.copied]="copiedCode() === coupon.code">
+                <i class="pi" [class.pi-copy]="copiedCode() !== coupon.code" [class.pi-check]="copiedCode() === coupon.code"></i>
+                {{ copiedCode() === coupon.code ? 'Copied!' : 'Copy' }}
+              </button>
+            </div>
+            <p class="coupon-desc">{{ coupon.description }}</p>
+            <div class="coupon-meta">
+              @if (coupon.minOrder > 0) {
+                <span class="meta-item"><i class="pi pi-shopping-cart"></i> Min. ${{ coupon.minOrder }}</span>
+              }
+              <span class="meta-item" [class.expired-text]="isExpired(coupon.expiry)">
+                <i class="pi pi-calendar"></i> {{ isExpired(coupon.expiry) ? 'Expired' : 'Valid until ' + formatExpiry(coupon.expiry) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

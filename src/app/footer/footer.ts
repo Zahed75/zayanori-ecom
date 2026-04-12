@@ -1,23 +1,24 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './footer.html',
   styleUrl: './footer.css',
 })
 export class FooterComponent {
   readonly makeMoneyLinks = [
-    'Sell on Grogin',
-    'Sell Your Services on Grogin',
-    'Sell on Grogin Business',
-    'Sell Your Apps on Grogin',
+    'Sell on Zayanori',
+    'Sell Your Services on Zayanori',
+    'Sell on Zayanori Business',
+    'Sell Your Apps on Zayanori',
     'Become an Affiliate',
     'Advertise Your Products',
     'Sell-Publish with Us',
-    'Become an Blowwe Vendor',
+    'Become a Zayanori Vendor',
   ];
 
   readonly helpLinks = [
@@ -33,19 +34,20 @@ export class FooterComponent {
   ];
 
   readonly knowUsLinks = [
-    'Careers for Grogin',
-    'About Grogin',
+    'Careers at Zayanori',
+    'About Zayanori',
     'Investor Relations',
-    'Grogin Devices',
-    'Customer reviews',
+    'Zayanori Devices',
+    'Customer Reviews',
     'Social Responsibility',
     'Store Locations',
   ];
 
   readonly socialLinks = [
-    { icon: 'pi pi-facebook', label: 'Facebook' },
-    { icon: 'pi pi-twitter', label: 'Twitter / X' },
-    { icon: 'pi pi-instagram', label: 'Instagram' },
-    { icon: 'pi pi-linkedin', label: 'LinkedIn' },
+    { icon: 'pi pi-facebook', label: 'Facebook', href: '#' },
+    { icon: 'pi pi-twitter', label: 'Twitter / X', href: '#' },
+    { icon: 'pi pi-instagram', label: 'Instagram', href: '#' },
+    { icon: 'pi pi-linkedin', label: 'LinkedIn', href: '#' },
+    { icon: 'pi pi-youtube', label: 'YouTube', href: '#' },
   ];
 }

@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@layer primeng {
+  .container-site { @apply max-w-[1360px] mx-auto px-6 w-full; }
+  .orders-page { @apply py-10 bg-white min-h-[60vh]; }
+  .page-title { @apply text-[28px] font-bold mb-6 flex items-center gap-3; color: #111827; i { color: var(--color-brand-purple); } }
+
+  /* Tabs */
+  .tabs { @apply flex gap-1 mb-8 p-1 rounded-xl overflow-x-auto; background: var(--color-bg-subtle); }
+  .tab-btn { @apply px-5 py-2.5 rounded-lg text-[13px] font-medium cursor-pointer border-none transition-colors whitespace-nowrap; background: transparent; color: var(--color-text-muted); &.active { background: white; color: var(--color-brand-purple); box-shadow: 0 1px 3px rgba(0,0,0,0.08); } &:hover:not(.active) { color: #111827; } }
+
+  /* Empty */
+  .empty-state { @apply flex flex-col items-center justify-center py-16 gap-4; }
+  .empty-emoji { @apply text-[64px]; }
+  .empty-title { @apply text-[22px] font-bold m-0; color: #111827; }
+  .empty-sub { @apply text-[14px] m-0; color: var(--color-text-muted); }
+  .btn-primary { @apply inline-flex items-center justify-center px-8 py-3 rounded-full text-[14px] font-semibold text-white no-underline cursor-pointer border-none transition-opacity hover:opacity-90; background: var(--color-brand-purple); }
+
+  /* Orders */
+  .orders-list { @apply flex flex-col gap-4; }
+  .order-card { @apply rounded-xl border p-5 transition-shadow hover:shadow-md; border-color: var(--color-border); }
+  .order-header { @apply flex items-center gap-4 flex-wrap mb-4 pb-4; border-bottom: 1px solid var(--color-border); }
+  .order-id { @apply flex flex-col; }
+  .id-label { @apply text-[11px] uppercase tracking-wider; color: var(--color-text-muted); }
+  .id-value { @apply text-[16px] font-bold; color: #111827; }
+  .order-date { @apply text-[13px] flex-1; color: var(--color-text-muted); }
+  .status-badge { @apply px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wide; }
+  .status-processing { background: #fef3c7; color: #92400e; }
+  .status-shipped { background: #dbeafe; color: #1e40af; }
+  .status-delivered { background: #d1fae5; color: #065f46; }
+  .status-cancelled { background: #fee2e2; color: #991b1b; }
+
+  .order-body { @apply flex items-center justify-between flex-wrap gap-4; }
+  .order-details { @apply flex gap-6 flex-wrap; }
+  .detail-item { @apply flex flex-col; }
+  .detail-label { @apply text-[11px] uppercase tracking-wider; color: var(--color-text-muted); }
+  .detail-value { @apply text-[14px] font-medium; color: #111827; &.coupon { color: var(--color-brand-purple); } }
+  .order-total { @apply text-right; }
+  .total-label { @apply block text-[11px] uppercase tracking-wider; color: var(--color-text-muted); }
+  .total-value { @apply text-[22px] font-bold; color: var(--color-brand-red); }
+
+  .order-actions { @apply flex gap-3 mt-4 pt-4; border-top: 1px solid var(--color-border); }
+  .btn-cancel { @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-semibold cursor-pointer transition-colors border-none; background: #fee2e2; color: #dc2626; &:hover { background: #fecaca; } }
+  .btn-reorder { @apply inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-semibold no-underline cursor-pointer transition-colors border-none; background: #ecfdf5; color: #16a34a; &:hover { background: #d1fae5; } }
+}

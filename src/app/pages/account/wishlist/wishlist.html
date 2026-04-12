@@ -1,0 +1,41 @@
+<div class="wishlist-page">
+  <div class="container-site">
+    <h1 class="page-title"><i class="pi pi-heart-fill"></i> My Wishlist <span class="count-badge" *ngIf="wishlist.count()">{{ wishlist.count() }}</span></h1>
+
+    @if (wishlist.items().length === 0) {
+      <div class="empty-state">
+        <span class="empty-emoji">💝</span>
+        <h2 class="empty-title">Your wishlist is empty</h2>
+        <p class="empty-sub">Save items you love for later.</p>
+        <a routerLink="/" class="btn-primary">Explore Products</a>
+      </div>
+    } @else {
+      <div class="wishlist-grid">
+        @for (item of wishlist.items(); track item.product.id) {
+          <div class="wish-card">
+            <button class="remove-btn" (click)="wishlist.remove(item.product.id)"><i class="pi pi-times"></i></button>
+            <a [routerLink]="['/product', item.product.id]" class="wish-img-wrap">
+              <span class="wish-emoji">{{ item.product.emoji }}</span>
+            </a>
+            <div class="wish-info">
+              <a [routerLink]="['/product', item.product.id]" class="wish-name">{{ item.product.name }}</a>
+              <p class="wish-cat">{{ item.product.category }}</p>
+              <div class="wish-price-row">
+                <span class="wish-price">${{ item.product.price.toFixed(2) }}</span>
+                @if (item.product.oldPrice > item.product.price) {
+                  <span class="wish-old">${{ item.product.oldPrice.toFixed(2) }}</span>
+                  <span class="wish-discount">-{{ item.product.discount }}%</span>
+                }
+              </div>
+              <div class="wish-actions">
+                <button class="btn-add-cart" (click)="removeAndAddToCart(item.product)">
+                  <i class="pi pi-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

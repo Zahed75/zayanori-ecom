@@ -46,6 +46,23 @@
     i { @apply text-[11px]; }
   }
 
+  /* White minimal rounded View All button */
+  .btn-view-all {
+    @apply inline-flex items-center gap-2 px-5 py-2 rounded-full text-[13px] font-semibold no-underline transition-all border cursor-pointer;
+    background: white;
+    border-color: var(--color-border);
+    color: #374151;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+
+    &:hover {
+      border-color: var(--color-brand-purple);
+      color: var(--color-brand-purple);
+      box-shadow: 0 2px 8px rgba(99,76,159,0.15);
+    }
+
+    i { @apply text-[11px]; }
+  }
+
   /* ── Best-seller tabs ─────────────────────────────────────── */
   .bs-tabs {
     @apply flex items-center gap-1 flex-wrap;
@@ -176,9 +193,10 @@
 
   /* Image area */
   .product-image-area {
-    @apply flex items-center justify-center pt-8 pb-4;
+    @apply flex items-center justify-center pt-8 pb-4 no-underline;
     background-color: var(--color-bg-subtle);
     min-height: 140px;
+    display: flex;
   }
 
   .product-emoji {
@@ -192,11 +210,12 @@
   }
 
   .product-action-btn {
-    @apply w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm border cursor-pointer transition-colors;
+    @apply w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm border cursor-pointer transition-colors no-underline;
     border-color: var(--color-border);
     color: var(--color-text-muted);
 
     &:hover { background-color: var(--color-brand-purple); color: white; border-color: var(--color-brand-purple); }
+    &.wishlist-active { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
     i { @apply text-xs; }
   }
 
@@ -211,8 +230,9 @@
   }
 
   .product-name {
-    @apply text-[14px] font-semibold m-0 leading-snug line-clamp-2;
+    @apply text-[14px] font-semibold leading-snug line-clamp-2 no-underline block;
     color: var(--color-text-primary);
+    &:hover { color: var(--color-brand-purple); }
   }
 
   /* Stars */

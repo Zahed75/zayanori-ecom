@@ -1,0 +1,16 @@
+@import "tailwindcss";
+@layer primeng {
+  .container-site { @apply max-w-[1360px] mx-auto px-6 w-full; }
+  .success-page { @apply py-16 bg-white min-h-[60vh] flex items-center justify-center; }
+  .success-card { @apply text-center max-w-[500px] mx-auto p-10 rounded-2xl border; border-color: var(--color-border); }
+  .check-circle { @apply w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center; background: #ecfdf5; i { @apply text-[36px]; color: #16a34a; } }
+  .success-title { @apply text-[26px] font-bold m-0 mb-2; color: #111827; }
+  .success-sub { @apply text-[14px] m-0 mb-8; color: var(--color-text-muted); }
+  .order-info { @apply text-left rounded-lg p-5 mb-8; background: var(--color-bg-subtle); }
+  .info-row { @apply flex justify-between py-2; &:not(:last-child) { border-bottom: 1px solid var(--color-border); } }
+  .info-label { @apply text-[13px]; color: var(--color-text-muted); }
+  .info-value { @apply text-[14px] font-semibold; color: #111827; &.price { color: var(--color-brand-red); } }
+  .success-actions { @apply flex flex-col sm:flex-row gap-3 justify-center; }
+  .btn-primary { @apply inline-flex items-center justify-center px-8 py-3 rounded-full text-[14px] font-semibold text-white no-underline cursor-pointer border-none transition-opacity hover:opacity-90; background: var(--color-brand-purple); }
+  .btn-outline { @apply inline-flex items-center justify-center px-8 py-3 rounded-full text-[14px] font-semibold no-underline cursor-pointer transition-colors; background: white; border: 1px solid var(--color-border); color: #374151; &:hover { border-color: var(--color-brand-purple); color: var(--color-brand-purple); } }
+}

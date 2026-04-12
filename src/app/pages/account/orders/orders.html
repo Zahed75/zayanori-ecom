@@ -1,0 +1,74 @@
+<div class="orders-page">
+  <div class="container-site">
+    <h1 class="page-title"><i class="pi pi-box"></i> My Orders</h1>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      @for (tab of tabs; track tab.key) {
+        <button class="tab-btn" [class.active]="activeTab() === tab.key" (click)="setTab(tab.key)">
+          {{ tab.label }}
+        </button>
+      }
+    </div>
+
+    @if (filteredOrders().length === 0) {
+      <div class="empty-state">
+        <span class="empty-emoji">📦</span>
+        <h2 class="empty-title">No orders found</h2>
+        <p class="empty-sub">You haven't placed any orders yet.</p>
+        <a routerLink="/" class="btn-primary">Start Shopping</a>
+      </div>
+    } @else {
+      <div class="orders-list">
+        @for (order of filteredOrders(); track order.id) {
+          <div class="order-card">
+            <div class="order-header">
+              <div class="order-id">
+                <span class="id-label">Order</span>
+                <span class="id-value">#{{ order.id }}</span>
+              </div>
+              <div class="order-date">{{ formatDate(order.createdAt) }}</div>
+              <span class="status-badge" [ngClass]="getStatusClass(order.status)">{{ order.status }}</span>
+            </div>
+
+            <div class="order-body">
+              <div class="order-details">
+                <div class="detail-item">
+                  <span class="detail-label">Items</span>
+                  <span class="detail-value">{{ order.items.length || '—' }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Payment</span>
+                  <span class="detail-value">{{ order.paymentMethod }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Shipping</span>
+                  <span class="detail-value">{{ order.shipping === 0 ? 'Free' : '$' + order.shipping.toFixed(2) }}</span>
+                </div>
+                @if (order.couponApplied) {
+                  <div class="detail-item">
+                    <span class="detail-label">Coupon</span>
+                    <span class="detail-value coupon">{{ order.couponApplied }}</span>
+                  </div>
+                }
+              </div>
+              <div class="order-total">
+                <span class="total-label">Total</span>
+                <span class="total-value">${{ order.total.toFixed(2) }}</span>
+              </div>
+            </div>
+
+            <div class="order-actions">
+              @if (order.status === 'processing') {
+                <button class="btn-cancel" (click)="cancelOrder(order.id)"><i class="pi pi-times"></i> Cancel Order</button>
+              }
+              @if (order.status === 'delivered') {
+                <a routerLink="/" class="btn-reorder"><i class="pi pi-refresh"></i> Reorder</a>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

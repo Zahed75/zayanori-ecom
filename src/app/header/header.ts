@@ -1,27 +1,32 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { CartService } from '../services/cart.service';
+import { WishlistService } from '../services/wishlist.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class HeaderComponent {
+  readonly cart = inject(CartService);
+  readonly wishlist = inject(WishlistService);
+  readonly auth = inject(AuthService);
+
   // ── Countdown Timer (notification bar) ───────────────────
   readonly countdown = signal({ days: 47, hours: 6, minutes: 55, seconds: 51 });
 
-  // ── Cart / Wishlist badge counts ─────────────────────────
-  readonly cartCount = signal(0);
-  readonly wishlistCount = signal(0);
-
-  // ── Category dropdown visibility ─────────────────────────
+  // ── UI state ─────────────────────────────────────────────
   readonly showCategories = signal(false);
+  readonly showUserMenu = signal(false);
 
   // ── Navigation links ─────────────────────────────────────
   readonly navLinks: { label: string; active: boolean; dropdown: boolean; badge?: string; red?: boolean }[] = [
-    { label: 'Home', active: true, dropdown: true },
+    { label: 'Home', active: true, dropdown: false },
     { label: 'Shop', active: false, dropdown: true },
     { label: 'Fruits & Vegetables', active: false, dropdown: false },
     { label: 'Beverages', active: false, dropdown: false },
@@ -66,5 +71,21 @@ export class HeaderComponent {
 
   toggleCategories(): void {
     this.showCategories.update(v => !v);
+    if (this.showUserMenu()) this.showUserMenu.set(false);
+  }
+
+  toggleUserMenu(): void {
+    this.showUserMenu.update(v => !v);
+    if (this.showCategories()) this.showCategories.set(false);
+  }
+
+  signOut(): void {
+    this.auth.signOut();
+    this.showUserMenu.set(false);
+  }
+
+  getUserInitials(): string {
+    const name = this.auth.currentUser()?.name || '';
+    return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
   }
 }

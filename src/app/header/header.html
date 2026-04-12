@@ -27,14 +27,14 @@
 </div>
 
 <!-- ============================================================
-     2. TOP LINKS BAR  (about, account, wishlist | delivery hours | lang/currency)
+     2. TOP LINKS BAR
      ============================================================ -->
 <div class="top-bar">
   <div class="container-site">
     <div class="top-bar-left">
-      <a href="#" class="top-link">About Us</a>
-      <a href="#" class="top-link">My account</a>
-      <a href="#" class="top-link">Wishlist</a>
+      <a routerLink="/account/orders" class="top-link">My Orders</a>
+      <a routerLink="/account/wishlist" class="top-link">Wishlist</a>
+      <a routerLink="/account/coupons" class="top-link">Coupons</a>
       <span class="top-divider">
         We deliver to you every day from
         <strong class="delivery-time">7:00 to 23:00</strong>
@@ -49,7 +49,7 @@
         USD
         <i class="pi pi-chevron-down top-chevron"></i>
       </span>
-      <a href="#" class="top-link">Order Tracking</a>
+      <a routerLink="/account/orders" class="top-link">Order Tracking</a>
     </div>
   </div>
 </div>
@@ -61,13 +61,13 @@
   <div class="container-site main-header-inner">
 
     <!-- Logo -->
-    <a href="/" class="logo-wrap">
+    <a routerLink="/" class="logo-wrap">
       <div class="logo-icon">
         <span>🛒</span>
       </div>
       <div class="logo-text-wrap">
-        <span class="logo-brand">ShopStore</span>
-        <span class="logo-tld">com</span>
+        <span class="logo-brand">Zayanori</span>
+        <span class="logo-tld">store</span>
       </div>
     </a>
 
@@ -93,30 +93,81 @@
       </button>
     </div>
 
-    <!-- Account -->
-    <div class="header-action">
-      <i class="pi pi-user header-action-icon"></i>
-      <div class="header-action-text">
-        <span class="action-label">Sign In</span>
-        <span class="action-value">Account</span>
-      </div>
+    <!-- Account / User Profile -->
+    <div class="header-action user-action" (click)="toggleUserMenu()">
+      @if (auth.isLoggedIn()) {
+        <div class="user-avatar">{{ getUserInitials() }}</div>
+        <div class="header-action-text">
+          <span class="action-label">Hello,</span>
+          <span class="action-value">{{ (auth.currentUser()?.name ?? '').split(' ')[0] }}</span>
+        </div>
+      } @else {
+        <i class="pi pi-user header-action-icon"></i>
+        <div class="header-action-text">
+          <span class="action-label">Sign In</span>
+          <span class="action-value">Account</span>
+        </div>
+      }
+
+      <!-- User Dropdown Menu -->
+      @if (showUserMenu()) {
+        <div class="user-dropdown">
+          @if (auth.isLoggedIn()) {
+            <div class="user-dropdown-header">
+              <div class="ud-avatar">{{ getUserInitials() }}</div>
+              <div>
+                <div class="ud-name">{{ auth.currentUser()?.name }}</div>
+                <div class="ud-email">{{ auth.currentUser()?.email }}</div>
+              </div>
+            </div>
+            <div class="ud-divider"></div>
+            <a routerLink="/account/orders" class="ud-item" (click)="showUserMenu.set(false)">
+              <i class="pi pi-box"></i> My Orders
+            </a>
+            <a routerLink="/account/orders" class="ud-item" (click)="showUserMenu.set(false)">
+              <i class="pi pi-times-circle"></i> Cancelled Orders
+            </a>
+            <a routerLink="/account/wishlist" class="ud-item" (click)="showUserMenu.set(false)">
+              <i class="pi pi-heart"></i> Wishlist
+            </a>
+            <a routerLink="/account/coupons" class="ud-item" (click)="showUserMenu.set(false)">
+              <i class="pi pi-tag"></i> My Coupons
+            </a>
+            <div class="ud-divider"></div>
+            <button class="ud-item ud-signout" (click)="signOut()">
+              <i class="pi pi-sign-out"></i> Sign Out
+            </button>
+          } @else {
+            <a routerLink="/auth/signin" class="ud-item" (click)="showUserMenu.set(false)">
+              <i class="pi pi-sign-in"></i> Sign In
+            </a>
+            <a routerLink="/auth/signup" class="ud-item" (click)="showUserMenu.set(false)">
+              <i class="pi pi-user-plus"></i> Create Account
+            </a>
+          }
+        </div>
+      }
     </div>
 
     <!-- Wishlist -->
-    <div class="header-action header-action--icon-only">
+    <a routerLink="/account/wishlist" class="header-action header-action--icon-only">
       <div class="icon-badge-wrap">
         <i class="pi pi-heart header-action-icon"></i>
-        <span class="badge-dot red-badge">{{ wishlistCount() }}</span>
+        @if (wishlist.count() > 0) {
+          <span class="badge-dot red-badge">{{ wishlist.count() }}</span>
+        }
       </div>
-    </div>
+    </a>
 
     <!-- Cart -->
-    <div class="header-action header-action--icon-only">
+    <a routerLink="/cart" class="header-action header-action--icon-only">
       <div class="icon-badge-wrap">
         <i class="pi pi-shopping-cart header-action-icon"></i>
-        <span class="badge-dot red-badge">{{ cartCount() }}</span>
+        @if (cart.totalItems() > 0) {
+          <span class="badge-dot red-badge">{{ cart.totalItems() }}</span>
+        }
       </div>
-    </div>
+    </a>
 
   </div>
 </div>
@@ -162,7 +213,7 @@
     <nav class="nav-links" aria-label="Main navigation">
       @for (link of navLinks; track link.label) {
         <a
-          href="#"
+          routerLink="/"
           class="nav-link"
           [class.nav-link--active]="link.active"
           [class.nav-link--red]="link['red']"

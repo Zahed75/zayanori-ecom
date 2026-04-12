@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@layer primeng {
+  .container-site { @apply max-w-[1360px] mx-auto px-6 w-full; }
+  .coupons-page { @apply py-10 bg-white min-h-[60vh]; }
+  .page-title { @apply text-[28px] font-bold mb-2 flex items-center gap-3; color: #111827; i { color: var(--color-brand-purple); } }
+  .page-sub { @apply text-[14px] mb-8 m-0; color: var(--color-text-muted); }
+
+  .coupons-grid { @apply flex flex-col gap-4; }
+  .coupon-card { @apply flex rounded-xl border overflow-hidden transition-shadow hover:shadow-md; border-color: var(--color-border); &.expired { opacity: 0.55; } }
+  .coupon-left { @apply w-[120px] shrink-0 flex items-center justify-center; background: linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-deep)); position: relative;
+    &::after { content: ''; position: absolute; right: -8px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; background: white; border-radius: 50%; }
+  }
+  .coupon-discount { @apply flex flex-col items-center text-white; }
+  .disc-num { @apply text-[28px] font-bold leading-none; }
+  .disc-label { @apply text-[11px] font-bold uppercase tracking-wider mt-1; }
+
+  .coupon-right { @apply flex-1 p-5; }
+  .coupon-header { @apply flex items-center justify-between mb-2; }
+  .coupon-code { @apply text-[16px] font-bold tracking-wider; color: var(--color-brand-purple); }
+  .copy-btn { @apply flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold cursor-pointer border transition-colors; background: var(--color-bg-subtle); border-color: var(--color-border); color: #374151; &:hover { border-color: var(--color-brand-purple); color: var(--color-brand-purple); } &.copied { background: #ecfdf5; border-color: #16a34a; color: #16a34a; } }
+  .coupon-desc { @apply text-[13px] m-0 mb-3; color: #374151; line-height: 1.5; }
+  .coupon-meta { @apply flex gap-4 flex-wrap; }
+  .meta-item { @apply text-[12px] flex items-center gap-1; color: var(--color-text-muted); &.expired-text { color: #dc2626; } i { @apply text-[11px]; } }
+}

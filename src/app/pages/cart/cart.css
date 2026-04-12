@@ -1,0 +1,43 @@
+@import "tailwindcss";
+@layer primeng {
+  .container-site { @apply max-w-[1360px] mx-auto px-6 w-full; }
+  .cart-page { @apply py-10 bg-white min-h-[60vh]; }
+  .page-title { @apply text-[28px] font-bold mb-6 flex items-center gap-3; color: #111827; }
+  .item-badge { @apply text-[13px] font-bold text-white px-3 py-0.5 rounded-full; background: var(--color-brand-purple); }
+  .empty-state { @apply flex flex-col items-center justify-center py-20 gap-4; }
+  .empty-emoji { @apply text-[80px]; }
+  .empty-title { @apply text-[24px] font-bold m-0; color: #111827; }
+  .empty-sub { @apply text-[14px] m-0; color: var(--color-text-muted); }
+  .btn-primary { @apply inline-flex items-center justify-center px-8 py-3 rounded-full text-[14px] font-semibold text-white no-underline cursor-pointer border-none transition-opacity hover:opacity-90; background: var(--color-brand-purple); }
+  .btn-full { @apply w-full mt-5 py-3.5; }
+  .ship-progress-wrap { @apply rounded-xl p-4 mb-6; background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .ship-progress-wrap.ship-free { background: #ecfdf5; }
+  .ship-msg { @apply text-[13px] m-0 mb-2; color: #166534; i { @apply mr-1; color: #16a34a; } }
+  .ship-bar { @apply h-2 rounded-full overflow-hidden; background: #d1fae5; }
+  .ship-fill { @apply h-full rounded-full transition-all duration-500; background: #16a34a; }
+  .cart-layout { @apply flex flex-col lg:flex-row gap-8; }
+  .cart-items { @apply flex-1 flex flex-col gap-4; }
+  .cart-item { @apply flex items-center gap-4 p-4 rounded-xl border transition-shadow hover:shadow-md; border-color: var(--color-border); }
+  .item-img { @apply text-[44px] w-16 h-16 flex items-center justify-center shrink-0 rounded-lg; background: var(--color-bg-subtle); }
+  .item-details { @apply flex-1 min-w-0; }
+  .item-name { @apply text-[15px] font-semibold no-underline block truncate; color: #111827; &:hover { color: var(--color-brand-purple); } }
+  .item-cat { @apply text-[11px] uppercase tracking-wider m-0 mt-0.5; color: var(--color-text-muted); }
+  .item-unit { @apply text-[13px] m-0 mt-1; color: var(--color-text-muted); }
+  .item-qty { @apply flex items-center gap-0 shrink-0; }
+  .qty-btn { @apply w-9 h-9 flex items-center justify-center text-[18px] font-bold cursor-pointer border transition-colors rounded-lg; background: var(--color-bg-subtle); border-color: var(--color-border); color: #111827; &:hover:not(:disabled) { background: var(--color-brand-purple); color: white; border-color: var(--color-brand-purple); } &:disabled { opacity: 0.3; cursor: not-allowed; } }
+  .qty-num { @apply w-10 text-center text-[16px] font-bold; }
+  .item-total { @apply text-[18px] font-bold w-24 text-right shrink-0; color: var(--color-brand-red); }
+  .item-remove { @apply w-8 h-8 rounded-full flex items-center justify-center cursor-pointer border transition-colors shrink-0; background: white; border-color: var(--color-border); color: var(--color-text-muted); &:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; } i { @apply text-xs; } }
+  .cart-summary { @apply w-full lg:w-[380px] shrink-0 p-6 rounded-xl border self-start lg:sticky lg:top-6; border-color: var(--color-border); background: #fafafa; }
+  .summary-title { @apply text-[18px] font-bold m-0 mb-5; }
+  .s-row { @apply flex justify-between text-[14px] mb-3; color: #374151; }
+  .s-row.green { color: #16a34a; font-weight: 600; }
+  .s-row.s-total { @apply text-[20px] font-bold mt-2; color: #111827; }
+  .s-divider { @apply border-t my-4; border-color: var(--color-border); }
+  .coupon-wrap { @apply flex gap-2 mt-4 mb-2; }
+  .coupon-input { @apply flex-1 h-10 px-3 rounded-lg border text-[13px] outline-none; border-color: var(--color-border); &:focus { border-color: var(--color-brand-purple); } }
+  .coupon-apply { @apply px-4 h-10 rounded-lg text-[13px] font-semibold cursor-pointer border-none text-white; background: var(--color-brand-purple); }
+  .coupon-msg { @apply text-[12px] m-0 mt-1 font-medium; &.ok { color: #16a34a; } &.err { color: #dc2626; } }
+  .coupon-x { @apply ml-2 text-[14px] cursor-pointer border-none bg-transparent font-bold; color: #dc2626; }
+  .continue-link { @apply block text-center text-[13px] mt-3 no-underline; color: var(--color-brand-purple); }
+}
