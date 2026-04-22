@@ -26,11 +26,11 @@ COPY . .
 # Ensure all files are readable
 RUN chmod -R 755 /backend
 
-# Create uploads directory
-RUN mkdir -p /backend/uploads
+# List files for debugging (can be removed later)
+RUN ls -R /backend
 
 # Expose port
 EXPOSE 8000
 
 # Command to run the application
-CMD ["uvicorn", "main:app", "--app-dir", "app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
