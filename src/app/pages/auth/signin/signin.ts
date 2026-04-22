@@ -28,25 +28,28 @@ export class SignInComponent {
     this.showPassword.update(v => !v);
   }
 
-  async signIn(): Promise<void> {
+  signIn(): void {
     this.errorMessage.set('');
     if (!this.email() || !this.password()) {
       this.errorMessage.set('Please enter your email and password.');
       return;
     }
     this.loading.set(true);
-    await new Promise(r => setTimeout(r, 800));
-    const result = this.auth.signIn(this.email(), this.password());
-    this.loading.set(false);
-    if (result.success) {
-      this.router.navigate(['/']);
-    } else {
-      this.errorMessage.set(result.message);
-    }
+    
+    this.auth.signIn(this.email(), this.password()).subscribe({
+      next: (res) => {
+        this.loading.set(false);
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.errorMessage.set(err.error?.detail || 'Invalid credentials. Please try again.');
+      }
+    });
   }
 
   signInWithGoogle(): void {
-    this.auth.signIn('google.user@gmail.com', 'google-oauth');
-    this.router.navigate(['/']);
+    // Note: A real backend would need a Google OAuth endpoint
+    this.errorMessage.set('Google Sign-In is not currently configured.');
   }
 }

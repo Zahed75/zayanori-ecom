@@ -69,7 +69,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       const product = this.productService.getById(id);
       if (product) {
         this.product.set(product);
-        this.relatedProducts.set(this.productService.getRelated(product, 4));
+        this.relatedProducts.set(this.productService.getRelated(product, 4)());
         this.quantity.set(1);
         this.selectedImageIndex.set(0);
       }

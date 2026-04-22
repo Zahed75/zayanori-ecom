@@ -2,432 +2,389 @@
 
 @layer primeng {
 
-  .container-site {
-    @apply max-w-[1360px] mx-auto px-6 w-full;
-  }
+  .container-site { @apply max-w-[1360px] mx-auto px-6 w-full; }
+  .home-body { font-family: var(--font-primary); background: #fff; }
 
-  .home-body {
-    @apply bg-white;
-    font-family: var(--font-primary);
-  }
-
-  /* ── Shared section spacing ───────────────────────────────── */
-  .section {
-    @apply py-10;
-    border-bottom: 1px solid var(--color-border);
-  }
-
+  /* ── Section base ── */
+  .section { @apply py-12; border-bottom: 1px solid #f1f5f9; }
   .mt-4 { margin-top: 1rem; }
 
-  /* ── Section header ───────────────────────────────────────── */
   .section-header {
-    @apply flex items-center justify-between mb-6 flex-wrap gap-3;
+    @apply flex items-center justify-between mb-8 flex-wrap gap-4;
   }
-
-  .section-title-wrap {
-    @apply flex flex-col gap-0.5;
-  }
-
+  .section-title-wrap { @apply flex flex-col gap-0.5; }
   .section-eyebrow {
-    @apply text-[12px] font-medium tracking-wider uppercase;
-    color: var(--color-text-muted);
-  }
-
-  .section-title {
-    @apply text-[22px] font-bold tracking-[-0.4px] m-0;
-    color: #111827;
-  }
-
-  .view-all-link {
-    @apply flex items-center gap-1.5 text-[13px] font-semibold no-underline transition-colors;
+    @apply text-[11px] font-black uppercase tracking-[0.12em];
     color: var(--color-brand-purple);
-
-    &:hover { opacity: 0.8; }
-    i { @apply text-[11px]; }
   }
-
-  /* White minimal rounded View All button */
+  .section-title {
+    @apply text-[26px] font-black tracking-tight m-0;
+    color: #0f172a;
+  }
   .btn-view-all {
-    @apply inline-flex items-center gap-2 px-5 py-2 rounded-full text-[13px] font-semibold no-underline transition-all border cursor-pointer;
-    background: white;
-    border-color: var(--color-border);
-    color: #374151;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-
-    &:hover {
-      border-color: var(--color-brand-purple);
-      color: var(--color-brand-purple);
-      box-shadow: 0 2px 8px rgba(99,76,159,0.15);
-    }
-
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-bold no-underline transition-all border cursor-pointer;
+    background: white; border-color: #e2e8f0; color: #475569;
+    &:hover { border-color: var(--color-brand-purple); color: var(--color-brand-purple); box-shadow: 0 4px 12px rgba(99,76,159,0.12); }
     i { @apply text-[11px]; }
   }
 
-  /* ── Best-seller tabs ─────────────────────────────────────── */
-  .bs-tabs {
-    @apply flex items-center gap-1 flex-wrap;
-  }
-
+  /* ── Best-seller tabs ── */
+  .bs-tabs { @apply flex items-center gap-1.5 flex-wrap; }
   .bs-tab {
-    @apply px-4 py-1.5 rounded-full text-[13px] font-medium cursor-pointer border transition-colors;
-    border-color: var(--color-border);
-    color: var(--color-text-muted);
-    background: white;
-
+    @apply px-4 py-1.5 rounded-full text-[13px] font-semibold cursor-pointer border transition-all;
+    border-color: #e2e8f0; color: #64748b; background: white;
     &:hover { border-color: var(--color-brand-purple); color: var(--color-brand-purple); }
   }
-
   .bs-tab--active {
-    background-color: var(--color-brand-purple) !important;
-    color: white !important;
-    border-color: var(--color-brand-purple) !important;
+    background: var(--color-brand-purple) !important;
+    color: white !important; border-color: var(--color-brand-purple) !important;
+    box-shadow: 0 4px 12px rgba(99,76,159,0.3);
   }
 
   /* ============================================================
-     PROMO BANNERS  (3 cards)
+     CATEGORIES GRID
      ============================================================ */
-  .promo-banners-section {
-    @apply py-8;
-  }
-
-  .promo-banners-grid {
-    @apply grid grid-cols-1 md:grid-cols-3 gap-5;
-  }
-
-  .promo-banner-card {
-    @apply flex items-center justify-between rounded-xl px-6 py-5 gap-4 overflow-hidden relative;
-    min-height: 160px;
-  }
-
-  .promo-banner-copy {
-    @apply flex flex-col gap-2 flex-1;
-  }
-
-  .promo-banner-badge {
-    @apply text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded w-fit;
-    background: rgba(255,255,255,0.7);
-    color: var(--color-brand-purple);
-  }
-
-  .promo-banner-title {
-    @apply text-[18px] font-bold leading-snug m-0;
-    color: #111827;
-  }
-
-  .promo-banner-sub {
-    @apply text-[12px] leading-relaxed m-0 opacity-70;
-    color: #374151;
-  }
-
-  .promo-cta {
-    @apply flex items-center gap-1.5 text-[13px] font-semibold no-underline w-fit mt-1;
-    color: var(--color-brand-purple);
-
-    i { @apply text-[11px]; }
-    &:hover { opacity: 0.75; }
-  }
-
-  .promo-banner-visual {
-    @apply text-[72px] shrink-0 select-none;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));
-  }
-
-  /* ============================================================
-     PRODUCT GRID
-     ============================================================ */
-  .products-grid {
-    @apply grid gap-4;
-  }
-
-  .products-grid--6 {
+  .categories-section { @apply py-10; border-bottom: 1px solid #f1f5f9; }
+  .categories-grid {
+    display: grid;
     grid-template-columns: repeat(6, 1fr);
-
-    @media (max-width: 1280px) { grid-template-columns: repeat(4, 1fr); }
-    @media (max-width: 900px)  { grid-template-columns: repeat(3, 1fr); }
-    @media (max-width: 600px)  { grid-template-columns: repeat(2, 1fr); }
+    gap: 12px;
+    @media (max-width: 1024px) { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 640px) { grid-template-columns: repeat(3, 1fr); }
   }
+  .cat-card {
+    @apply flex flex-col items-center gap-2 p-4 rounded-2xl no-underline transition-all border border-transparent cursor-pointer;
+    &:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); border-color: rgba(99,76,159,0.2); }
+  }
+  .cat-card-emoji { @apply text-[36px] select-none; }
+  .cat-card-name { @apply text-[12px] font-bold text-center leading-tight; color: #374151; }
 
+  /* ============================================================
+     PROMO BANNERS
+     ============================================================ */
+  .promo-banners-section { @apply py-10; border-bottom: 1px solid #f1f5f9; }
+  .promo-banners-grid { @apply grid grid-cols-1 md:grid-cols-3 gap-5; }
+  .promo-banner-card {
+    @apply flex items-center justify-between rounded-2xl px-7 py-6 gap-4 overflow-hidden relative;
+    min-height: 160px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    &:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+  }
+  .promo-banner-copy { @apply flex flex-col gap-2 flex-1; }
+  .promo-banner-badge {
+    @apply text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-lg w-fit;
+    background: rgba(255,255,255,0.85); color: var(--color-brand-purple);
+  }
+  .promo-banner-title { @apply text-[18px] font-black leading-snug m-0; color: #1e293b; }
+  .promo-banner-sub { @apply text-[12px] leading-relaxed m-0 opacity-70; color: #374151; }
+  .promo-cta {
+    @apply flex items-center gap-2 text-[13px] font-bold no-underline w-fit mt-1 transition-all;
+    color: var(--color-brand-purple);
+    i { @apply text-[11px]; transition: transform 0.2s; }
+    &:hover { opacity: 0.8; i { transform: translateX(3px); } }
+  }
+  .promo-banner-visual { @apply text-[68px] select-none shrink-0; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.1)); }
+
+  /* ============================================================
+     DEAL BANNERS
+     ============================================================ */
+  .deal-banners-section { @apply py-10; border-bottom: 1px solid #f1f5f9; }
+  .deal-banners-grid { @apply grid grid-cols-1 md:grid-cols-2 gap-5; }
+  .deal-banner-card {
+    @apply flex items-center justify-between rounded-2xl px-8 py-8 gap-6 overflow-hidden;
+    min-height: 180px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    &:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+  }
+  .deal-banner-copy { @apply flex flex-col gap-3 flex-1; }
+  .deal-banner-title { @apply text-[22px] font-black leading-snug m-0; color: #1e293b; }
+  .deal-banner-sub { @apply text-[13px] m-0 opacity-70; color: #374151; }
+  .deal-banner-visual { @apply text-[80px] select-none shrink-0; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.08)); }
+
+  /* ============================================================
+     PRODUCTS GRID
+     ============================================================ */
+  .products-grid { @apply grid gap-5; }
+  .products-grid--5 {
+    grid-template-columns: repeat(5, 1fr);
+    @media (max-width: 1280px) { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 1024px) { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 640px)  { grid-template-columns: repeat(2, 1fr); }
+  }
   .products-grid--4 {
     grid-template-columns: repeat(4, 1fr);
-
-    @media (max-width: 900px)  { grid-template-columns: repeat(3, 1fr); }
-    @media (max-width: 600px)  { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 1024px) { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 640px)  { grid-template-columns: repeat(2, 1fr); }
   }
 
-  /* ── Product Card ─────────────────────────────────────────── */
+  /* ── Skeleton ── */
+  .skeleton-card {
+    @apply rounded-2xl overflow-hidden border;
+    border-color: #f1f5f9;
+    animation: skeletonPulse 1.6s ease-in-out infinite;
+  }
+  .skeleton-img { @apply h-44 bg-slate-100; }
+  .skeleton-body { @apply p-4 flex flex-col gap-3; }
+  .skeleton-line { @apply h-3 rounded-full bg-slate-100; }
+  .w-40 { width: 40%; }
+  .w-60 { width: 60%; }
+  .w-80 { width: 80%; }
+  @keyframes skeletonPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* ============================================================
+     PRODUCT CARD (Premium E-Commerce Redesign)
+     ============================================================ */
   .product-card {
-    @apply relative rounded-xl border overflow-hidden flex flex-col transition-shadow duration-200 cursor-pointer;
-    border-color: var(--color-border);
-    background: white;
+    @apply relative bg-white flex flex-col transition-all duration-500 cursor-pointer h-full;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0,0,0,0.03);
 
     &:hover {
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-
-      .product-actions { @apply opacity-100; }
-      .product-emoji   { transform: scale(1.08); }
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      transform: translateY(-6px);
+      
+      .product-actions { opacity: 1; transform: translateY(0); }
+      .product-img-element { transform: scale(1.05); }
+      .btn-add-cart-full { background: var(--color-brand-purple); color: white; border-color: var(--color-brand-purple); }
     }
   }
 
-  /* Discount badge — top-left */
   .product-discount-badge {
-    @apply absolute top-3 left-3 z-10 text-[11px] font-bold text-white px-2 py-0.5 rounded-md;
-    background-color: var(--color-brand-red);
+    @apply absolute top-4 left-4 z-20 text-[11px] font-black text-white px-3 py-1.5 rounded-full;
+    background: #ef4444;
+    box-shadow: 0 4px 10px rgba(239,68,68,0.3);
   }
-
-  /* Type badge — top-right */
   .product-type-badge {
-    @apply absolute top-3 right-3 z-10 text-[10px] font-bold px-2 py-0.5 rounded-md;
-    background-color: var(--color-brand-green-bg);
-    color: var(--color-brand-green);
+    @apply absolute top-4 right-4 z-20 text-[10px] font-black text-white px-3 py-1.5 rounded-full uppercase tracking-widest;
+    background: #3b82f6;
+  }
+  .product-type-badge--purple { background: var(--color-brand-purple); box-shadow: 0 4px 10px rgba(99,76,159,0.3); }
 
-    &.product-type-badge--blue {
-      background-color: #dbeafe;
-      color: #1d4ed8;
-    }
-
-    &.product-type-badge--purple {
-      background-color: #ede9fe;
-      color: var(--color-brand-purple);
-    }
+  .product-image-wrap {
+    @apply relative flex items-center justify-center w-full aspect-square overflow-hidden bg-[#f8fafc];
+    border-radius: 24px 24px 0 0;
+  }
+  
+  .product-image-link { @apply flex items-center justify-center w-full h-full; }
+  
+  .product-img-element {
+    @apply w-full h-full object-cover transition-transform duration-700 ease-out;
   }
 
-  /* Image area */
-  .product-image-area {
-    @apply flex items-center justify-center pt-8 pb-4 no-underline;
-    background-color: var(--color-bg-subtle);
-    min-height: 140px;
-    display: flex;
-  }
-
-  .product-emoji {
-    @apply text-[72px] select-none transition-transform duration-300;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.08));
-  }
-
-  /* Actions overlay */
+  /* Action buttons — Slide UP from bottom of the image container */
   .product-actions {
-    @apply absolute top-1/4 right-3 flex flex-col gap-1.5 opacity-0 transition-opacity duration-200 z-10;
+    @apply absolute bottom-4 left-0 right-0 flex justify-center gap-3 z-20;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .product-action-btn {
-    @apply w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm border cursor-pointer transition-colors no-underline;
-    border-color: var(--color-border);
-    color: var(--color-text-muted);
+  .action-btn {
+    @apply w-11 h-11 rounded-full flex items-center justify-center cursor-pointer relative transition-all duration-300;
+    background: rgba(255,255,255,0.95);
+    color: #0f172a;
+    border: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
 
-    &:hover { background-color: var(--color-brand-purple); color: white; border-color: var(--color-brand-purple); }
-    &.wishlist-active { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
-    i { @apply text-xs; }
+    i { @apply text-[16px]; }
+
+    &:hover {
+      background: var(--color-brand-purple);
+      color: white;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(99,76,159,0.4);
+    }
   }
 
-  /* Info section */
-  .product-info {
-    @apply flex flex-col gap-1.5 p-3;
+  .action-btn--active {
+    background: #fef2f2;
+    color: #ef4444;
+  }
+  .action-btn--active:hover {
+    background: #ef4444;
+    color: white;
   }
 
-  .product-category {
-    @apply text-[11px] uppercase tracking-wider m-0;
-    color: var(--color-text-muted);
+  /* Tooltip */
+  .action-tooltip {
+    @apply absolute bottom-full mb-3 px-2.5 py-1.5 rounded-lg text-[11px] font-bold text-white whitespace-nowrap pointer-events-none;
+    background: #0f172a;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.2s, transform 0.2s;
+    &::after {
+      content: '';
+      @apply absolute top-full left-1/2 -translate-x-1/2 border-[4px];
+      border-color: #0f172a transparent transparent transparent;
+    }
   }
+  .action-btn:hover .action-tooltip { opacity: 1; transform: translateY(0); }
 
+  /* Product info */
+  .product-info { @apply p-5 flex flex-col gap-2.5 flex-1; }
+  .product-meta-row { @apply flex items-center justify-between; }
+  .product-category { @apply text-[11px] font-bold uppercase tracking-widest; color: #64748b; }
+  
+  .product-rating {
+    @apply flex items-center gap-1.5 text-[12px] font-bold px-2.5 py-1 rounded-md;
+    background: #f8fafc; color: #475569;
+    i { @apply text-[10px]; color: #f59e0b; }
+  }
+  
   .product-name {
-    @apply text-[14px] font-semibold leading-snug line-clamp-2 no-underline block;
-    color: var(--color-text-primary);
+    @apply text-[16px] font-bold leading-relaxed no-underline transition-colors;
+    color: #0f172a;
+    min-height: 48px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-family: 'Outfit', sans-serif;
     &:hover { color: var(--color-brand-purple); }
   }
+  
+  .product-prices { @apply flex items-baseline gap-2 mt-auto pt-2; }
+  .price-current { @apply text-[20px] font-black; color: #0f172a; font-family: 'Outfit', sans-serif; }
+  .price-old { @apply text-[13px] font-semibold line-through; color: #94a3b8; }
 
-  /* Stars */
-  .product-rating {
-    @apply flex items-center gap-0.5;
+  /* Full Width Add to Cart button */
+  .product-card-footer {
+    @apply px-5 pb-5 mt-auto;
   }
-
-  .star-full  { @apply text-[12px]; color: var(--color-brand-amber); }
-  .star-half  { @apply text-[12px]; color: var(--color-brand-amber); opacity: 0.6; }
-  .star-empty { @apply text-[12px]; color: #d1d5db; }
-
-  .rating-count {
-    @apply text-[11px] ml-1;
-    color: var(--color-text-muted);
-  }
-
-  /* Prices */
-  .product-price-row {
-    @apply flex items-center gap-2;
-  }
-
-  .product-price {
-    @apply text-[18px] font-bold;
-    color: var(--color-brand-red);
-  }
-
-  .product-old-price {
-    @apply text-[13px];
-    color: var(--color-text-muted);
-  }
-
-  /* Add to cart */
-  .add-to-cart-btn {
-    @apply flex items-center justify-center gap-2 w-full py-2 rounded-lg text-[13px] font-semibold mt-1 cursor-pointer border-none transition-colors;
-    background-color: var(--color-bg-subtle);
-    color: var(--color-text-primary);
-
-    i { @apply text-sm; }
-
-    &:hover {
-      background-color: var(--color-brand-purple);
-      color: white;
+  .btn-add-cart-full {
+    @apply w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-[14px] cursor-pointer transition-all duration-300;
+    background: #f8fafc;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+    font-family: 'Outfit', sans-serif;
+    
+    i { @apply text-[16px]; }
+    
+    &:active {
+      transform: scale(0.97);
     }
   }
 
   /* ============================================================
-     DEAL BANNERS  (2 side-by-side)
+     PAGINATION
      ============================================================ */
-  .deal-banners-section {
-    @apply py-8;
-    border-bottom: 1px solid var(--color-border);
+  .pagination-wrap { @apply flex items-center justify-center gap-2 mt-12; }
+  .page-btn {
+    @apply w-11 h-11 rounded-xl border font-bold text-[14px] cursor-pointer transition-all flex items-center justify-center;
+    background: white; border-color: #e2e8f0; color: #475569;
+    &:hover:not(:disabled) { border-color: var(--color-brand-purple); color: var(--color-brand-purple); background: #f5f3ff; }
+    &:disabled { @apply opacity-30 cursor-not-allowed; }
+    i { @apply text-[13px]; }
   }
-
-  .deal-banners-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-5;
-  }
-
-  .deal-banner-card {
-    @apply flex items-center justify-between rounded-xl px-8 py-7 gap-4 overflow-hidden;
-    min-height: 200px;
-  }
-
-  .deal-banner-copy {
-    @apply flex flex-col gap-3 flex-1;
-  }
-
-  .deal-banner-title {
-    @apply text-[22px] font-bold leading-snug m-0;
-    color: #111827;
-  }
-
-  .deal-banner-sub {
-    @apply text-[13px] m-0 opacity-70;
-    color: #374151;
-  }
-
-  .deal-banner-visual {
-    @apply text-[90px] shrink-0 select-none;
-    filter: drop-shadow(0 6px 16px rgba(0,0,0,0.1));
-  }
+  .page-btn--active { background: var(--color-brand-purple) !important; color: white !important; border-color: var(--color-brand-purple) !important; box-shadow: 0 4px 12px rgba(99,76,159,0.3); }
+  .page-btn--nav { @apply text-base; }
 
   /* ============================================================
      HEALTH BANNER
      ============================================================ */
   .health-banner-section {
-    @apply py-0;
-    background: linear-gradient(135deg, #634c9f 0%, #39245f 100%);
+    @apply py-16 overflow-hidden relative;
+    background: linear-gradient(135deg, #4a3580 0%, #2d1b6e 100%);
+    &::before {
+      content: "";
+      @apply absolute top-0 right-0 pointer-events-none rounded-full;
+      width: 500px; height: 500px;
+      background: rgba(139,92,246,0.12);
+      transform: translate(20%, -30%);
+      filter: blur(80px);
+    }
   }
-
   .health-banner-inner {
-    @apply max-w-[1360px] mx-auto px-6 flex items-center gap-8 py-10;
+    @apply flex items-center justify-between gap-10 relative z-10;
+    @media (max-width: 768px) { @apply flex-col text-center; }
   }
-
   .health-banner-emoji {
-    @apply text-[64px] shrink-0;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+    @apply text-[100px] select-none shrink-0;
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,0.2));
+    animation: floatBounce 4s ease-in-out infinite;
   }
-
-  .health-banner-copy {
-    @apply flex flex-col gap-2 flex-1;
+  .health-banner-copy { @apply flex flex-col gap-4 flex-1; }
+  .health-banner-eyebrow {
+    @apply text-[11px] font-black uppercase tracking-widest;
+    color: rgba(255,255,255,0.55);
   }
-
   .health-banner-title {
-    @apply text-[24px] font-bold m-0 text-white;
+    @apply text-[38px] font-black text-white leading-tight m-0 tracking-tight;
   }
-
-  .health-banner-sub {
-    @apply text-[14px] m-0 text-white opacity-80;
-  }
-
+  .health-banner-sub { @apply text-[16px] m-0 leading-relaxed font-medium; color: rgba(255,255,255,0.75); }
   .health-banner-cta {
-    @apply flex items-center gap-2 text-[14px] font-semibold no-underline w-fit px-5 py-2.5 rounded-lg mt-2;
-    background: white;
-    color: var(--color-brand-purple);
-
-    &:hover { opacity: 0.9; }
-    i { @apply text-xs; }
+    @apply flex items-center gap-2.5 px-8 py-3.5 rounded-xl bg-white font-black text-[15px] no-underline w-fit transition-all shadow-lg;
+    color: #1e293b;
+    i { @apply text-sm transition-transform; }
+    &:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.2); i { transform: translateX(4px); } }
+    @media (max-width: 768px) { @apply mx-auto; }
   }
-
   .health-banner-badge {
-    @apply flex flex-col items-center justify-center w-24 h-24 rounded-full border-4 border-white/30 shrink-0;
+    @apply flex flex-col items-center justify-center rounded-3xl shrink-0;
+    width: 140px; height: 140px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2);
+    transform: rotate(6deg);
   }
-
-  .health-discount {
-    @apply text-[32px] font-bold leading-none text-white;
-  }
-
-  .health-discount-label {
-    @apply text-[14px] font-bold text-white opacity-80;
+  .health-discount { @apply text-[44px] font-black leading-none; color: #fde68a; }
+  .health-discount-label { @apply text-[13px] font-black uppercase tracking-widest text-white opacity-80; }
+  @keyframes floatBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
   }
 
   /* ============================================================
-     BRANDS SECTION
+     TRUST BADGES
      ============================================================ */
-  .brands-grid {
-    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5;
+  .trust-section { @apply py-12; border-bottom: 1px solid #f1f5f9; }
+  .trust-grid {
+    @apply grid gap-6;
+    grid-template-columns: repeat(5, 1fr);
+    @media (max-width: 1024px) { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 640px)  { grid-template-columns: repeat(2, 1fr); }
   }
+  .trust-item {
+    @apply flex items-center gap-4 p-5 rounded-2xl border transition-all;
+    border-color: #f1f5f9;
+    &:hover { border-color: var(--color-brand-purple); box-shadow: 0 4px 16px rgba(99,76,159,0.08); }
+  }
+  .trust-icon { @apply text-[36px] select-none shrink-0; }
+  .trust-text { @apply flex flex-col gap-0.5; }
+  .trust-text strong { @apply text-[14px] font-black; color: #1e293b; }
+  .trust-text span { @apply text-[12px]; color: #64748b; }
 
+  /* ============================================================
+     BRANDS GRID
+     ============================================================ */
+  .brands-grid { @apply grid grid-cols-2 lg:grid-cols-4 gap-5; }
   .brand-card {
-    @apply flex flex-col gap-3 p-5 rounded-xl border transition-shadow duration-200;
-    border-color: var(--color-border);
-    background: white;
-
-    &:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
+    @apply flex flex-col gap-3 p-6 rounded-2xl border bg-white transition-all;
+    border-color: #f1f5f9;
+    &:hover { box-shadow: 0 12px 32px rgba(0,0,0,0.08); transform: translateY(-3px); border-color: var(--color-brand-purple); }
   }
-
-  .brand-card-top {
-    @apply flex items-start justify-between;
-  }
-
-  .brand-emoji {
-    @apply text-[52px] select-none;
-  }
-
+  .brand-card-top { @apply flex items-start justify-between; }
+  .brand-emoji { @apply text-[56px] select-none; }
   .brand-featured-badge {
-    @apply text-[10px] font-bold px-2 py-0.5 rounded-md;
-    background-color: #ede9fe;
-    color: var(--color-brand-purple);
+    @apply text-[10px] font-black px-2.5 py-1 rounded-lg;
+    background: #f5f3ff; color: var(--color-brand-purple);
   }
-
-  .brand-name {
-    @apply text-[18px] font-bold m-0;
-    color: #111827;
-  }
-
-  .brand-category {
-    @apply text-[13px] m-0;
-    color: var(--color-text-muted);
-  }
-
-  .brand-meta {
-    @apply flex items-center justify-between;
-  }
-
-  .brand-products {
-    @apply text-[12px];
-    color: var(--color-text-muted);
-  }
-
-  .brand-rating {
-    @apply flex items-center gap-1 text-[13px] font-semibold;
-    color: #111827;
-  }
-
-  .star-icon {
-    @apply text-[12px];
-    color: var(--color-brand-amber);
-  }
-
+  .brand-name { @apply text-[18px] font-black m-0; color: #1e293b; }
+  .brand-category { @apply text-[13px] m-0 opacity-60; color: #374151; }
+  .brand-meta { @apply flex items-center justify-between; }
+  .brand-products { @apply text-[12px] font-bold opacity-60; color: #374151; }
+  .brand-rating { @apply flex items-center gap-1.5 text-[13px] font-black; color: #1e293b; }
+  .star-icon { @apply text-[11px]; color: #f59e0b; }
   .brand-cta {
-    @apply flex items-center gap-1.5 text-[13px] font-semibold no-underline transition-colors w-fit;
+    @apply flex items-center gap-2 text-[14px] font-black no-underline transition-all w-fit;
     color: var(--color-brand-purple);
-
-    &:hover { opacity: 0.75; }
-    i { @apply text-[11px]; }
+    &:hover { opacity: 0.8; transform: translateX(3px); }
+    i { @apply text-[12px]; }
   }
 
 }

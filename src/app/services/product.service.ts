@@ -1,47 +1,90 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = `${environment.apiUrl}/products`;
 
-  private readonly ALL_PRODUCTS: Product[] = [
-    { id: 1,  name: 'Organic Whole Milk',    slug: 'organic-whole-milk',    category: 'Breakfast & Dairy',    emoji: '🥛', rating: 4.5, reviews: 14, oldPrice: 18.99, price: 12.99, discount: 32, badge: 'Organic',   inStock: true,  stockCount: 42, brand: 'FreshFarm',   weight: '1 Litre', sku: 'SKU-001', description: 'Premium organic whole milk sourced from free-range cows. Rich in calcium and vitamins.', highlights: ['100% Organic', 'Free-range cows', 'No added hormones', 'Rich in Vitamin D'], tags: ['dairy', 'organic', 'milk'], images: ['🥛'] },
-    { id: 2,  name: 'Fresh Strawberries',    slug: 'fresh-strawberries',    category: 'Fruits & Vegetables', emoji: '🍓', rating: 4.8, reviews: 23, oldPrice: 14.99, price:  9.99, discount: 33,                       inStock: true,  stockCount: 28, brand: 'FreshFarm',   weight: '500g',    sku: 'SKU-002', description: 'Hand-picked fresh strawberries bursting with natural sweetness and flavor.', highlights: ['Hand-picked', 'No pesticides', 'Same day harvest'], tags: ['fruit', 'fresh', 'strawberry'], images: ['🍓'] },
-    { id: 3,  name: 'Sourdough Bread',       slug: 'sourdough-bread',       category: 'Breads & Bakery',     emoji: '🍞', rating: 4.6, reviews: 31, oldPrice:  8.50, price:  5.99, discount: 30,                       inStock: true,  stockCount: 15, brand: 'BakerHouse',  weight: '800g',    sku: 'SKU-003', description: 'Artisan sourdough bread baked fresh daily with traditional fermentation methods.', highlights: ['Freshly baked daily', 'Traditional recipe', 'No preservatives'], tags: ['bread', 'bakery', 'sourdough'], images: ['🍞'] },
-    { id: 4,  name: 'Almond Butter',         slug: 'almond-butter',         category: 'Grocery & Staples',   emoji: '🥜', rating: 4.4, reviews: 18, oldPrice: 22.00, price: 14.99, discount: 32,                       inStock: true,  stockCount: 33, brand: 'NutriBlend',  weight: '350g',    sku: 'SKU-004', description: 'Smooth, creamy almond butter made from 100% natural almonds. No added sugar or salt.', highlights: ['100% Natural almonds', 'No added sugar', 'High protein'], tags: ['nuts', 'spread', 'healthy'], images: ['🥜'] },
-    { id: 5,  name: 'Greek Yogurt',          slug: 'greek-yogurt',          category: 'Breakfast & Dairy',   emoji: '🫙', rating: 4.7, reviews: 42, oldPrice: 12.00, price:  7.99, discount: 33, badge: 'Cold Sale', badgeColor: 'blue', inStock: true,  stockCount: 60, brand: 'DairyBest',  weight: '500g',    sku: 'SKU-005', description: 'Thick, creamy Greek yogurt packed with protein and live cultures for gut health.', highlights: ['High protein', 'Live cultures', 'Low fat option'], tags: ['dairy', 'yogurt', 'protein'], images: ['🫙'] },
-    { id: 6,  name: 'Frozen Berries Mix',    slug: 'frozen-berries-mix',    category: 'Frozen Foods',        emoji: '🫐', rating: 4.3, reviews:  9, oldPrice: 16.99, price: 10.99, discount: 35,                       inStock: true,  stockCount: 50, brand: 'FrostFresh',  weight: '1kg',     sku: 'SKU-006', description: 'A premium mix of frozen blueberries, raspberries, and blackberries.', highlights: ['Flash frozen', 'No added sugar', '3 berry varieties'], tags: ['frozen', 'berries', 'fruit'], images: ['🫐'] },
-    { id: 7,  name: 'Mixed Salad Greens',    slug: 'mixed-salad-greens',    category: 'Fruits & Vegetables', emoji: '🥗', rating: 4.6, reviews: 56, oldPrice:  9.99, price:  5.49, discount: 45, badge: 'Organic',   inStock: true,  stockCount: 20, brand: 'FreshFarm',   weight: '200g',    sku: 'SKU-007', description: 'A fresh mix of baby spinach, arugula, and mixed lettuce leaves.', highlights: ['Pre-washed', 'Organic certified', 'Ready to eat'], tags: ['salad', 'vegetables', 'organic'], images: ['🥗'] },
-    { id: 8,  name: 'Chicken Breast',        slug: 'chicken-breast',        category: 'Meats & Seafood',     emoji: '🍗', rating: 4.9, reviews: 88, oldPrice: 24.99, price: 14.99, discount: 40,                       inStock: true,  stockCount: 35, brand: 'SeaChoice',   weight: '1kg',     sku: 'SKU-008', description: 'Premium boneless, skinless chicken breast. High protein, low fat.', highlights: ['Free-range', 'Hormone-free', 'Antibiotic-free'], tags: ['meat', 'chicken', 'protein'], images: ['🍗'] },
-    { id: 9,  name: 'Orange Juice 1L',       slug: 'orange-juice-1l',       category: 'Beverages',           emoji: '🍊', rating: 4.5, reviews: 34, oldPrice:  7.99, price:  4.99, discount: 37, badge: 'Cold Sale', badgeColor: 'blue', inStock: true,  stockCount: 80, brand: 'FreshFarm',   weight: '1 Litre', sku: 'SKU-009', description: '100% freshly squeezed orange juice with no added preservatives or sugar.', highlights: ['100% fresh squeeze', 'No preservatives', 'Vitamin C rich'], tags: ['juice', 'beverage', 'orange'], images: ['🍊'] },
-    { id: 10, name: 'Pasta Penne 500g',      slug: 'pasta-penne',           category: 'Grocery & Staples',   emoji: '🍝', rating: 4.2, reviews: 21, oldPrice:  5.99, price:  3.49, discount: 42,                       inStock: true,  stockCount: 100, brand: 'NutriBlend', weight: '500g',    sku: 'SKU-010', description: 'Premium durum wheat semolina pasta penne. Perfect for all your pasta recipes.', highlights: ['Durum wheat', 'Bronze die cut', 'Al dente texture'], tags: ['pasta', 'staples', 'wheat'], images: ['🍝'] },
-    { id: 11, name: 'Sparkling Water',       slug: 'sparkling-water',       category: 'Beverages',           emoji: '💧', rating: 4.4, reviews: 65, oldPrice:  4.50, price:  2.49, discount: 45,                       inStock: true,  stockCount: 120, brand: 'AquaPure',   weight: '1.5L',    sku: 'SKU-011', description: 'Naturally sparkling mineral water from alpine springs.', highlights: ['Natural carbonation', 'Alpine source', 'Zero calories'], tags: ['water', 'beverage', 'sparkling'], images: ['💧'] },
-    { id: 12, name: 'Cheddar Cheese',        slug: 'cheddar-cheese',        category: 'Breakfast & Dairy',   emoji: '🧀', rating: 4.7, reviews: 47, oldPrice: 14.99, price:  8.99, discount: 40, badge: 'Cold Sale', badgeColor: 'blue', inStock: true,  stockCount: 25, brand: 'DairyBest',  weight: '400g',    sku: 'SKU-012', description: 'Aged cheddar cheese with a rich, sharp flavour. Perfect for cooking or snacking.', highlights: ['Aged 12 months', 'Rich flavour', 'Grass-fed cows'], tags: ['cheese', 'dairy', 'cheddar'], images: ['🧀'] },
-    { id: 13, name: 'Granola Crunch Bar',    slug: 'granola-crunch-bar',    category: 'Biscuits & Snacks',   emoji: '🍫', rating: 4.3, reviews: 29, oldPrice: 11.99, price:  6.99, discount: 42,                       inStock: true,  stockCount: 75, brand: 'NutriBlend',  weight: '6-pack',  sku: 'SKU-013', description: 'Crunchy granola bars with oats, honey, and dark chocolate chips.', highlights: ['Whole grain oats', 'Natural honey', 'Dark chocolate'], tags: ['snack', 'granola', 'chocolate'], images: ['🍫'] },
-    { id: 14, name: 'Free Range Eggs 12',    slug: 'free-range-eggs',       category: 'Breakfast & Dairy',   emoji: '🥚', rating: 4.8, reviews: 73, oldPrice:  8.99, price:  4.99, discount: 44,                       inStock: true,  stockCount: 55, brand: 'FreshFarm',   weight: '12 pcs',  sku: 'SKU-014', description: 'Fresh free-range eggs from happy hens. Rich golden yolks, perfect for any meal.', highlights: ['Free-range hens', 'Golden yolks', 'Daily collected'], tags: ['eggs', 'dairy', 'free-range'], images: ['🥚'] },
-    { id: 15, name: 'Fresh Salmon Fillet',   slug: 'fresh-salmon-fillet',   category: 'Meats & Seafood',     emoji: '🐟', rating: 4.9, reviews: 36, oldPrice: 56.67, price: 27.99, discount: 51, badge: 'Featured',  inStock: true,  stockCount: 12, brand: 'SeaChoice',   weight: '600g',    sku: 'SKU-015', description: 'Premium Atlantic salmon fillet, sustainably sourced. Rich in Omega-3 fatty acids.', highlights: ['Sustainably sourced', 'Omega-3 rich', 'Skin-on for flavour'], tags: ['fish', 'seafood', 'salmon'], images: ['🐟'] },
-    { id: 16, name: 'Avocado Hass x4',      slug: 'avocado-hass',          category: 'Fruits & Vegetables', emoji: '🥑', rating: 4.7, reviews: 48, oldPrice: 18.00, price:  9.99, discount: 44, badge: 'Organic',   inStock: true,  stockCount: 40, brand: 'FreshFarm',   weight: '4 pcs',   sku: 'SKU-016', description: 'Premium Hass avocados, perfectly ripened and ready to eat. Rich and creamy texture.', highlights: ['Ready to eat', 'Organic', 'Creamy Hass variety'], tags: ['avocado', 'fruit', 'organic'], images: ['🥑'] },
-    { id: 17, name: 'Premium Ribeye 1kg',   slug: 'premium-ribeye',        category: 'Meats & Seafood',     emoji: '🥩', rating: 4.8, reviews: 25, oldPrice: 79.99, price: 49.99, discount: 37, badge: 'Featured',  inStock: true,  stockCount: 8,  brand: 'SeaChoice',   weight: '1kg',     sku: 'SKU-017', description: 'Premium grass-fed ribeye steak. Exceptional marbling for maximum tenderness and flavour.', highlights: ['Grass-fed', 'Exceptional marbling', 'Wet-aged 28 days'], tags: ['meat', 'beef', 'steak'], images: ['🥩'] },
-    { id: 18, name: 'Blueberry Smoothie',   slug: 'blueberry-smoothie',    category: 'Beverages',           emoji: '🫐', rating: 4.6, reviews: 19, oldPrice: 12.99, price:  6.99, discount: 46, badge: 'Cold Sale', badgeColor: 'blue', inStock: true,  stockCount: 30, brand: 'AquaPure',   weight: '330ml',   sku: 'SKU-018', description: 'A refreshing blueberry smoothie made with real fruit and no added sugar.', highlights: ['Real fruit', 'No added sugar', 'Cold pressed'], tags: ['smoothie', 'beverage', 'blueberry'], images: ['🫐'] },
-  ];
+  // We maintain a central state signal for all products
+  private readonly productsSignal = signal<Product[]>([]);
+  public readonly isLoading = signal<boolean>(true);
 
-  getAll(): Product[] { return this.ALL_PRODUCTS; }
+  constructor() {
+    this.fetchProducts();
+  }
+
+  fetchProducts(): void {
+    this.isLoading.set(true);
+    // The backend returns { items: [], total: 0, page: 1, ... }
+    this.http.get<any>(this.baseUrl).subscribe({
+      next: (response) => {
+        const productsData = response.items || [];
+        const mappedProducts: Product[] = productsData.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          slug: p.slug,
+          category: p.category?.name || 'General',
+          emoji: p.emoji || '📦',
+          rating: p.rating || 0,
+          reviews: p.review_count || 0,
+          oldPrice: p.old_price,
+          price: p.price,
+          discount: p.discount,
+          badge: p.badge,
+          badgeColor: p.badge_color,
+          featured: p.is_featured,
+          inStock: p.stock_count > 0,
+          stockCount: p.stock_count,
+          description: p.description,
+          highlights: [], // We could parse this if added to backend
+          tags: [],
+          sku: `SKU-${p.id}`,
+          brand: 'Zayanori',
+          images: p.image_url ? [p.image_url] : ['https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&q=80&w=800'],
+          // extra flags for filtering
+          is_new_arrival: p.is_new_arrival,
+          is_best_seller: p.is_best_seller
+        } as Product & { is_new_arrival?: boolean, is_best_seller?: boolean }));
+
+        this.productsSignal.set(mappedProducts);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Failed to load products from API', err);
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  // Return computed signals instead of raw arrays so UI updates reactively
+  getAll() { return computed(() => this.productsSignal()); }
+  
+  getNewArrivals(limit = 6) { 
+    return computed(() => this.productsSignal().filter((p: any) => p.is_new_arrival).slice(0, limit)); 
+  }
+  
+  getFeatured(limit = 4) { 
+    return computed(() => this.productsSignal().filter(p => p.featured).slice(0, limit)); 
+  }
+  
+  getBestSellers(limit = 8) { 
+    return computed(() => this.productsSignal().filter((p: any) => p.is_best_seller).slice(0, limit)); 
+  }
 
   getById(id: number): Product | undefined {
-    return this.ALL_PRODUCTS.find(p => p.id === id);
+    return this.productsSignal().find(p => p.id === id);
   }
 
   getBySlug(slug: string): Product | undefined {
-    return this.ALL_PRODUCTS.find(p => p.slug === slug);
+    return this.productsSignal().find(p => p.slug === slug);
   }
 
-  getRelated(product: Product, limit = 4): Product[] {
-    return this.ALL_PRODUCTS
+  getRelated(product: Product, limit = 4) {
+    return computed(() => this.productsSignal()
       .filter(p => p.id !== product.id && p.category === product.category)
-      .slice(0, limit);
+      .slice(0, limit));
   }
-
-  getNewArrivals(limit = 6): Product[] { return this.ALL_PRODUCTS.slice(0, limit); }
-  getFeatured(limit = 4): Product[]    { return this.ALL_PRODUCTS.slice(14, 18).slice(0, limit); }
-  getBestSellers(limit = 8): Product[] { return this.ALL_PRODUCTS.slice(6, 14).slice(0, limit); }
 }

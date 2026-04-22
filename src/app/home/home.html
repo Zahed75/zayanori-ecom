@@ -1,7 +1,30 @@
 <div class="home-body">
 
   <!-- ==========================================================
-       SECTION 1 — PROMO BANNERS (3 cards below hero)
+       SECTION 1 — CATEGORIES GRID
+       ========================================================== -->
+  <section class="section categories-section">
+    <div class="container-site">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-eyebrow">Browse by</span>
+          <h2 class="section-title">Shop by Category</h2>
+        </div>
+        <a routerLink="/" class="btn-view-all">View All <i class="pi pi-arrow-right"></i></a>
+      </div>
+      <div class="categories-grid">
+        @for (cat of categories; track cat.name) {
+          <a routerLink="/" class="cat-card" [style.background]="cat.color">
+            <span class="cat-card-emoji">{{ cat.emoji }}</span>
+            <span class="cat-card-name">{{ cat.name }}</span>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       SECTION 2 — PROMO BANNERS (3 cards)
        ========================================================== -->
   <section class="section promo-banners-section">
     <div class="container-site">
@@ -36,7 +59,7 @@
   </section>
 
   <!-- ==========================================================
-       SECTION 2 — NEW ARRIVALS
+       SECTION 3 — NEW ARRIVALS
        ========================================================== -->
   <section class="section">
     <div class="container-site">
@@ -47,16 +70,48 @@
         </div>
         <a routerLink="/" class="btn-view-all">View All <i class="pi pi-arrow-right"></i></a>
       </div>
-      <div class="products-grid products-grid--6">
-        @for (product of newArrivals; track product.id) {
-          <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
+      <div class="products-grid products-grid--5">
+        @if (isLoading()) {
+          @for (i of [1,2,3,4,5]; track i) {
+            <div class="skeleton-card">
+              <div class="skeleton-img"></div>
+              <div class="skeleton-body">
+                <div class="skeleton-line w-60"></div>
+                <div class="skeleton-line w-80"></div>
+                <div class="skeleton-line w-40"></div>
+              </div>
+            </div>
+          }
+        } @else {
+          @for (product of newArrivals(); track product.id) {
+            <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
+          }
         }
       </div>
+
+      <!-- Pagination -->
+      @if (!isLoading()) {
+        <div class="pagination-wrap">
+          <button class="page-btn page-btn--nav" [disabled]="currentPage() === 1" (click)="changePage(currentPage() - 1)">
+            <i class="pi pi-chevron-left"></i>
+          </button>
+          @for (p of [1,2,3,4,5]; track p) {
+            <button
+              class="page-btn"
+              [class.page-btn--active]="currentPage() === p"
+              (click)="changePage(p)"
+            >{{ p }}</button>
+          }
+          <button class="page-btn page-btn--nav" [disabled]="currentPage() === 5" (click)="changePage(currentPage() + 1)">
+            <i class="pi pi-chevron-right"></i>
+          </button>
+        </div>
+      }
     </div>
   </section>
 
   <!-- ==========================================================
-       SECTION 3 — DEAL BANNERS (2 side-by-side)
+       SECTION 4 — DEAL BANNERS (2 side-by-side)
        ========================================================== -->
   <section class="section deal-banners-section">
     <div class="container-site">
@@ -86,7 +141,7 @@
   </section>
 
   <!-- ==========================================================
-       SECTION 4 — FEATURED PRODUCTS
+       SECTION 5 — FEATURED PRODUCTS
        ========================================================== -->
   <section class="section">
     <div class="container-site">
@@ -98,15 +153,27 @@
         <a routerLink="/" class="btn-view-all">View All <i class="pi pi-arrow-right"></i></a>
       </div>
       <div class="products-grid products-grid--4">
-        @for (product of featuredProducts; track product.id) {
-          <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
+        @if (isLoading()) {
+          @for (i of [1,2,3,4]; track i) {
+            <div class="skeleton-card">
+              <div class="skeleton-img"></div>
+              <div class="skeleton-body">
+                <div class="skeleton-line w-60"></div>
+                <div class="skeleton-line w-80"></div>
+              </div>
+            </div>
+          }
+        } @else {
+          @for (product of featuredProducts(); track product.id) {
+            <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
+          }
         }
       </div>
     </div>
   </section>
 
   <!-- ==========================================================
-       SECTION 5 — BEST SELLERS
+       SECTION 6 — BEST SELLERS
        ========================================================== -->
   <section class="section">
     <div class="container-site">
@@ -127,32 +194,40 @@
         <a routerLink="/" class="btn-view-all">View All <i class="pi pi-arrow-right"></i></a>
       </div>
       <div class="products-grid products-grid--4">
-        @for (product of bestSellers.slice(0,4); track product.id) {
-          <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
-        }
-      </div>
-      <div class="products-grid products-grid--4 mt-4">
-        @for (product of bestSellers.slice(4); track product.id) {
-          <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
+        @if (isLoading()) {
+          @for (i of [1,2,3,4]; track i) {
+            <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"></div></div>
+          }
+        } @else {
+          @for (product of bestSellers().slice(0,4); track product.id) {
+            <ng-container *ngTemplateOutlet="productCard; context: { product: product }"></ng-container>
+          }
         }
       </div>
     </div>
   </section>
 
   <!-- ==========================================================
-       SECTION 6 — HEALTH / INFO BANNER
+       SECTION 7 — HEALTH BANNER
        ========================================================== -->
   <section class="health-banner-section">
     <div class="container-site">
       <div class="health-banner-inner">
-        <div class="health-banner-emoji">{{ healthBanner.emoji }}</div>
+        <div class="health-banner-emoji">🩺</div>
         <div class="health-banner-copy">
-          <h2 class="health-banner-title">{{ healthBanner.title }}</h2>
-          <p class="health-banner-sub">{{ healthBanner.sub }}</p>
-          <a routerLink="/" class="health-banner-cta">{{ healthBanner.cta }} <i class="pi pi-arrow-right"></i></a>
+          <span class="health-banner-eyebrow">Your wellness matters</span>
+          <h2 class="health-banner-title">
+            In store or online, your<br>health is our priority.
+          </h2>
+          <p class="health-banner-sub">
+            Professional pharmaceutical care and health products delivered safely to your door.
+          </p>
+          <a routerLink="/" class="health-banner-cta">
+            Shop Healthcare <i class="pi pi-arrow-right"></i>
+          </a>
         </div>
         <div class="health-banner-badge">
-          <span class="health-discount">{{ healthBanner.discount }}</span>
+          <span class="health-discount">50%</span>
           <span class="health-discount-label">OFF</span>
         </div>
       </div>
@@ -160,13 +235,58 @@
   </section>
 
   <!-- ==========================================================
-       SECTION 7 — POPULAR COMPANIES / BRANDS
+       SECTION 8 — TRUST BADGES
+       ========================================================== -->
+  <section class="trust-section">
+    <div class="container-site">
+      <div class="trust-grid">
+        <div class="trust-item">
+          <div class="trust-icon">🚚</div>
+          <div class="trust-text">
+            <strong>Free Delivery</strong>
+            <span>On orders over $50</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🔒</div>
+          <div class="trust-text">
+            <strong>Secure Payment</strong>
+            <span>100% safe & encrypted</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">↩️</div>
+          <div class="trust-text">
+            <strong>Easy Returns</strong>
+            <span>30-day return policy</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🌿</div>
+          <div class="trust-text">
+            <strong>100% Organic</strong>
+            <span>Farm fresh every day</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">💬</div>
+          <div class="trust-text">
+            <strong>24/7 Support</strong>
+            <span>Always here to help</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       SECTION 9 — TOP BRANDS
        ========================================================== -->
   <section class="section">
     <div class="container-site">
       <div class="section-header">
         <div class="section-title-wrap">
-          <span class="section-eyebrow">02 Popular Companies</span>
+          <span class="section-eyebrow">Our Partners</span>
           <h2 class="section-title">Top Brands</h2>
         </div>
         <a routerLink="/" class="btn-view-all">View All <i class="pi pi-arrow-right"></i></a>
@@ -201,63 +321,73 @@
      ========================================================== -->
 <ng-template #productCard let-product="product">
   <div class="product-card">
-    <!-- Discount badge -->
+    <!-- Badges -->
     @if (product.discount) {
       <span class="product-discount-badge">-{{ product.discount }}%</span>
     }
-    <!-- Product type badge -->
     @if (product.badge) {
-      <span
-        class="product-type-badge"
-        [class.product-type-badge--blue]="product.badgeColor === 'blue'"
-        [class.product-type-badge--purple]="product.badge === 'Featured'"
-      >{{ product.badge }}</span>
+      <span class="product-type-badge" [class.product-type-badge--purple]="product.badge === 'Featured' || product.badge === 'Organic'">{{ product.badge }}</span>
     }
-    <!-- Image area -->
-    <a [routerLink]="['/product', product.id]" class="product-image-area">
-      <span class="product-emoji">{{ product.emoji }}</span>
-    </a>
-    <!-- Actions overlay -->
-    <div class="product-actions">
-      <button
-        class="product-action-btn"
-        [class.wishlist-active]="isInWishlist(product.id)"
-        (click)="toggleWishlist(product)"
-        aria-label="Toggle wishlist"
-      >
-        <i [class]="isInWishlist(product.id) ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
-      </button>
-      <a [routerLink]="['/product', product.id]" class="product-action-btn" aria-label="Quick view">
-        <i class="pi pi-eye"></i>
+
+    <!-- Image -->
+    <div class="product-image-wrap">
+      <a [routerLink]="['/product', product.id]" class="product-image-link">
+        <img [src]="product.images[0]" [alt]="product.name" class="product-img-element" loading="lazy" />
       </a>
-      <button class="product-action-btn" aria-label="Compare"><i class="pi pi-sliders-h"></i></button>
+
+      <!-- Action buttons overlay -->
+      <div class="product-actions">
+        <button
+          class="action-btn"
+          [class.action-btn--active]="isInWishlist(product.id)"
+          (click)="toggleWishlist(product); $event.stopPropagation()"
+          title="Add to Wishlist"
+        >
+          <i [class]="isInWishlist(product.id) ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
+          <span class="action-tooltip">Wishlist</span>
+        </button>
+        <a
+          [routerLink]="['/product', product.id]"
+          class="action-btn"
+          title="Quick View"
+          (click)="$event.stopPropagation()"
+        >
+          <i class="pi pi-eye"></i>
+          <span class="action-tooltip">Quick View</span>
+        </a>
+        <button
+          class="action-btn"
+          title="Compare"
+          (click)="$event.stopPropagation()"
+        >
+          <i class="pi pi-sliders-h"></i>
+          <span class="action-tooltip">Compare</span>
+        </button>
+      </div>
     </div>
+
     <!-- Info -->
     <div class="product-info">
-      <p class="product-category">{{ product.category }}</p>
+      <div class="product-meta-row">
+        <span class="product-category">{{ product.category }}</span>
+        <div class="product-rating">
+          <i class="pi pi-star-fill"></i>
+          <span>{{ product.rating }}</span>
+        </div>
+      </div>
       <a [routerLink]="['/product', product.id]" class="product-name">{{ product.name }}</a>
-      <!-- Stars -->
-      <div class="product-rating">
-        @for (star of getStars(product.rating); track $index) {
-          @if (star === 'full') {
-            <i class="pi pi-star-fill star-full"></i>
-          } @else if (star === 'half') {
-            <i class="pi pi-star star-half"></i>
-          } @else {
-            <i class="pi pi-star star-empty"></i>
-          }
+      <div class="product-prices">
+        <span class="price-current">${{ product.price.toFixed(2) }}</span>
+        @if (product.oldPrice) {
+          <span class="price-old">${{ product.oldPrice.toFixed(2) }}</span>
         }
-        <span class="rating-count">({{ product.reviews }})</span>
       </div>
-      <!-- Prices -->
-      <div class="product-price-row">
-        <span class="product-price">${{ product.price.toFixed(2) }}</span>
-        <del class="product-old-price">${{ product.oldPrice.toFixed(2) }}</del>
-      </div>
-      <!-- Add to cart -->
-      <button class="add-to-cart-btn" (click)="addToCart(product)">
-        <i class="pi pi-shopping-cart"></i>
-        Add to cart
+    </div>
+    
+    <!-- Full-width add to cart hover trigger -->
+    <div class="product-card-footer">
+      <button class="btn-add-cart-full" (click)="addToCart(product); $event.stopPropagation()">
+        <i class="pi pi-shopping-cart"></i> Add to Cart
       </button>
     </div>
   </div>

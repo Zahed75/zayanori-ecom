@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../services/cart.service';
 import { WishlistService } from '../services/wishlist.service';
 import { ProductService } from '../services/product.service';
+import { ToastService } from '../shared/toast/toast.service';
 import { Product } from '../models/product.model';
 
 @Component({
@@ -16,7 +17,15 @@ import { Product } from '../models/product.model';
 export class HomeComponent {
   readonly cart = inject(CartService);
   readonly wishlist = inject(WishlistService);
+  readonly toast = inject(ToastService);
   private readonly productService = inject(ProductService);
+
+  isLoading = signal(true);
+  currentPage = signal(1);
+
+  constructor() {
+    setTimeout(() => this.isLoading.set(false), 800);
+  }
 
   // Load products from service
   readonly allProducts = this.productService.getAll();
@@ -92,6 +101,22 @@ export class HomeComponent {
     { name: 'BakerHouse', emoji: '🥐', category: 'Baked Goods', products: 117, rating: 4.7, badge: 'Featured' },
   ];
 
+  // ── Categories for grid ────────────────────────────────────
+  readonly categories = [
+    { emoji: '🍎', name: 'Fruits & Veggies', color: '#dcfce7' },
+    { emoji: '🥩', name: 'Meat & Seafood',   color: '#fee2e2' },
+    { emoji: '🥛', name: 'Dairy & Eggs',     color: '#fef9c3' },
+    { emoji: '🍞', name: 'Bakery',           color: '#fef3c7' },
+    { emoji: '🥤', name: 'Beverages',        color: '#dbeafe' },
+    { emoji: '❄️', name: 'Frozen Foods',     color: '#e0f2fe' },
+    { emoji: '🍪', name: 'Snacks',           color: '#fae8ff' },
+    { emoji: '🌾', name: 'Staples',          color: '#d1fae5' },
+    { emoji: '🧴', name: 'Personal Care',    color: '#e0e7ff' },
+    { emoji: '💊', name: 'Healthcare',       color: '#fce7f3' },
+    { emoji: '👶', name: 'Baby & Kids',      color: '#ffedd5' },
+    { emoji: '🐾', name: 'Pet Supplies',     color: '#f0fdf4' },
+  ];
+
   // ── Helpers ───────────────────────────────────────────────
   getStars(rating: number): string[] {
     return Array.from({ length: 5 }, (_, i) => {
@@ -103,14 +128,27 @@ export class HomeComponent {
 
   addToCart(product: Product): void {
     this.cart.add(product);
+    this.toast.success(`"${product.name}" added to cart ✓`);
   }
 
   toggleWishlist(product: Product): void {
+    const wasIn = this.wishlist.has(product.id);
     this.wishlist.toggle(product);
+    if (wasIn) {
+      this.toast.info(`Removed from wishlist`);
+    } else {
+      this.toast.success(`Added to wishlist ♥`);
+    }
   }
 
   isInWishlist(id: number): boolean {
     return this.wishlist.has(id);
+  }
+
+  changePage(page: number): void {
+    this.currentPage.set(page);
+    this.isLoading.set(true);
+    setTimeout(() => this.isLoading.set(false), 600);
   }
 
   activeSection = 'new-arrivals';

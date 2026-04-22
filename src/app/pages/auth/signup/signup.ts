@@ -61,7 +61,7 @@ export class SignUpComponent {
     this.confirmPassword() === '' || this.password() === this.confirmPassword()
   );
 
-  async signUp(): Promise<void> {
+  signUp(): void {
     this.errorMessage.set('');
     if (!this.fullName() || !this.email() || !this.password()) {
       this.errorMessage.set('Please fill in all required fields.');
@@ -80,13 +80,16 @@ export class SignUpComponent {
       return;
     }
     this.loading.set(true);
-    await new Promise(r => setTimeout(r, 900));
-    const result = this.auth.signUp(this.fullName(), this.email(), this.password(), this.phone() || undefined);
-    this.loading.set(false);
-    if (result.success) {
-      this.router.navigate(['/']);
-    } else {
-      this.errorMessage.set(result.message);
-    }
+    
+    this.auth.signUp(this.fullName(), this.email(), this.password(), this.phone() || undefined).subscribe({
+      next: (res) => {
+        this.loading.set(false);
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.errorMessage.set(err.error?.detail || 'Registration failed. Please try again.');
+      }
+    });
   }
 }

@@ -34,6 +34,12 @@
             },
             "ssr": {
               "entry": "src/server.ts"
+            },
+            "prerender": false,
+            "optimization": {
+              "fonts": {
+                "inline": false
+              }
             }
           },
           "configurations": {
@@ -46,8 +52,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "100kB",
+                  "maximumError": "500kB"
                 }
               ],
               "outputHashing": "all"

@@ -179,44 +179,60 @@
 
   /* Account / action icons */
   .header-action {
-    @apply flex items-center gap-2 cursor-pointer shrink-0;
+    @apply flex items-center gap-2.5 px-3 py-2 rounded-xl border-none bg-transparent cursor-pointer transition-all no-underline select-none;
+    color: #1e293b;
+    &:hover { background-color: #f8fafc; }
   }
 
-  .header-action--icon-only {
-    @apply gap-0;
-  }
+  .header-action--icon-only { @apply px-2; }
+
+  .pointer-cursor { cursor: pointer; }
 
   .header-action-icon {
-    @apply text-[26px];
-    color: var(--color-text-primary);
+    font-size: 22px;
+    color: #1e293b;
+    display: block;
+    line-height: 1;
   }
 
   .header-action-text {
-    @apply flex flex-col;
+    @apply flex flex-col items-start leading-tight;
   }
-
   .action-label {
-    @apply text-[11px] opacity-70 leading-none;
-    color: var(--color-text-primary);
+    @apply text-[11px] font-medium;
+    color: var(--color-text-muted);
   }
-
   .action-value {
-    @apply text-[13px] font-medium leading-none mt-0.5;
-    color: var(--color-text-primary);
+    @apply text-[13px] font-bold;
+    color: #1e293b;
   }
 
-  /* Badge */
+  /* Badge — always visible */
   .icon-badge-wrap {
-    @apply relative;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
-
   .badge-dot {
-    @apply absolute -top-1 -right-1 w-[17px] h-[17px] rounded-full flex items-center justify-center text-[10px] font-semibold text-white leading-none;
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    color: white;
+    padding: 0 4px;
+    line-height: 1;
+    border: 2px solid white;
+    z-index: 10;
   }
-
-  .red-badge {
-    background-color: var(--color-brand-red);
-  }
+  .red-badge { background-color: #ef4444; }
 
   /* ============================================================
      4. NAV BAR
