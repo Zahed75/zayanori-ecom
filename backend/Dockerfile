@@ -23,6 +23,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project files
 COPY . .
 
+# Ensure all files are readable
+RUN chmod -R 755 /backend
+
 # Create uploads directory
 RUN mkdir -p /backend/uploads
 
@@ -30,4 +33,4 @@ RUN mkdir -p /backend/uploads
 EXPOSE 8000
 
 # Command to run the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--app-dir", "app", "--host", "0.0.0.0", "--port", "8000"]

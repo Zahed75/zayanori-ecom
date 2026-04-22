@@ -26,7 +26,6 @@ services:
       - UPLOAD_DIR=/backend/uploads
       - FRONTEND_URL=http://localhost:4200
     volumes:
-      - .:/backend
       - ./uploads:/backend/uploads
     ports:
       - "8000:8000"
