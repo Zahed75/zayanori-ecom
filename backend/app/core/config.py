@@ -11,7 +11,7 @@ class Settings(BaseSettings):
 
     MAIL_USERNAME: str = ""
     MAIL_PASSWORD: str = ""
-    MAIL_FROM: str = ""
+    MAIL_FROM: str = "noreply@zayanori.com"
     MAIL_FROM_NAME: str = "Zayanori Store"
     MAIL_PORT: int = 587
     MAIL_SERVER: str = "smtp.gmail.com"
