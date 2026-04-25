@@ -195,15 +195,15 @@
       @if (showCategories()) {
         <div class="categories-dropdown">
           @for (cat of categories; track cat.name) {
-            <div class="cat-item">
+            <a [routerLink]="['/shop', cat.slug]" class="cat-item" (click)="showCategories.set(false)">
               <div class="cat-item-left">
-                <span class="cat-emoji">{{ cat.emoji }}</span>
+                <i [class]="cat.icon + ' cat-emoji'"></i>
                 <span class="cat-name">{{ cat.name }}</span>
               </div>
               @if (cat.arrow) {
                 <i class="pi pi-chevron-right cat-arrow"></i>
               }
-            </div>
+            </a>
           }
         </div>
       }
@@ -213,7 +213,8 @@
     <nav class="nav-links" aria-label="Main navigation">
       @for (link of navLinks; track link.label) {
         <a
-          routerLink="/"
+          [routerLink]="link.path"
+          [queryParams]="link.queryParams"
           class="nav-link"
           [class.nav-link--active]="link.active"
           [class.nav-link--red]="link['red']"

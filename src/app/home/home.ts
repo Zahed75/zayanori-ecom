@@ -103,18 +103,18 @@ export class HomeComponent {
 
   // ── Categories for grid ────────────────────────────────────
   readonly categories = [
-    { emoji: '🍎', name: 'Fruits & Veggies', color: '#dcfce7' },
-    { emoji: '🥩', name: 'Meat & Seafood',   color: '#fee2e2' },
-    { emoji: '🥛', name: 'Dairy & Eggs',     color: '#fef9c3' },
-    { emoji: '🍞', name: 'Bakery',           color: '#fef3c7' },
-    { emoji: '🥤', name: 'Beverages',        color: '#dbeafe' },
-    { emoji: '❄️', name: 'Frozen Foods',     color: '#e0f2fe' },
-    { emoji: '🍪', name: 'Snacks',           color: '#fae8ff' },
-    { emoji: '🌾', name: 'Staples',          color: '#d1fae5' },
-    { emoji: '🧴', name: 'Personal Care',    color: '#e0e7ff' },
-    { emoji: '💊', name: 'Healthcare',       color: '#fce7f3' },
-    { emoji: '👶', name: 'Baby & Kids',      color: '#ffedd5' },
-    { emoji: '🐾', name: 'Pet Supplies',     color: '#f0fdf4' },
+    { icon: 'pi pi-apple', name: 'Fruits & Veggies', color: '#dcfce7', slug: 'grocery' },
+    { icon: 'pi pi-star', name: 'Meat & Seafood',   color: '#fee2e2', slug: 'grocery' },
+    { icon: 'pi pi-circle', name: 'Dairy & Eggs',     color: '#fef9c3', slug: 'grocery' },
+    { icon: 'pi pi-sun', name: 'Bakery',           color: '#fef3c7', slug: 'grocery' },
+    { icon: 'pi pi-bolt', name: 'Beverages',        color: '#dbeafe', slug: 'grocery' },
+    { icon: 'pi pi-moon', name: 'Frozen Foods',     color: '#e0f2fe', slug: 'grocery' },
+    { icon: 'pi pi-th-large', name: 'Snacks',           color: '#fae8ff', slug: 'grocery' },
+    { icon: 'pi pi-shopping-cart', name: 'Staples',          color: '#d1fae5', slug: 'grocery' },
+    { icon: 'pi pi-home', name: 'Personal Care',    color: '#e0e7ff', slug: 'home-and-garden' },
+    { icon: 'pi pi-heart', name: 'Healthcare',       color: '#fce7f3', slug: 'health' },
+    { icon: 'pi pi-user', name: 'Baby & Kids',      color: '#ffedd5', slug: 'baby' },
+    { icon: 'pi pi-android', name: 'Pet Supplies',     color: '#f0fdf4', slug: 'pets' },
   ];
 
   // ── Helpers ───────────────────────────────────────────────

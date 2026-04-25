@@ -1,9 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
+import { AuthService } from '../../services/auth.service';
 import { ShippingAddress } from '../../models/product.model';
 
 @Component({
@@ -13,10 +14,18 @@ import { ShippingAddress } from '../../models/product.model';
   templateUrl: './checkout.html',
   styleUrl: './checkout.css',
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnInit {
   private readonly cart = inject(CartService);
   private readonly orderService = inject(OrderService);
   private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
+
+  ngOnInit() {
+    if (!this.auth.isLoggedIn()) {
+      alert('Please log in or create an account to proceed to checkout.');
+      this.router.navigate(['/auth/signin']);
+    }
+  }
 
   readonly cartItems = this.cart.items;
   readonly subtotal = this.cart.subtotal;

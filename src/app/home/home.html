@@ -14,8 +14,8 @@
       </div>
       <div class="categories-grid">
         @for (cat of categories; track cat.name) {
-          <a routerLink="/" class="cat-card" [style.background]="cat.color">
-            <span class="cat-card-emoji">{{ cat.emoji }}</span>
+          <a [routerLink]="['/shop', cat.slug]" class="cat-card" [style.background]="cat.color">
+            <i [class]="cat.icon + ' cat-card-emoji'"></i>
             <span class="cat-card-name">{{ cat.name }}</span>
           </a>
         }

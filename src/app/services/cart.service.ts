@@ -48,11 +48,61 @@ export class CartService {
     effect(() => {
       const isAuth = this.authService.isLoggedIn();
       if (isAuth) {
-        this.fetchCart();
+        const localItems = this.loadLocalCart();
+        if (localItems.length > 0) {
+          this.syncLocalCartToServer(localItems);
+        } else {
+          this.fetchCart();
+        }
       } else {
-        this.items.set([]);
+        this.items.set(this.loadLocalCart());
       }
     });
+  }
+
+  private syncLocalCartToServer(localItems: CartItem[]): void {
+    // This is a naive sync: we just POST each item to the server
+    // A better approach would be a bulk endpoint, but we can do it sequentially
+    const requests = localItems.map(item => 
+      this.http.post<any>(this.baseUrl, { product_id: item.product.id, quantity: item.quantity })
+    );
+    
+    if (requests.length === 0) return;
+    
+    // We can just subscribe to the last one to trigger a fetch, or wait for all.
+    // For simplicity, we just clear local cart and fetch the server cart.
+    this.clearLocalCart();
+    
+    // Wait for all posts to complete (we can just fire and forget, but fetching after 1s is safer)
+    Promise.all(requests.map(req => req.toPromise().catch(() => null))).then(() => {
+      this.fetchCart();
+    });
+  }
+
+  private loadLocalCart(): CartItem[] {
+    if (typeof window === 'undefined') return [];
+    try {
+      const data = localStorage.getItem('zayanori_cart');
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  private saveLocalCart(items: CartItem[]): void {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('zayanori_cart', JSON.stringify(items));
+    this.items.set(items);
+  }
+
+  getLocalCartForSync(): CartItem[] {
+    return this.loadLocalCart();
+  }
+
+  clearLocalCart(): void {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('zayanori_cart');
+    }
   }
 
   fetchCart(): void {
@@ -66,7 +116,17 @@ export class CartService {
 
   add(product: Product, qty = 1): void {
     if (!this.authService.isLoggedIn()) {
-      alert("Please log in to add items to your cart.");
+      const current = this.items();
+      const existing = current.find(i => i.product.id === product.id);
+      let newItems: CartItem[];
+      if (existing) {
+        newItems = current.map(i => i.product.id === product.id 
+          ? { ...i, quantity: Math.min(i.quantity + qty, product.stockCount || 99) } 
+          : i);
+      } else {
+        newItems = [...current, { product, quantity: Math.min(qty, product.stockCount || 99) } as CartItem];
+      }
+      this.saveLocalCart(newItems);
       return;
     }
     
@@ -78,6 +138,12 @@ export class CartService {
   }
 
   remove(productId: number): void {
+    if (!this.authService.isLoggedIn()) {
+      const newItems = this.items().filter(i => i.product.id !== productId);
+      this.saveLocalCart(newItems);
+      return;
+    }
+
     // We need the CartItem ID from the backend to delete it, 
     // so we find the cart item that matches the product.
     const cartItem = this.items().find(i => i.product.id === productId);
@@ -95,6 +161,18 @@ export class CartService {
   updateQty(productId: number, qty: number): void {
     if (qty <= 0) { this.remove(productId); return; }
     
+    if (!this.authService.isLoggedIn()) {
+      const current = this.items();
+      const newItems = current.map(i => {
+        if (i.product.id === productId) {
+           return { ...i, quantity: Math.min(qty, i.product.stockCount || 99) };
+        }
+        return i;
+      });
+      this.saveLocalCart(newItems);
+      return;
+    }
+
     const cartItem = this.items().find(i => i.product.id === productId);
     if (!cartItem) return;
     const itemId = (cartItem as any).id;
@@ -107,7 +185,10 @@ export class CartService {
   }
 
   clear(): void {
-    if (!this.authService.isLoggedIn()) return;
+    if (!this.authService.isLoggedIn()) {
+      this.saveLocalCart([]);
+      return;
+    }
     this.http.delete<any>(this.baseUrl).subscribe(res => {
       if (res.success) {
         this.items.set([]);

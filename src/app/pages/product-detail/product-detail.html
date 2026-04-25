@@ -1,213 +1,264 @@
-<!-- Toast Notification -->
-<div class="toast-wrapper" [class.toast-show]="showToast()">
-  <div class="toast" [class.toast-success]="toastType() === 'success'" [class.toast-error]="toastType() === 'error'">
-    <i [class]="toastType() === 'success' ? 'pi pi-check-circle' : 'pi pi-times-circle'"></i>
-    <span>{{ toastMessage() }}</span>
-  </div>
-</div>
+<div class="page-container">
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="loading-state">
+      <i class="pi pi-spin pi-spinner text-4xl text-brand-purple"></i>
+      <p class="mt-4 text-gray-500 font-medium">Loading product details...</p>
+    </div>
+  } @else if (product()) {
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb-nav">
+      <a routerLink="/" class="breadcrumb-link">Home</a>
+      <i class="pi pi-chevron-right text-[10px] text-gray-400"></i>
+      <span class="breadcrumb-cat">{{ product()!.category }}</span>
+      <i class="pi pi-chevron-right text-[10px] text-gray-400"></i>
+      <span class="breadcrumb-current text-gray-900 font-semibold">{{ product()!.name }}</span>
+    </nav>
 
-<div class="page-container" *ngIf="product(); else notFound">
-  <!-- Breadcrumb -->
-  <nav class="breadcrumb-nav">
-    <a routerLink="/" class="breadcrumb-link">
-      <i class="pi pi-home"></i> Home
-    </a>
-    <i class="pi pi-chevron-right breadcrumb-sep"></i>
-    <span class="breadcrumb-cat">{{ product()!.category }}</span>
-    <i class="pi pi-chevron-right breadcrumb-sep"></i>
-    <span class="breadcrumb-current">{{ product()!.name }}</span>
-  </nav>
+    <!-- Main Product Section -->
+    <div class="product-grid">
 
-  <!-- Main Product Section -->
-  <div class="product-grid">
-
-    <!-- Left: Image Gallery -->
-    <div class="image-section">
-      <div class="main-image-card">
-        <div class="main-image-display">
-          <span class="main-emoji">{{ product()!.emoji }}</span>
+      <!-- Left: Image Gallery -->
+      <div class="image-section">
+        <div class="main-image-card">
+          <div class="main-image-display">
+            <!-- Main Emoji Placeholder or Product Image -->
+            @if (product()!.images && product()!.images.length > 0) {
+              <img [src]="product()!.images[selectedImageIndex()]" [alt]="product()!.name" class="main-prod-img" />
+            } @else {
+              <span class="main-emoji">{{ product()!.emoji }}</span>
+            }
+          </div>
+          
+          @if (product()!.discount) {
+            <div class="discount-badge">-{{ product()!.discount }}%</div>
+          }
         </div>
-        <div class="badge-overlay" *ngIf="product()!.badge">
-          <span class="badge-pill"
-                [style.background]="product()!.badgeColor === 'blue' ? '#3b82f6' : '#634c9f'">
-            {{ product()!.badge }}
+
+        <!-- Thumbnail Strip -->
+        <div class="thumbnails">
+          @if (product()!.images && product()!.images.length > 0) {
+            @for (img of product()!.images; track $index) {
+              <button
+                class="thumbnail-btn"
+                [class.active]="selectedImageIndex() === $index"
+                (click)="selectImage($index)">
+                <img [src]="img" class="thumb-img" />
+              </button>
+            }
+          }
+          <!-- Extra thumb slot for variety if only 1 image exists -->
+          @if (product()!.images.length === 1) {
+            <button class="thumbnail-btn" (click)="selectImage(0)">
+              <div class="flex items-center justify-center h-full bg-slate-50 text-2xl">
+                {{ product()!.emoji }}
+              </div>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="info-section">
+        <!-- Category & Rating Badge -->
+        <div class="top-meta">
+          <span class="cat-pill">
+            <i class="pi pi-tag mr-1"></i>
+            {{ product()!.category }}
           </span>
-        </div>
-        <div class="discount-badge">-{{ product()!.discount }}%</div>
-      </div>
-
-      <!-- Thumbnail Strip -->
-      <div class="thumbnails">
-        <button
-          *ngFor="let img of product()!.images; let i = index"
-          class="thumbnail-btn"
-          [class.active]="selectedImageIndex() === i"
-          (click)="selectImage(i)">
-          <span class="thumb-emoji">{{ img }}</span>
-        </button>
-        <!-- Extra thumb slots for visual completeness -->
-        <button class="thumbnail-btn" (click)="selectImage(0)" [class.active]="selectedImageIndex() === 0">
-          <span class="thumb-emoji">{{ product()!.emoji }}</span>
-        </button>
-        <button class="thumbnail-btn inactive-thumb">
-          <span class="thumb-emoji opacity-40">{{ product()!.emoji }}</span>
-        </button>
-        <button class="thumbnail-btn inactive-thumb">
-          <span class="thumb-emoji opacity-40">{{ product()!.emoji }}</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Right: Product Info -->
-    <div class="info-section">
-      <!-- Category Badge -->
-      <div class="cat-badge">
-        <i class="pi pi-tag"></i>
-        {{ product()!.category }}
-      </div>
-
-      <!-- Product Name -->
-      <h1 class="product-title">{{ product()!.name }}</h1>
-
-      <!-- Rating Row -->
-      <div class="rating-row">
-        <div class="stars">
-          <i *ngFor="let s of starsArray()"
-             [class]="s === 'full' ? 'pi pi-star-fill star-full' : s === 'half' ? 'pi pi-star-half star-half' : 'pi pi-star star-empty'">
-          </i>
-        </div>
-        <span class="rating-val">{{ product()!.rating }}</span>
-        <span class="reviews-count">({{ product()!.reviews }} reviews)</span>
-      </div>
-
-      <!-- Price Section -->
-      <div class="price-section">
-        <span class="price-new">${{ product()!.price.toFixed(2) }}</span>
-        <span class="price-old">${{ product()!.oldPrice.toFixed(2) }}</span>
-        <span class="savings-pill">Save ${{ getDiscountSavings().toFixed(2) }}</span>
-      </div>
-
-      <!-- Stock Status -->
-      <div class="stock-row">
-        <span class="stock-indicator" [ngClass]="stockStatus()?.class">
-          <i [class]="stockStatus()?.class === 'in-stock' ? 'pi pi-check-circle' : stockStatus()?.class === 'low-stock' ? 'pi pi-exclamation-triangle' : 'pi pi-times-circle'"></i>
-          {{ stockStatus()?.label }}
-        </span>
-      </div>
-
-      <!-- Product Meta -->
-      <div class="meta-grid">
-        <div class="meta-row">
-          <span class="meta-label"><i class="pi pi-barcode"></i> SKU</span>
-          <span class="meta-value">{{ product()!.sku }}</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label"><i class="pi pi-building"></i> Brand</span>
-          <span class="meta-value">{{ product()!.brand }}</span>
-        </div>
-        <div class="meta-row" *ngIf="product()!.weight">
-          <span class="meta-label"><i class="pi pi-box"></i> Weight</span>
-          <span class="meta-value">{{ product()!.weight }}</span>
-        </div>
-      </div>
-
-      <!-- Quantity Selector -->
-      <div class="qty-section">
-        <label class="qty-label">Quantity</label>
-        <div class="qty-controls">
-          <button class="qty-btn" (click)="decrementQty()" [disabled]="quantity() <= 1">
-            <i class="pi pi-minus"></i>
-          </button>
-          <span class="qty-display">{{ quantity() }}</span>
-          <button class="qty-btn" (click)="incrementQty()" [disabled]="quantity() >= product()!.stockCount">
-            <i class="pi pi-plus"></i>
-          </button>
-        </div>
-        <span class="stock-hint">{{ product()!.stockCount }} available</span>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="action-buttons">
-        <button
-          class="btn-cart"
-          (click)="addToCart()"
-          [disabled]="!product()!.inStock">
-          <i class="pi pi-shopping-cart"></i>
-          {{ product()!.inStock ? 'Add to Cart' : 'Out of Stock' }}
-        </button>
-        <button
-          class="btn-wishlist"
-          (click)="toggleWishlist()"
-          [class.wishlisted]="isInWishlist()">
-          <i [class]="isInWishlist() ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
-        </button>
-      </div>
-
-      <!-- Highlights -->
-      <div class="highlights-section">
-        <h3 class="section-subtitle">Product Highlights</h3>
-        <ul class="highlights-list">
-          <li *ngFor="let h of product()!.highlights" class="highlight-item">
-            <i class="pi pi-check highlight-icon"></i>
-            <span>{{ h }}</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Tags -->
-      <div class="tags-section">
-        <span class="tag-pill" *ngFor="let tag of product()!.tags">
-          <i class="pi pi-tag tag-icon"></i>{{ tag }}
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Description -->
-  <div class="description-card">
-    <h2 class="card-heading">Product Description</h2>
-    <p class="description-text">{{ product()!.description }}</p>
-  </div>
-
-  <!-- Related Products -->
-  <div class="related-section" *ngIf="relatedProducts().length > 0">
-    <div class="related-header">
-      <h2 class="related-title">Related Products</h2>
-      <a routerLink="/" class="view-all-link">View All <i class="pi pi-arrow-right"></i></a>
-    </div>
-    <div class="related-grid">
-      <a
-        *ngFor="let rp of relatedProducts(); trackBy: trackById"
-        [routerLink]="['/product', rp.id]"
-        class="related-card">
-        <div class="related-img">
-          <span class="related-emoji">{{ rp.emoji }}</span>
-          <span class="related-discount">-{{ rp.discount }}%</span>
-        </div>
-        <div class="related-info">
-          <span class="related-cat">{{ rp.category }}</span>
-          <p class="related-name">{{ rp.name }}</p>
-          <div class="related-price-row">
-            <span class="related-new-price">${{ rp.price.toFixed(2) }}</span>
-            <span class="related-old-price">${{ rp.oldPrice.toFixed(2) }}</span>
-          </div>
-          <div class="related-stars">
-            <i *ngFor="let s of [1,2,3,4,5]" class="pi pi-star-fill"
-               [style.color]="s <= rp.rating ? '#f59e0b' : '#d1d5db'"></i>
+          <div class="rating-badge">
+            <i class="pi pi-star-fill text-amber-500 mr-1"></i>
+            <span class="font-bold text-gray-900">{{ product()!.rating }}</span>
+            <span class="text-gray-400 ml-1 text-xs">({{ product()!.reviews }} reviews)</span>
           </div>
         </div>
+
+        <!-- Product Name -->
+        <h1 class="product-title">{{ product()!.name }}</h1>
+
+        <!-- Price Section -->
+        <div class="price-container">
+          <div class="price-row">
+            <span class="price-new">${{ product()!.price.toFixed(2) }}</span>
+            @if (product()!.oldPrice) {
+              <span class="price-old">${{ product()!.oldPrice.toFixed(2) }}</span>
+              <span class="savings-tag">Save ${{ getDiscountSavings().toFixed(2) }}</span>
+            }
+          </div>
+          
+          <div class="stock-status" [ngClass]="stockStatus()?.class">
+            <span class="pulse-dot"></span>
+            {{ stockStatus()?.label }}
+          </div>
+        </div>
+
+        <!-- Product Meta Grid (SKU, Brand, etc) -->
+        <div class="specs-box">
+          <div class="spec-item">
+            <div class="spec-label">
+              <i class="pi pi-barcode"></i>
+              <span>SKU</span>
+            </div>
+            <div class="spec-value">{{ product()!.sku || 'N/A' }}</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">
+              <i class="pi pi-building"></i>
+              <span>Brand</span>
+            </div>
+            <div class="spec-value">{{ product()!.brand || 'Zayanori' }}</div>
+          </div>
+          @if (product()!.weight) {
+            <div class="spec-item">
+              <div class="spec-label">
+                <i class="pi pi-box"></i>
+                <span>Weight</span>
+              </div>
+              <div class="spec-value">{{ product()!.weight }}</div>
+            </div>
+          }
+        </div>
+
+        <!-- Purchase Controls -->
+        <div class="purchase-area">
+          <div class="qty-box">
+            <span class="qty-label">Quantity</span>
+            <div class="qty-widget">
+              <button class="qty-action" (click)="decrementQty()" [disabled]="quantity() <= 1">
+                <i class="pi pi-minus"></i>
+              </button>
+              <span class="qty-number">{{ quantity() }}</span>
+              <button class="qty-action" (click)="incrementQty()" [disabled]="quantity() >= (product()!.stockCount || 100)">
+                <i class="pi pi-plus"></i>
+              </button>
+            </div>
+            @if (product()!.stockCount) {
+              <span class="stock-remaining">{{ product()!.stockCount }} items left</span>
+            }
+          </div>
+
+          <div class="cta-row">
+            <button
+              class="btn-add-main"
+              (click)="addToCart()"
+              [disabled]="!product()!.inStock">
+              <i class="pi pi-shopping-cart mr-2"></i>
+              {{ product()!.inStock ? 'Add to Cart' : 'Out of Stock' }}
+            </button>
+            <button
+              class="btn-wish-icon"
+              (click)="toggleWishlist()"
+              [class.active]="isInWishlist()">
+              <i [class]="isInWishlist() ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Key Features / Highlights -->
+        @if (product()!.highlights && product()!.highlights.length > 0) {
+          <div class="highlights-card">
+            <h3 class="highlight-title">Key Highlights</h3>
+            <ul class="highlight-ul">
+              @for (h of product()!.highlights; track h) {
+                <li><i class="pi pi-check-circle"></i> {{ h }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Tabbed Description Section -->
+    <div class="tabs-container">
+      <div class="tabs-header">
+        <button class="tab-btn" [class.active]="activeTab() === 'description'" (click)="setTab('description')">Description</button>
+        <button class="tab-btn" [class.active]="activeTab() === 'reviews'" (click)="setTab('reviews')">Reviews</button>
+        <button class="tab-btn" [class.active]="activeTab() === 'shipping'" (click)="setTab('shipping')">Shipping</button>
+      </div>
+      
+      <div class="tab-content">
+        @if (activeTab() === 'description') {
+          <div class="tab-panel animate-fade-in">
+            <p class="description-para">{{ product()!.description }}</p>
+          </div>
+        }
+        
+        @if (activeTab() === 'reviews') {
+          <div class="tab-panel animate-fade-in">
+            <div class="reviews-placeholder">
+              <div class="flex items-center gap-4 mb-6">
+                <div class="text-5xl font-bold text-slate-900">{{ product()!.rating }}</div>
+                <div>
+                  <div class="flex text-amber-400 text-xl">
+                    <i class="pi pi-star-fill"></i>
+                    <i class="pi pi-star-fill"></i>
+                    <i class="pi pi-star-fill"></i>
+                    <i class="pi pi-star-fill"></i>
+                    <i class="pi pi-star-half"></i>
+                  </div>
+                  <div class="text-slate-500 text-sm">Based on {{ product()!.reviews }} verified reviews</div>
+                </div>
+              </div>
+              <p class="text-slate-600 italic">"Excellent product, exceeded my expectations! The quality is top-notch."</p>
+              <div class="mt-4 text-sm font-semibold">— Verified Customer</div>
+            </div>
+          </div>
+        }
+        
+        @if (activeTab() === 'shipping') {
+          <div class="tab-panel animate-fade-in">
+            <div class="shipping-info">
+              <div class="flex items-start gap-4 mb-4">
+                <i class="pi pi-truck text-2xl text-brand-purple"></i>
+                <div>
+                  <h4 class="font-bold text-slate-900">Standard Delivery</h4>
+                  <p class="text-slate-600 text-sm">Estimated delivery within 3-5 business days.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <i class="pi pi-refresh text-2xl text-brand-purple"></i>
+                <div>
+                  <h4 class="font-bold text-slate-900">7-Day Easy Return</h4>
+                  <p class="text-slate-600 text-sm">If you're not satisfied, return within 7 days for a full refund.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    @if (relatedProducts().length > 0) {
+      <div class="related-section">
+        <div class="section-header">
+          <h2 class="section-title">Customers also viewed</h2>
+          <a routerLink="/shop" class="view-link">See All <i class="pi pi-arrow-right ml-1"></i></a>
+        </div>
+        <div class="related-scroll-grid">
+          @for (rp of relatedProducts(); track rp.id) {
+            <div class="rel-product-card" [routerLink]="['/product', rp.id]">
+              <div class="rel-img-wrap">
+                <img [src]="rp.images[0]" [alt]="rp.name" class="rel-img" />
+              </div>
+              <div class="rel-content">
+                <h4 class="rel-name text-ellipsis">{{ rp.name }}</h4>
+                <div class="rel-price">${{ rp.price.toFixed(2) }}</div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  } @else {
+    <!-- Not Found -->
+    <div class="not-found-container">
+      <div class="not-found-illustration">🔍</div>
+      <h2 class="not-found-h">Product Missing</h2>
+      <p class="not-found-p">We couldn't locate this item. It may have been removed or moved.</p>
+      <a routerLink="/shop" class="btn-back-shop">
+        <i class="pi pi-arrow-left mr-2"></i> Back to Shop
       </a>
     </div>
-  </div>
+  }
 </div>
-
-<ng-template #notFound>
-  <div class="not-found">
-    <div class="not-found-emoji">🔍</div>
-    <h2 class="not-found-title">Product Not Found</h2>
-    <p class="not-found-desc">The product you're looking for doesn't exist or has been removed.</p>
-    <a routerLink="/" class="btn-home">
-      <i class="pi pi-home"></i> Go Home
-    </a>
-  </div>
-</ng-template>

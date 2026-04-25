@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { WishlistService } from '../../services/wishlist.service';
+import { ToastService } from '../../shared/toast/toast.service';
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -19,16 +20,17 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   private productService = inject(ProductService);
   readonly cart = inject(CartService);
   readonly wishlist = inject(WishlistService);
+  private toast = inject(ToastService);
 
   readonly product = signal<Product | null>(null);
   readonly relatedProducts = signal<Product[]>([]);
   readonly quantity = signal(1);
-  readonly toastMessage = signal('');
-  readonly toastType = signal<'success' | 'error'>('success');
+  readonly isLoading = signal(true);
   readonly showToast = signal(false);
   private toastTimer: ReturnType<typeof setTimeout> | null = null;
 
   readonly selectedImageIndex = signal(0);
+  readonly activeTab = signal<'description' | 'reviews' | 'shipping'>('description');
 
   readonly isInWishlist = computed(() => {
     const p = this.product();
@@ -66,14 +68,33 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = Number(params['id']);
-      const product = this.productService.getById(id);
-      if (product) {
-        this.product.set(product);
-        this.relatedProducts.set(this.productService.getRelated(product, 4)());
-        this.quantity.set(1);
-        this.selectedImageIndex.set(0);
+      if (!id) return;
+      
+      this.isLoading.set(true);
+      
+      // Try local cache first
+      const cachedProduct = this.productService.getById(id);
+      if (cachedProduct) {
+        this.setProduct(cachedProduct);
+      } else {
+        // Fetch from API
+        this.productService.getProductById(id).subscribe({
+          next: (product) => this.setProduct(product),
+          error: () => {
+            this.product.set(null);
+            this.isLoading.set(false);
+          }
+        });
       }
     });
+  }
+
+  private setProduct(product: Product): void {
+    this.product.set(product);
+    this.relatedProducts.set(this.productService.getRelated(product, 4)());
+    this.quantity.set(1);
+    this.selectedImageIndex.set(0);
+    this.isLoading.set(false);
   }
 
   ngOnDestroy(): void {
@@ -83,7 +104,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   incrementQty(): void {
     const p = this.product();
     if (!p) return;
-    if (this.quantity() < p.stockCount) this.quantity.update(q => q + 1);
+    if (this.quantity() < (p.stockCount || 100)) this.quantity.update(q => q + 1);
   }
 
   decrementQty(): void {
@@ -94,25 +115,23 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     const p = this.product();
     if (!p || !p.inStock) return;
     this.cart.add(p, this.quantity());
-    this.showNotification(`${p.name} added to cart!`, 'success');
+    this.toast.success(`"${p.name}" added to cart ✓`);
   }
 
   toggleWishlist(): void {
     const p = this.product();
     if (!p) return;
+    const wasIn = this.wishlist.has(p.id);
     this.wishlist.toggle(p);
-    const msg = this.wishlist.has(p.id)
-      ? `${p.name} added to wishlist!`
-      : `${p.name} removed from wishlist.`;
-    this.showNotification(msg, 'success');
+    if (wasIn) {
+      this.toast.info(`Removed from wishlist`);
+    } else {
+      this.toast.success(`Added to wishlist ♥`);
+    }
   }
 
-  private showNotification(message: string, type: 'success' | 'error'): void {
-    this.toastMessage.set(message);
-    this.toastType.set(type);
-    this.showToast.set(true);
-    if (this.toastTimer) clearTimeout(this.toastTimer);
-    this.toastTimer = setTimeout(() => this.showToast.set(false), 3000);
+  setTab(tab: 'description' | 'reviews' | 'shipping'): void {
+    this.activeTab.set(tab);
   }
 
   selectImage(index: number): void {
@@ -122,7 +141,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   getDiscountSavings(): number {
     const p = this.product();
     if (!p) return 0;
-    return p.oldPrice - p.price;
+    return (p.oldPrice || 0) - p.price;
   }
 
   trackById(_: number, item: Product): number {

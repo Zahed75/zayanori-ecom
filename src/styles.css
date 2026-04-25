@@ -60,3 +60,224 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* ============================================================
+   PRODUCTS GRID (Global)
+   ============================================================ */
+.products-grid { @apply grid gap-5; }
+.products-grid--5 {
+  grid-template-columns: repeat(5, 1fr);
+  @media (max-width: 1280px) { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 1024px) { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 640px)  { grid-template-columns: repeat(2, 1fr); }
+}
+.products-grid--4 {
+  grid-template-columns: repeat(4, 1fr);
+  @media (max-width: 1024px) { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 640px)  { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Skeleton ── */
+.skeleton-card {
+  @apply rounded-2xl overflow-hidden border;
+  border-color: #f1f5f9;
+  animation: skeletonPulse 1.6s ease-in-out infinite;
+}
+.skeleton-img { @apply h-44 bg-slate-100; }
+.skeleton-body { @apply p-4 flex flex-col gap-3; }
+.skeleton-line { @apply h-3 rounded-full bg-slate-100; }
+.w-40 { width: 40%; }
+.w-60 { width: 60%; }
+.w-80 { width: 80%; }
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ============================================================
+   PRODUCT CARD (Premium E-Commerce Redesign)
+   ============================================================ */
+.product-card {
+  @apply relative bg-white flex flex-col transition-all duration-500 cursor-pointer h-full;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0,0,0,0.03);
+
+  &:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(-6px);
+    
+    .product-actions { opacity: 1; transform: translateY(0); }
+    .product-img-element { transform: scale(1.05); }
+    .btn-add-cart-full { background: var(--color-brand-purple); color: white; border-color: var(--color-brand-purple); }
+  }
+}
+
+.product-discount-badge {
+  @apply absolute top-4 left-4 z-20 text-[11px] font-black text-white px-3 py-1.5 rounded-full;
+  background: #ef4444;
+  box-shadow: 0 4px 10px rgba(239,68,68,0.3);
+}
+.product-type-badge {
+  @apply absolute top-4 right-4 z-20 text-[10px] font-black text-white px-3 py-1.5 rounded-full uppercase tracking-widest;
+  background: #3b82f6;
+}
+.product-type-badge--purple { background: var(--color-brand-purple); box-shadow: 0 4px 10px rgba(99,76,159,0.3); }
+
+.product-image-wrap {
+  @apply relative flex items-center justify-center w-full aspect-square overflow-hidden bg-[#f8fafc];
+  border-radius: 24px 24px 0 0;
+}
+
+.product-image-link { @apply flex items-center justify-center w-full h-full; }
+
+.product-img-element {
+  @apply w-full h-full object-cover transition-transform duration-700 ease-out;
+}
+
+/* Action buttons — Slide UP from bottom of the image container */
+.product-actions {
+  @apply absolute bottom-4 left-0 right-0 flex justify-center gap-3 z-20;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.action-btn {
+  @apply w-11 h-11 rounded-full flex items-center justify-center cursor-pointer relative transition-all duration-300;
+  background: rgba(255,255,255,0.95);
+  color: #0f172a;
+  border: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  backdrop-filter: blur(8px);
+
+  i { @apply text-[16px]; }
+
+  &:hover {
+    background: var(--color-brand-purple);
+    color: white;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(99,76,159,0.4);
+  }
+}
+
+.action-btn--active {
+  background: #fef2f2;
+  color: #ef4444;
+}
+.action-btn--active:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* Tooltip */
+.action-tooltip {
+  @apply absolute bottom-full mb-3 px-2.5 py-1.5 rounded-lg text-[11px] font-bold text-white whitespace-nowrap pointer-events-none;
+  background: #0f172a;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s, transform 0.2s;
+  &::after {
+    content: '';
+    @apply absolute top-full left-1/2 -translate-x-1/2 border-[4px];
+    border-color: #0f172a transparent transparent transparent;
+  }
+}
+.action-btn:hover .action-tooltip { opacity: 1; transform: translateY(0); }
+
+/* Product info */
+.product-info { @apply p-5 flex flex-col gap-2.5 flex-1; }
+.product-meta-row { @apply flex items-center justify-between; }
+.product-category { @apply text-[11px] font-bold uppercase tracking-widest; color: #64748b; }
+
+.product-rating {
+  @apply flex items-center gap-1.5 text-[12px] font-bold px-2.5 py-1 rounded-md;
+  background: #f8fafc; color: #475569;
+  i { @apply text-[10px]; color: #f59e0b; }
+}
+
+.product-name {
+  @apply text-[16px] font-bold leading-relaxed no-underline transition-colors;
+  color: #0f172a;
+  min-height: 48px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: 'Outfit', sans-serif;
+  &:hover { color: var(--color-brand-purple); }
+}
+
+.product-prices { @apply flex items-baseline gap-2 mt-auto pt-2; }
+.price-current { @apply text-[20px] font-black; color: #0f172a; font-family: 'Outfit', sans-serif; }
+.price-old { @apply text-[13px] font-semibold line-through; color: #94a3b8; }
+
+/* Full Width Add to Cart button */
+.product-card-footer {
+  @apply px-5 pb-5 mt-auto;
+}
+.btn-add-cart-full {
+  @apply w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold text-[14px] cursor-pointer transition-all duration-300;
+  background: #f8fafc;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  font-family: 'Outfit', sans-serif;
+  
+  i { @apply text-[16px]; }
+  
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+/* ============================================================
+   Global PrimeNG Paginator Overrides (Modern Circular Design)
+   ============================================================ */
+.p-paginator {
+  background: white !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 0.5rem 1rem !important;
+  gap: 0.25rem !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page,
+.p-paginator .p-paginator-first,
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next,
+.p-paginator .p-paginator-last {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  border: none !important;
+  color: #64748b !important;
+  font-weight: 500 !important;
+  margin: 0 0.125rem !important;
+  min-width: 2.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page:hover:not(.p-highlight),
+.p-paginator .p-paginator-first:not(.p-disabled):hover,
+.p-paginator .p-paginator-prev:not(.p-disabled):hover,
+.p-paginator .p-paginator-next:not(.p-disabled):hover,
+.p-paginator .p-paginator-last:not(.p-disabled):hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #0f172a !important;
+  color: white !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2) !important;
+}
+
+/* Pagination Dropdown styling (PrimeNG 18 uses p-select) */
+.p-paginator .p-select {
+  border-radius: 8px !important;
+  border: 1px solid #cbd5e1 !important;
+  margin-left: 1rem !important;
+  height: 2.5rem !important;
+}

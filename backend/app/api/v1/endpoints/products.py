@@ -23,7 +23,7 @@ settings = get_settings()
 @router.get("", response_model=schemas.DataResponse[schemas.ProductListResponse])
 def list_products(
     page: int = Query(1, ge=1),
-    page_size: int = Query(20, ge=1, le=100),
+    page_size: int = Query(500, ge=1, le=1000),
     category: Optional[str] = None,
     search: Optional[str] = None,
     featured: Optional[bool] = None,

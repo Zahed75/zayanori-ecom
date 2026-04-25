@@ -10,6 +10,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/product-detail/product-detail').then(m => m.ProductDetailComponent),
   },
   {
+    path: 'shop',
+    loadComponent: () => import('./pages/shop/shop').then(m => m.ShopComponent),
+  },
+  {
+    path: 'shop/:category',
+    loadComponent: () => import('./pages/shop/shop').then(m => m.ShopComponent),
+  },
+  {
     path: 'cart',
     loadComponent: () => import('./pages/cart/cart').then(m => m.CartComponent),
   },
@@ -40,6 +48,14 @@ export const routes: Routes = [
   {
     path: 'order-success/:id',
     loadComponent: () => import('./pages/order-success/order-success').then(m => m.OrderSuccessComponent),
+  },
+  {
+    path: 'blog',
+    loadComponent: () => import('./pages/blog/blog').then(m => m.BlogComponent),
+  },
+  {
+    path: 'contact',
+    loadComponent: () => import('./pages/contact/contact').then(m => m.ContactComponent),
   },
   { path: '**', redirectTo: '' },
 ];

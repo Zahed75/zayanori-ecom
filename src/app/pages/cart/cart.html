@@ -25,7 +25,9 @@
         <div class="cart-items">
           @for (item of cart.items(); track item.product.id) {
             <div class="cart-item">
-              <div class="item-img">{{ item.product.emoji }}</div>
+              <div class="item-img">
+                <img [src]="item.product.images[0]" [alt]="item.product.name" class="cart-product-img" />
+              </div>
               <div class="item-details">
                 <a [routerLink]="['/product', item.product.id]" class="item-name">{{ item.product.name }}</a>
                 <p class="item-cat">{{ item.product.category }}</p>

@@ -1,10 +1,11 @@
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './hero.html',
   styleUrl: './hero.css',
 })
@@ -39,17 +40,17 @@ export class HeroComponent {
   readonly currentSlide = computed(() => this.slides()[this.activeSlide()]);
 
   readonly categories = [
-    { emoji: '🍎', name: 'Fruits & Vegetables', arrow: true },
-    { emoji: '🥩', name: 'Meats & Seafood', arrow: true },
-    { emoji: '🥚', name: 'Breakfast & Dairy', arrow: true },
-    { emoji: '🍞', name: 'Breads & Bakery', arrow: true },
-    { emoji: '🥤', name: 'Beverages', arrow: true },
-    { emoji: '❄️', name: 'Frozen Foods', arrow: false },
-    { emoji: '🍪', name: 'Biscuits & Snacks', arrow: false },
-    { emoji: '🌾', name: 'Grocery & Staples', arrow: false },
-    { emoji: '🧹', name: 'Household Needs', arrow: false },
-    { emoji: '💊', name: 'Healthcare', arrow: false },
-    { emoji: '👶', name: 'Baby & Pregnancy', arrow: false },
+    { icon: 'pi pi-apple', name: 'Fruits & Vegetables', arrow: true, slug: 'grocery' },
+    { icon: 'pi pi-star', name: 'Meats & Seafood', arrow: true, slug: 'grocery' },
+    { icon: 'pi pi-circle', name: 'Breakfast & Dairy', arrow: true, slug: 'grocery' },
+    { icon: 'pi pi-sun', name: 'Breads & Bakery', arrow: true, slug: 'grocery' },
+    { icon: 'pi pi-bolt', name: 'Beverages', arrow: true, slug: 'grocery' },
+    { icon: 'pi pi-moon', name: 'Frozen Foods', arrow: false, slug: 'grocery' },
+    { icon: 'pi pi-th-large', name: 'Biscuits & Snacks', arrow: false, slug: 'grocery' },
+    { icon: 'pi pi-shopping-cart', name: 'Grocery & Staples', arrow: false, slug: 'grocery' },
+    { icon: 'pi pi-home', name: 'Household Needs', arrow: false, slug: 'home-and-garden' },
+    { icon: 'pi pi-heart', name: 'Healthcare', arrow: false, slug: 'health' },
+    { icon: 'pi pi-user', name: 'Baby & Pregnancy', arrow: false, slug: 'baby' },
   ];
 
   readonly features = [

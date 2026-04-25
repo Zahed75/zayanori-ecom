@@ -25,30 +25,30 @@ export class HeaderComponent {
   readonly showUserMenu = signal(false);
 
   // ── Navigation links ─────────────────────────────────────
-  readonly navLinks: { label: string; active: boolean; dropdown: boolean; badge?: string; red?: boolean }[] = [
-    { label: 'Home', active: true, dropdown: false },
-    { label: 'Shop', active: false, dropdown: true },
-    { label: 'Fruits & Vegetables', active: false, dropdown: false },
-    { label: 'Beverages', active: false, dropdown: false },
-    { label: 'Blog', active: false, dropdown: false },
-    { label: 'Contact', active: false, dropdown: false },
-    { label: 'Trending Products', active: false, dropdown: true },
-    { label: 'Almost Finished', active: false, dropdown: true, badge: 'SALE', red: true },
+  readonly navLinks: { label: string; active: boolean; dropdown: boolean; badge?: string; red?: boolean; path: string; queryParams?: any }[] = [
+    { label: 'Home', active: true, dropdown: false, path: '/' },
+    { label: 'Shop', active: false, dropdown: true, path: '/shop' },
+    { label: 'Fruits & Vegetables', active: false, dropdown: false, path: '/shop/grocery' },
+    { label: 'Beverages', active: false, dropdown: false, path: '/shop/grocery' },
+    { label: 'Blog', active: false, dropdown: false, path: '/blog' },
+    { label: 'Contact', active: false, dropdown: false, path: '/contact' },
+    { label: 'Trending Products', active: false, dropdown: true, path: '/shop', queryParams: { featured: true } },
+    { label: 'Almost Finished', active: false, dropdown: true, badge: 'SALE', red: true, path: '/shop', queryParams: { best_seller: true } },
   ];
 
   // ── Category list ─────────────────────────────────────────
   readonly categories = [
-    { emoji: '🍎', name: 'Fruits & Vegetables', arrow: true },
-    { emoji: '🥩', name: 'Meats & Seafood', arrow: true },
-    { emoji: '🥚', name: 'Breakfast & Dairy', arrow: true },
-    { emoji: '🍞', name: 'Breads & Bakery', arrow: true },
-    { emoji: '🥤', name: 'Beverages', arrow: true },
-    { emoji: '❄️', name: 'Frozen Foods', arrow: false },
-    { emoji: '🍪', name: 'Biscuits & Snacks', arrow: false },
-    { emoji: '🌾', name: 'Grocery & Staples', arrow: false },
-    { emoji: '🧹', name: 'Household Needs', arrow: false },
-    { emoji: '💊', name: 'Healthcare', arrow: false },
-    { emoji: '👶', name: 'Baby & Pregnancy', arrow: false },
+    { icon: 'pi pi-apple', name: 'Fruits & Vegetables', arrow: true, slug: 'grocery' },
+    { icon: 'pi pi-star', name: 'Meats & Seafood', arrow: true, slug: 'grocery' },
+    { icon: 'pi pi-circle', name: 'Breakfast & Dairy', arrow: true, slug: 'grocery' },
+    { icon: 'pi pi-sun', name: 'Breads & Bakery', arrow: true, slug: 'grocery' },
+    { icon: 'pi pi-bolt', name: 'Beverages', arrow: true, slug: 'grocery' },
+    { icon: 'pi pi-moon', name: 'Frozen Foods', arrow: false, slug: 'grocery' },
+    { icon: 'pi pi-th-large', name: 'Biscuits & Snacks', arrow: false, slug: 'grocery' },
+    { icon: 'pi pi-shopping-cart', name: 'Grocery & Staples', arrow: false, slug: 'grocery' },
+    { icon: 'pi pi-home', name: 'Household Needs', arrow: false, slug: 'home-and-garden' },
+    { icon: 'pi pi-heart', name: 'Healthcare', arrow: false, slug: 'health' },
+    { icon: 'pi pi-user', name: 'Baby & Pregnancy', arrow: false, slug: 'baby' },
   ] as const;
 
   constructor() {

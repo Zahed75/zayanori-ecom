@@ -1,0 +1,97 @@
+<div class="shop-page">
+  <div class="container-site">
+    <div class="shop-header">
+      <h1 class="shop-title">
+        @if (categorySlug()) {
+          Category: {{ categorySlug() | titlecase }}
+        } @else {
+          All Products
+        }
+      </h1>
+      <p class="shop-subtitle">Find the best quality products at affordable prices.</p>
+    </div>
+
+    @if (isLoading()) {
+      <div class="products-grid products-grid--4">
+        @for (i of [1,2,3,4,5,6,7,8]; track i) {
+          <div class="skeleton-card">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line w-60"></div>
+              <div class="skeleton-line w-80"></div>
+              <div class="skeleton-line w-40"></div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      @if (products().length === 0) {
+        <div class="empty-state">
+          <i class="pi pi-box empty-icon"></i>
+          <h3>No products found</h3>
+          <p>We couldn't find any products in this category.</p>
+          <a routerLink="/shop" class="btn-primary mt-4">View All Products</a>
+        </div>
+      } @else {
+        <div class="products-grid products-grid--4">
+          @for (product of products(); track product.id) {
+            <div class="product-card">
+              @if (product.discount) {
+                <span class="product-discount-badge">-{{ product.discount }}%</span>
+              }
+              @if (product.badge) {
+                <span class="product-type-badge" [class.product-type-badge--purple]="product.badge === 'Featured' || product.badge === 'Organic'">{{ product.badge }}</span>
+              }
+              <div class="product-image-wrap">
+                <a [routerLink]="['/product', product.id]" class="product-image-link">
+                  <img [src]="product.images[0]" [alt]="product.name" class="product-img-element" loading="lazy" />
+                </a>
+                <div class="product-actions">
+                  <button class="action-btn" [class.action-btn--active]="isInWishlist(product.id)" (click)="toggleWishlist(product)">
+                    <i [class]="isInWishlist(product.id) ? 'pi pi-heart-fill' : 'pi pi-heart'"></i>
+                  </button>
+                  <a [routerLink]="['/product', product.id]" class="action-btn">
+                    <i class="pi pi-eye"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="product-info">
+                <div class="product-meta-row">
+                  <span class="product-category">{{ product.category }}</span>
+                  <div class="product-rating">
+                    <i class="pi pi-star-fill"></i>
+                    <span>{{ product.rating }}</span>
+                  </div>
+                </div>
+                <a [routerLink]="['/product', product.id]" class="product-name">{{ product.name }}</a>
+                <div class="product-prices">
+                  <span class="price-current">${{ product.price.toFixed(2) }}</span>
+                  @if (product.oldPrice) {
+                    <span class="price-old">${{ product.oldPrice.toFixed(2) }}</span>
+                  }
+                </div>
+              </div>
+              <div class="product-card-footer">
+                <button class="btn-add-cart-full" (click)="addToCart(product)">
+                  <i class="pi pi-shopping-cart"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+        
+        @if (totalRecords() > 0) {
+          <div class="shop-pagination-wrap">
+            <p-paginator 
+              (onPageChange)="onPageChange($event)" 
+              [first]="first()" 
+              [rows]="rows()" 
+              [totalRecords]="totalRecords()" 
+              [rowsPerPageOptions]="[10, 20, 30]">
+            </p-paginator>
+          </div>
+        }
+      }
+    }
+  </div>
+</div>

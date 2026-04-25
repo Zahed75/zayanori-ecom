@@ -9,8 +9,8 @@
       <ul class="sidebar-cat-list">
         @for (cat of categories; track cat.name) {
           <li class="sidebar-cat-item">
-            <a href="#" class="sidebar-cat-link">
-              <span class="sidebar-cat-emoji">{{ cat.emoji }}</span>
+            <a [routerLink]="['/shop', cat.slug]" class="sidebar-cat-link">
+              <i [class]="cat.icon + ' sidebar-cat-emoji'"></i>
               <span class="sidebar-cat-name">{{ cat.name }}</span>
               @if (cat.arrow) {
                 <i class="pi pi-chevron-right sidebar-cat-arrow"></i>
