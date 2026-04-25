@@ -63,8 +63,13 @@ export class CheckoutComponent {
     this.step.set('review');
   }
 
+  isPlacingOrder = signal<boolean>(false);
+
   placeOrder(): void {
-    const order = this.orderService.placeOrder(
+    if (this.isPlacingOrder()) return;
+    this.isPlacingOrder.set(true);
+
+    this.orderService.placeOrder(
       this.cart.items(),
       this.subtotal(),
       this.couponDiscount(),
@@ -72,9 +77,19 @@ export class CheckoutComponent {
       this.address,
       this.paymentMethod === 'card' ? 'Credit Card' : this.paymentMethod === 'paypal' ? 'PayPal' : 'Cash on Delivery',
       this.activeCoupon()?.code
-    );
-    this.cart.clear();
-    this.cart.removeCoupon();
-    this.router.navigate(['/order-success', order.id]);
+    ).subscribe({
+      next: (res) => {
+        this.cart.clear();
+        this.cart.removeCoupon();
+        this.isPlacingOrder.set(false);
+        // Navigate to success page using the backend order ID
+        this.router.navigate(['/order-success', res.data.id]);
+      },
+      error: (err) => {
+        console.error('Failed to place order', err);
+        alert(err.error?.message || 'Failed to place order. Please try again.');
+        this.isPlacingOrder.set(false);
+      }
+    });
   }
 }

@@ -1,11 +1,16 @@
-import { Injectable, signal, computed, effect } from '@angular/core';
+import { Injectable, inject, signal, computed, effect } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { CartItem, Product } from '../models/product.model';
+import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
-  private readonly STORAGE_KEY = 'zayanori_cart';
+  private readonly http = inject(HttpClient);
+  private readonly authService = inject(AuthService);
+  private readonly baseUrl = `${environment.apiUrl}/cart`;
 
-  readonly items = signal<CartItem[]>(this.loadFromStorage());
+  readonly items = signal<CartItem[]>([]);
 
   readonly totalItems = computed(() =>
     this.items().reduce((sum, i) => sum + i.quantity, 0)
@@ -17,7 +22,7 @@ export class CartService {
 
   readonly savings = computed(() =>
     this.items().reduce((sum, i) =>
-      sum + (i.product.oldPrice - i.product.price) * i.quantity, 0
+      sum + ((i.product.oldPrice || i.product.price) - i.product.price) * i.quantity, 0
     )
   );
 
@@ -39,43 +44,76 @@ export class CartService {
   readonly activeCoupon = computed(() => this.appliedCoupon());
 
   constructor() {
+    // When the user logs in or out, reload the cart
     effect(() => {
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.items()));
+      const isAuth = this.authService.isLoggedIn();
+      if (isAuth) {
+        this.fetchCart();
+      } else {
+        this.items.set([]);
+      }
+    });
+  }
+
+  fetchCart(): void {
+    if (!this.authService.isLoggedIn()) return;
+    this.http.get<any>(this.baseUrl).subscribe(res => {
+      if (res.success && res.data) {
+        this.items.set(res.data.items || []);
       }
     });
   }
 
   add(product: Product, qty = 1): void {
-    this.items.update(items => {
-      const existing = items.find(i => i.product.id === product.id);
-      if (existing) {
-        return items.map(i =>
-          i.product.id === product.id
-            ? { ...i, quantity: Math.min(i.quantity + qty, product.stockCount) }
-            : i
-        );
+    if (!this.authService.isLoggedIn()) {
+      alert("Please log in to add items to your cart.");
+      return;
+    }
+    
+    this.http.post<any>(this.baseUrl, { product_id: product.id, quantity: qty }).subscribe(res => {
+      if (res.success && res.data) {
+        this.items.set(res.data.items || []);
       }
-      return [...items, { product, quantity: qty }];
     });
   }
 
   remove(productId: number): void {
-    this.items.update(items => items.filter(i => i.product.id !== productId));
+    // We need the CartItem ID from the backend to delete it, 
+    // so we find the cart item that matches the product.
+    const cartItem = this.items().find(i => i.product.id === productId);
+    if (!cartItem) return;
+    // The backend item has an 'id' field, so we cast it to any to access it
+    const itemId = (cartItem as any).id;
+
+    this.http.delete<any>(`${this.baseUrl}/${itemId}`).subscribe(res => {
+      if (res.success && res.data) {
+        this.items.set(res.data.items || []);
+      }
+    });
   }
 
   updateQty(productId: number, qty: number): void {
     if (qty <= 0) { this.remove(productId); return; }
-    this.items.update(items =>
-      items.map(i =>
-        i.product.id === productId
-          ? { ...i, quantity: Math.min(qty, i.product.stockCount) }
-          : i
-      )
-    );
+    
+    const cartItem = this.items().find(i => i.product.id === productId);
+    if (!cartItem) return;
+    const itemId = (cartItem as any).id;
+
+    this.http.put<any>(`${this.baseUrl}/${itemId}`, { quantity: qty }).subscribe(res => {
+      if (res.success && res.data) {
+        this.items.set(res.data.items || []);
+      }
+    });
   }
 
-  clear(): void { this.items.set([]); }
+  clear(): void {
+    if (!this.authService.isLoggedIn()) return;
+    this.http.delete<any>(this.baseUrl).subscribe(res => {
+      if (res.success) {
+        this.items.set([]);
+      }
+    });
+  }
 
   applyCoupon(code: string): { success: boolean; message: string } {
     const coupons: { [key: string]: { discount: number; type: 'percent' | 'fixed'; min: number } } = {
@@ -94,12 +132,4 @@ export class CartService {
   }
 
   removeCoupon(): void { this.appliedCoupon.set(null); }
-
-  private loadFromStorage(): CartItem[] {
-    if (typeof localStorage === 'undefined') return [];
-    try {
-      const raw = localStorage.getItem(this.STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch { return []; }
-  }
 }
